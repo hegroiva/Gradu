@@ -76,18 +76,27 @@ prepare_for_randomforest <- function(df) {
   
   author_age <- as.integer(df$publication_year_from) - as.integer(df$author_birth)
   
-  # This was moved into start
+  # + Antique word list
   
-  #sample_inds <- sample(1:nrow(df.english.genres.training), size = ceiling(nrow(df.english.genres.training) / 2))
-  #training_inds <- setdiff(1:nrow(df.english.genres.training), sample_inds)
-  #tagged.training <- tagged[training_inds]
-  #df.genres.training <- df.english_genres[training_inds,]
-  #clean_titles.training <- clean_titles_all[training_inds]
+  # + top 10 publication place
   
-  #test_inds <- setdiff(1:nrow(df.english_genres), training_inds)
-  #df.tagged.test <- df.tagged[test_inds]
-  #df.genres.test <- df.english_genres[test_inds,]
-  #clean_titles.test <- clean_titles_all[test_inds]
+  # + top 10 publisher
+  
+  # + is_postume
+  
+  # + top 10 author name
+  
+  # + other word lists ???
+  
+  # maybe check without "MAYBE" compartment?
+  
+  # + subject (poetry subjects?)
+  
+  # + POS of first word
+  
+  # + POS of last word
+  
+  # + DepRel???
   
   
   # get_features for the training set
