@@ -1,6 +1,6 @@
-get_subset <- function(language) {
+get_subset <- function(language, df) {
   
-  df.tmp <- df.estc_genres[which(df.estc_genres$language==language),]
+  df.tmp <- df[which(df$language==language),]
   df.tmp_genres <- df.tmp[which(df.tmp$genre!= ""),]
   df.tmp_no_genres <- df.tmp[which(df.tmp$genre== ""),]
   df.tmp.genres <- as.character(df.tmp$genre)
@@ -22,9 +22,9 @@ get_subset <- function(language) {
                     genres_not_annotated=nrow(df.tmp_no_genres),
                     extra_genres=nrow(df.tmp_extra_genres),
                     extra_records=nrow(df.tmp_extra_genres) - nrow(df.tmp_genres),
-                    language_percentage=percent(nrow(df.tmp) / nrow(df.estc_genres), digits = 1),
-                    annotated_percentage=percent(nrow(df.tmp_genres) / nrow(df.estc_genres),digits = 1),
-                    extra_percentage=percent(nrow(df.tmp_extra_genres) / nrow(df.estc_genres),digits = 1),
+                    language_percentage=percent(nrow(df.tmp) / nrow(df.tmp_genres), digits = 1),
+                    annotated_percentage=percent(nrow(df.tmp_genres) / nrow(df.tmp_genres),digits = 1),
+                    extra_percentage=percent(nrow(df.tmp_extra_genres) / nrow(df.tmp_genres),digits = 1),
                     annotated_percentage_language=percent(nrow(df.tmp_genres) / nrow(df.tmp), digits = 1),
                     extra_percentage_language=percent(nrow(df.tmp_extra_genres) / nrow(df.tmp), digits = 1),
                     unique_genres=length(unique(df.tmp$genre)),

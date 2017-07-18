@@ -5,11 +5,14 @@ get_poetry_inds <- function(df, terms, exact=FALSE) {
   genre <- gsub("\\[", "", genre)
   genre <- gsub("\\]", "", genre)
   genre <- gsub("[.]", "", genre)
+  genre <- tolower(genre)
+  terms <- tolower(terms)
   for (term in terms) {
     term <- gsub("\\(", "", term)
     term <- gsub("\\)", "", term)
     term <- gsub("\\[", "", term)
     term <- gsub("\\]", "", term)
+    
     if (exact) {
       to_grep <- term
     } else {

@@ -8,6 +8,12 @@ library(data.table)
 library(e1071)
 library(caret)
 library(randomForest)
+library(party)
+
+library(coreNLP)
+
+initCoreNLP(libLoc="C:\\Users\\Hege\\Downloads\\stanford-corenlp-full-2016-10-31\\stanford-corenlp-full-2016-10-31",
+            parameterFile = "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\coreNLP_parameters")
 
 source("GitHub/Gradu/pos_tagging.R")
 source("GitHub/Gradu/get_POS_tags.R")
@@ -18,7 +24,17 @@ source("GitHub/Gradu/get_subset.R")
 source("GitHub/Gradu/get_training_and_testing_sets.R")
 source("GitHub/Gradu/pos_tagging.R")
 source("GitHub/Gradu/prepare_for_randomforest.R")
-
+source("GitHub/Gradu/get_dependency_relations.R")
+source("GitHub/Gradu/split_training_set.R")
+source("GitHub/Gradu/get_POS_trigrams.R")
+source("GitHub/Gradu/run_random_forest.R")
+source("GitHub/Gradu/run_rf_with_features.R")
+source("GitHub/Gradu/run_rf_once.R")
+source("GitHub/Gradu/run_rf_with_mtry.R")
+source("GitHub/Gradu/aggregate_confusion_matrix.R")
+source("GitHub/Gradu/aggregate_aggregated_cm.R")
+source("GitHub/Gradu/get_genre_word_freqs_alt.R")
+source("GitHub/Gradu/get_genre_word_freqs.R")
 df.estc_genres <- read.csv2("../Desktop/estc_genres2.txt", sep = "\t", header = FALSE)
 
 names(df.estc_genres)[1:18] <- c("system_control_number", "language", "author_name",
@@ -55,37 +71,147 @@ df.estc_genres$topic_uniform_sub_form <- gsub("[^a-zA-Z0-9 :,]$", "", df.estc_ge
 df.estc_genres$topic_person_sub_form <- gsub("[^a-zA-Z0-9 :,]$", "", df.estc_genres$topic_person_sub_form)
 df.estc_genres$topic <- gsub("[^a-zA-Z0-9 :,]$", "", df.estc_genres$topic)
 
+# Get the feature list
+listAll <- prepare_for_randomforest(df.estc_genres)
+features_all <- listAll$features
+df.estc_genres <- listAll$df
+is_poetry_all <- listAll$is_poetry
+features_all$is_poetry <- is_poetry_all
 
-df.english <- get_subset("eng")
-df.english_genres <- df.english$df.genres
-df.english_genres$tagged <- get_POS_tags(df.english_genres$whole_title_sans_edition,load = TRUE)
-df.english.genres.sets <- get_training_and_testing_sets(df=df.english_genres, 
+#saveRDS(features_all, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\features_all_20170425.RDS")
+#saveRDS(features_all, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\features_all_20170427.RDS")
+#saveRDS(df.estc_genres, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\df.estc_genres_20170425.RDS")
+
+features_all <- readRDS("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\features_all_20170427.RDS")
+df.estc_genres <- readRDS("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\df.estc_genres_20170425.RDS")
+# Start here
+
+df.estc_genres <- readRDS("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\df.estc_genres_20170420.RDS")
+i <- 469
+features_all <- readRDS("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\features_all.RDS")
+features_more <- readRDS(paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\features_", 468, "_more_no_NER.RDS"))
+while (i < (nrow(df.estc_genres) / 1000)) {
+  
+    lowerbound <- ((i * 1000) + 1)
+  if ((lowerbound + 1000) < nrow(df.estc_genres)) {
+    upperbound <- ((i * 1000) + 1000)
+  } else {
+    upperbound <- nrow(df.estc_genres)
+  }
+  #if ((i %% 100) == 0) {  
+    ptm <- proc.time()
+    print(paste0("starting deprelling for ", lowerbound, ":", upperbound, " at ", date(), "."))
+  #}
+  features_more_next <- get_dependency_relations(df=df.estc_genres[lowerbound:upperbound,], load=FALSE)
+  
+  if (i == 0) {
+    features_more <- features_more_next
+  } else {
+    features_more <- rbind(features_more, features_more_next)
+  }
+  #if ((i %% 10) == 0) {
+    saveRDS(features_more, paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\features_", i, "_more_no_NER.RDS"))
+  #}
+  i <- i + 1
+  detach("package:coreNLP", unload=TRUE)
+  gc()
+  library(coreNLP)
+  initCoreNLP(libLoc="C:\\Users\\Hege\\Downloads\\stanford-corenlp-full-2016-10-31\\stanford-corenlp-full-2016-10-31",
+              parameterFile = "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\coreNLP_parameters")
+}
+saveRDS(features_more, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\features_more_483334.RDS")
+# COMBINE THE TWO FEATURE MATRICES
+
+
+df.english <- get_subset("eng", df.estc_genres)
+df.english.genres <- df.english$df.genres
+feature_subset <-as.data.frame(POS_trigram_features_title_only, features_all$is_poetry)
+#df.english_genres$tagged <- get_POS_tags(df.english_genres$whole_title_sans_edition,load = TRUE)
+df.english.genres.sets <- get_training_and_testing_sets(df=df.english.genres, 
                                                         training_percent=50, 
-                                                        filenamestem="df.english.genres", 
-                                                        load=TRUE
+                                                        filenamestem="df.english.genres2", 
+                                                        load=FALSE
                                                         )
+features.training <- features_all[df.english.genres.sets$training_inds,]
+features.testing <- features_all[-df.english.genres$training_inds,]
+
+# This is for testing POS_trigram_features in whole title vs. regular title only
+features.training <- feature_subset[df.english.genres.sets$training_inds,]
+features.testing <- feature_subset[-df.english.genres.sets$training_inds,]
+
 df.english.genres.training <- df.english.genres.sets$training
+df.english.training.split <- split_training_set(df=df.english.genres.training, features=features.training, parts=5)
+df.english.training.split.df <- df.english.training.split$df
+features.split <- df.english.training.split$features
+
 df.english.genres.testing <- df.english.genres.sets$testing
 
-df.english_extra <- df.english$df.extra
-df.english.extra.sets <- get_training_and_testing_sets(df=df.english_extra, 
-                                                       training_percent=50, 
-                                                       filenamestem="df.english.extra",
-                                                       load=FALSE
-                                                      )
-df.english.extra.training <- df.english.extra.sets$training
-df.english.extra.testing <- df.english.extra.sets$testing
+#df.english_extra <- df.english$df.extra
+#df.english.extra.sets <- get_training_and_testing_sets(df=df.english_extra, 
+#                                                       training_percent=50, 
+#                                                       filenamestem="df.english.extra",
+#                                                       load=FALSE
+#                                                      )
+#df.english.extra.training <- df.english.extra.sets$training
+#df.english.extra.testing <- df.english.extra.sets$testing
 
 english_stats <- df.english$stats
 rm(df.english)
 rm(df.english_genres)
-rm(df.english_extra)
+#rm(df.english_extra)
 rm(df.english.genres.sets)
-rm(df.english.extra.sets)
+#rm(df.english.extra.sets)
+
+for (set_no in 1:length(df.english.training.split)) {
+  #listRet <- df.english.training.split$df[rbindlist(df.english.training.split$df[-set_no], use.names=TRUE),]
+  #listRet <- rbindlist(df.english.training.split$df[-set_no], use.names=TRUE)
+  #features <- features_all[rbindlist(df.english.training.split[-set_no], use.names=TRUE),]
+  #ids <- rbindlist(POS_trigram_features_title_only[df.english.training.split$features[-set_no],], use.names=TRUE)
+  features <- rbindlist(features.split[-set_no], use.names=TRUE)
+  #features <- df.english.training.split$features[rbindlist(df.english.training.split$features[-set_no], use.names=TRUE),]
+  
+  #df <- listRet$df
+  #is_poetry <- rbindlist(df.english.training.split$features[-set_no], use.names=TRUE)$is_poetry
+  is_poetry <- rbindlist(features.split[-set_no], use.names=TRUE)$is_poetry
+  features$is_poetry <- is_poetry
+  varNames <- names(features)[!names(features) %in% c("is_poetry")]
+  varNames1 <- paste(varNames, collapse="+")
+  rfForm <- as.formula(paste("is_poetry", varNames1, sep=" ~ "))
+  retRF <- randomForest::randomForest(rfForm, features, ntree=500, importance=TRUE)
+  #plot(retRF)
+  #varImpPlot(retRF, sort=TRUE, main="Variable importance")
+  #prediction <- predict(retRF, features)
+  #df$is_poetry <- is_poetry
+  #confusionMatrix(data=prediction, reference=df$is_poetry)
+  #listRet2 <- listAll[df=df.english.training.split[[set_no]]]
+  #features2 <- listRet2$features
+  features2 <- rbindlist(features.split[set_no])
+  #df2 <- listRet2$df
+  is_poetry2 <- features2$is_poetry
+  
+  #features2$is_poetry <- is_poetry2
+  varNames_2 <- names(features2)[!names(features2) %in% c("is_poetry")]
+  varNames1_2 <- paste(varNames_2, collapse="+")
+  rfForm2 <- as.formula(paste("is_poetry", varNames1_2, sep=" ~ "))
+  retRF2 <- randomForest::randomForest(rfForm2, features2, ntree=500, importance=TRUE)
+  
+  #plot(retRF2)
+  
+  varImpPlot(retRF2, sort=TRUE, main="Variable importance")
+  
+  #df2$is_poetry <- is_poetry2
+  prediction2 <- predict(retRF, features2)
+  
+  cm <- confusionMatrix(data=prediction2, reference=is_poetry2)
+  print(cm)
+  print("--------------------------------------------------------------------------------------------")
+  print(date())
+}
+
 
 
 listRet <- prepare_for_randomforest(df=df.english.genres.training)
-saveRDS(listRet$df, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\df.english.genres.training.20170406.RDS")
+#saveRDS(listRet$df, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\df.english.genres.training.20170406.RDS")
 features <- listRet$features
 df <- listRet$df
 is_poetry <- listRet$is_poetry

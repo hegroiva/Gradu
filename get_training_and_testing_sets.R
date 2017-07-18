@@ -1,4 +1,4 @@
-get_training_and_testing_sets <- function(df, 
+get_training_and_testing_sets <- function(features, 
                                           training_percent=50, 
                                           load=TRUE, 
                                           path="C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\Titles\\",
@@ -8,18 +8,20 @@ get_training_and_testing_sets <- function(df,
   #clean_titles.training <- clean_titles_all[training_inds]
   
   if (load) {
-    df.training <- readRDS(paste0(path,filenamestem,".training.RDS"))
-    df.testing <- readRDS(paste0(path,filenamestem,".testing.RDS"))
+    features.training <- readRDS(paste0(path,filenamestem,".training.RDS"))
+    features.testing <- readRDS(paste0(path,filenamestem,".testing.RDS"))
+    training_inds <- readRDS(paste0(path, filenamestem, ".training_inds.RDS"))
   } else {
-    sample_inds <- sample(1:nrow(df), size = ceiling((nrow(df) * training_percent) / 100))
-    training_inds <- setdiff(1:nrow(df), sample_inds)
-    print(training_inds[1:10])
-    df.training <- df[training_inds,]
-    df.testing <- df[setdiff(1:nrow(df), training_inds),]
-    print(df.training$genre[1:10])
-    print(df.testing$genre[1:10])
-    saveRDS(df.training, paste0(path, filenamestem, ".training.RDS"))
-    saveRDS(df.testing, paste0(path, filenamestem, ".testing.RDS"))
+    sample_inds <- sample(1:nrow(features), size = ceiling((nrow(features) * training_percent) / 100))
+    training_inds <- setdiff(1:nrow(features), sample_inds)
+    #print(training_inds[1:10])
+    features.training <- features[training_inds,]
+    features.testing <- features[setdiff(1:nrow(features), training_inds),]
+    #print(df.training$genre[1:10])
+    #print(df.testing$genre[1:10])
+    #saveRDS(features.training, paste0(path, filenamestem, ".training.RDS"))
+    #saveRDS(features.testing, paste0(path, filenamestem, ".testing.RDS"))
+    #saveRDS(training_inds, paste0(path, filenamestem, ".training_inds.RDS"))
                           
   }
   #test_inds <- setdiff(1:nrow(df.english_genres), training_inds)
@@ -28,5 +30,5 @@ get_training_and_testing_sets <- function(df,
   #clean_titles.test <- clean_titles_all[test_inds]
   
   #return(list(training=, testing=, clean_titles_training=, clean_titles_testing=))
-  return(list(training=df.training, testing=df.testing))
+  return(list(training=features.training, testing=features.testing, training_inds=training_inds))
 }

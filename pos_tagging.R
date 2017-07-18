@@ -146,6 +146,7 @@ POStag  <- function(path = path){
 
 
 POStag_sentence <- function(sentence) {
+  
   corpus.tmp  <- lapply(sentence , function(x) {
     x <- enc2utf8(x)
   })
@@ -158,6 +159,7 @@ POStag_sentence <- function(sentence) {
   word_token_annotator  <- Maxent_Word_Token_Annotator()
   pos_tag_annotator  <- Maxent_POS_Tag_Annotator()
   lapply(Corpus , function(x){
+    if (x == "") {return(x)}
     y1 <- annotate(x, list(sent_token_annotator, word_token_annotator))
     y2 <- annotate(x, pos_tag_annotator, y1)
     # y3 <- annotate(x, Maxent_POS_Tag_Annotator(probs = TRUE), y1)

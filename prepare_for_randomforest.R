@@ -1,8 +1,23 @@
+library(data.table)
+
 prepare_for_randomforest <- function(df) {
   titles <- df$whole_title_sans_edition
   freq <- get_frequencies(titles)
-  #df$tagged <- get_POS_tags(titles=titles , load=TRUE)  
+  df$tagged <- get_POS_tags(titles=titles, 
+                            filename="C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\Titles\\tagged_titles3.RDS", 
+                            load=TRUE)  
+  POS_trigram_features <- get_POS_trigrams(df$tagged, no_of_levels=50)
+  most_common_word_features <- get_unique_word_freqs(df$whole_title_sans_edition)
+  saveRDS(most_common_word_features, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\most_common_word_features.RDS")  
   
+  
+  titles_only <- df$title
+  #title_only_inds <- which(df$title_remainder !="" & !is.na(df$title_remainder) & df$title != "" & !is.na(df.title))
+  
+  df$tagged_title_only <- get_POS_tags(titles=titles_only, 
+                                       filename="C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\Titles\\tagged_titles_only_RERUN.RDS",
+                                       load=FALSE) 
+  POS_trigram_features_title_only <- get_POS_trigrams(df$tagged_title_only, no_of_levels=50)
   # Then the same for poetry and non-poetry
   poetry_terms <- read.csv2(file="C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\poetry_genres.txt", 
                             encoding = "UTF-8", 
@@ -12,6 +27,12 @@ prepare_for_randomforest <- function(df) {
                                 encoding = "UTF-8", 
                                 header = FALSE,
                                 stringsAsFactors = FALSE)[,1]
+  antique_names <- read.csv2(file="C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\metamorphoses_in_capitals.txt", 
+                             encoding="UTF-8",
+                             header=FALSE,
+                             stringsAsFactors = FALSE, 
+                             quote = "")[,1]
+  antique_names <- tolower(antique_names)
   poetry_inds <- get_poetry_inds(df=df, terms=poetry_terms, exact=FALSE)
   non_poetry_inds <- get_poetry_inds(df, non_poetry_terms, exact=TRUE)
   
@@ -29,9 +50,9 @@ prepare_for_randomforest <- function(df) {
   freq_words_poetry <- get_frequencies(poetry_titles, max_count=50)
   freq_words_non_poetry <- get_frequencies(non_poetry_titles, max_count=50)
   freq_words_p <- freq_words_poetry[which(freq_words_poetry %in% freq_words_non_poetry == FALSE)]
-
+  
   freq_words_p <- freq_words_p[which(freq_words_p %in% stopwords("english") == FALSE)]
-
+  
   freq_words_non_p <- freq_words_non_poetry[which(freq_words_non_poetry %in% freq_words_poetry == FALSE)]
   freq_words_non_p <- freq_words_non_p[which(freq_words_non_p %in% stopwords("english") == FALSE)]
   
@@ -76,27 +97,36 @@ prepare_for_randomforest <- function(df) {
   
   author_age <- as.integer(df$publication_year_from) - as.integer(df$author_birth)
   
-  # + Antique word list
   
   # + top 10 publication place
+  # Mostly London! IGNORE!
   
   # + top 10 publisher
+  # Not cleaned thoroughly and the most common ones are just a fraction. IGNORE!
   
   # + is_postume
+  # Half of values missing! IGNORE!
   
   # + top 10 author name
+  # Most common names are too infrequent! IGNORE!
   
   # + other word lists ???
   
-  # maybe check without "MAYBE" compartment?
-  
   # + subject (poetry subjects?)
   
-  # + POS of first word
+  # + repeated stems
   
-  # + POS of last word
+  # + publication decades / centuries (is linear regression ok? maybe 
   
-  # + DepRel???
+  # + n most common Nouns
+  
+  # + amount of <POS tag> / no_of_words
+  
+  # + singular nouns / plural nouns
+  
+  # + digit counts
+  
+  # Missing values must first be imputed: randomForest::rfImpute()
   
   
   # get_features for the training set
@@ -108,9 +138,10 @@ prepare_for_randomforest <- function(df) {
                            p50_words=p50_words, 
                            non_p50_words=non_p50_words, 
                            p_next100=p_next100, 
-                           non_p_next100=non_p_next100
-                           )
-
+                           non_p_next100=non_p_next100,
+                           antique_names=antique_names
+  )
+  
   # Prepare the response variable
   is_poetry <- rep("FALSE", nrow(df))
   is_poetry[poetry_inds] <- "TRUE"
