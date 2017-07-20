@@ -22,7 +22,7 @@ options(scipen=3)
 if (Sys.info()["nodename"] == "MOOTTORI") {
   bu_path <- "C:/Users/Hege/Opiskelu/Kurssit/Gradu/"
   outputpath <- "C:Users/Hege/Opiskelu/Kurssit/Gradu/Output"
-  codepath <- "C:/Users/Hege/Tiedostot/GitHub/Gradu"
+  codepath <- "C:/Users/Hege/Documents/GitHub/Gradu"
   setwd(codepath)
 } else if (Sys.info()["nodename"] =="LH6-FHKT3") {
   bu_path <- "C:/HY-Data/HEGROIVA/Gradu"
