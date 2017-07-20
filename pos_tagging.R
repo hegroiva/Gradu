@@ -42,7 +42,7 @@ library(plyr)
 
 # specify  path of  corpus
 #pathname  <- "C:\\03 - MyProjects \\ PosTagging \\ TestCorpus"
-#pathname <- "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\Titles\\"
+#pathname <- paste0(bu_path, "/Titles/")
 # choose  files
 #corpus.files = list.files(path = pathname, 
 #                          pattern = NULL,
@@ -176,7 +176,7 @@ POStag_sentence <- function(sentence) {
 
 # test  the  function
 #POStag(path = "C:\\03- MyProjects \\ PosTagging \\ TestCorpus")
-#tagged <- POStag(path="C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\Titles")
+#tagged <- POStag(path=paste0(bu_path, "/Titles"))
 #POStag_sentence("Hege is in a stupid state.")
 
 

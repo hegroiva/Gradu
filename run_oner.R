@@ -27,7 +27,7 @@ run_oner <- function(features.split, filestem="", method="linfogain") {
     
     # Get variable_importance and print it
     if (set_no == 1) {
-      #png(filename = paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\output\\", filestem, "variable_importance_", set_no, ".png"))
+      #png(filename = paste0(outputpath, "/", filestem, "variable_importance_", set_no, ".png"))
       #varImpPlot(svm_model, sort=TRUE, main="Variable importance")                      
       #dev.off()
     }
@@ -37,7 +37,7 @@ run_oner <- function(features.split, filestem="", method="linfogain") {
     
     gc()
   }
-  sink(file = paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\output\\", filestem ,"confusionMatrix_combined.txt"),
+  sink(file = paste0(outputpath, "/", filestem ,"confusionMatrix_combined.txt"),
        append=FALSE)
   
   aggregated_results <- aggregate_confusion_matrix(matrices)

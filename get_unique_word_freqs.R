@@ -26,7 +26,7 @@ get_unique_word_freqs <- function(titles) {
       length(which(title==t))
     })
     fr <- as.data.frame(unlist(fr))
-    savefile <- paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\word_freqs\\", t, ".RDS", sep="")
+    savefile <- paste0(bu_path, "/word_freqs/", t, ".RDS", sep="")
     saveRDS(fr, savefile)
     unlist(fr)
   })

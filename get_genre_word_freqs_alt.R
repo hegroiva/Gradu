@@ -54,7 +54,7 @@ get_genre_word_freqs_alt <- function(genre_titles, prefix, all_titles, exclude_t
   freqs <- lapply(X = common_words, FUN= function(t) {
     ptm <- proc.time()
     
-    savefile <- paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\word_freqs\\", prefix, "_20170531_", t, ".RDS", sep="")
+    savefile <- paste0(bu_path, "/word_freqs/", prefix, "_20170531_", t, ".RDS", sep="")
     
     if (file.exists(savefile)) {
       print(paste0("  get_unique_word_freq: retrieving '", t, "' at ", date(), "."))

@@ -8,10 +8,10 @@ feats_poetry_whole_title100 <- get_genre_word_freqs(df$whole_title_sans_edition[
                                                     exclude_titles=df$whole_title_sans_edition[non_poetry], 
                                                     max_count=100)
 feats100 <- cbind(feats_poetry_whole_title100, is_poetry=feats$is_poetry)
-saveRDS(feats_poetry_whole_title100, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\feats_poetry_whole_title100_20170515.RDS")
+saveRDS(feats_poetry_whole_title100, paste0(bu_path, "/feats_poetry_whole_title100_20170515.RDS"))
 
 
-saveRDS(feats_poetry_whole_title, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\feats_poetry_whole_title200_20170515.RDS")
+saveRDS(feats_poetry_whole_title, paste0(bu_path, "/feats_poetry_whole_title200_20170515.RDS"))
 
 # Get top 300 freq of poetry
 feats_poetry_whole_title300 <- get_genre_word_freqs(df$whole_title_sans_edition[poetry_inds], 
@@ -19,7 +19,7 @@ feats_poetry_whole_title300 <- get_genre_word_freqs(df$whole_title_sans_edition[
                                                     exclude_titles=df$whole_title_sans_edition[non_poetry], 
                                                     max_count=300)
 feats300 <- cbind(feats_poetry_whole_title300, is_poetry=feats$is_poetry)
-saveRDS(feats_poetry_whole_title300, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\feats_poetry_whole_title300_20170515.RDS")
+saveRDS(feats_poetry_whole_title300, paste0(bu_path, "/feats_poetry_whole_title300_20170515.RDS"))
 qqq <- run_rf_once(df=df, features=feats100, language="eng", filenamestem = "poetry100", ntree = 500, mtry=5)
 qqq <- run_rf_once(df=df, features=feats300, language="eng", filenamestem = "poetry300", ntree = 500, mtry=5)
 
@@ -29,7 +29,7 @@ feats_poetry_whole_title50 <- get_genre_word_freqs(df$whole_title_sans_edition[p
                                                     exclude_titles=df$whole_title_sans_edition[non_poetry], 
                                                     max_count=50)
 feats50 <- cbind(feats_poetry_whole_title50, is_poetry=feats$is_poetry)
-saveRDS(feats_poetry_whole_title50, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\feats_poetry_whole_title50_20170515.RDS")
+saveRDS(feats_poetry_whole_title50, paste0(bu_path, "/feats_poetry_whole_title50_20170515.RDS"))
 qqq <- run_rf_once(df=df, features=feats50, language="eng", filenamestem = "poetry50", ntree = 500, mtry=5)
 
 # Get top 25 freq of poetry
@@ -38,7 +38,7 @@ feats_poetry_whole_title25 <- get_genre_word_freqs(df$whole_title_sans_edition[p
                                                    exclude_titles=df$whole_title_sans_edition[non_poetry], 
                                                    max_count=25)
 feats25 <- cbind(feats_poetry_whole_title25, is_poetry=feats$is_poetry)
-saveRDS(feats_poetry_whole_title25, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\feats_poetry_whole_title25_20170515.RDS")
+saveRDS(feats_poetry_whole_title25, paste0(bu_path, "/feats_poetry_whole_title25_20170515.RDS"))
 qqq <- run_rf_once(df=df, features=feats25, language="eng", filenamestem = "poetry25", ntree = 500, mtry=5)
 
 qqq <- run_rf_once(df=df, features=feats25, language="eng", filenamestem = "poetry25_mtry10", ntree = 500, mtry=10)
@@ -56,7 +56,7 @@ qqq <- run_rf_once(df=df, features=feats100, language="eng", filenamestem = "poe
 # 1000 poetry POS not in 1000 non_poetry POS
 feats_pos_trigrams <- cbind(freqs, is_poetry=features$is_poetry)
 names(feats_pos_trigrams) <- gsub(" ", "_", names(feats_pos_trigrams))
-saveRDS(feats_pos_trigrams, "C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_pos_trigrams_top1000_fixed.RDS")
+saveRDS(feats_pos_trigrams, paste0(bu_path, "/feats_pos_trigrams_top1000_fixed.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_trigrams, language="eng", filenamestem="pos_trigrams_top1000_ntree500_mtry5", ntree=750, mtry=5)
 
 # save feature sets
@@ -75,20 +75,20 @@ names(feats200per500_pos) <- gsub(" ", "_", names(feats200per500_pos))
 names(feats500per500_pos) <- gsub(" ", "_", names(feats500per500_pos))
 names(feats500per1000_pos) <- gsub(" ", "_", names(feats500per1000_pos))
 
-saveRDS(feats50per50_pos, "C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_pos_trigrams_50per50_titles_only.RDS")
-saveRDS(feats50per100_pos, "C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_pos_trigrams_50per100_titles_only.RDS")
+saveRDS(feats50per50_pos, paste0(bu_path, "/feats_pos_trigrams_50per50_titles_only.RDS"))
+saveRDS(feats50per100_pos, paste0(bu_path, "/feats_pos_trigrams_50per100_titles_only.RDS"))
 
-saveRDS(feats100per50_pos, "C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_pos_trigrams_100per50_titles_only.RDS")
-saveRDS(feats100per100_pos, "C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_pos_trigrams_100per100_titles_only.RDS")
-saveRDS(feats100per200_pos, "C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_pos_trigrams_100per200_titles_only.RDS")
-#saveRDS(feats100per500_pos, "C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_pos_trigrams_100per500_titles_only.RDS")
-#saveRDS(feats100per1000_pos, "C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_pos_trigrams_100per1000_titles_only.RDS")
+saveRDS(feats100per50_pos, paste0(bu_path, "/feats_pos_trigrams_100per50_titles_only.RDS"))
+saveRDS(feats100per100_pos, paste0(bu_path, "/feats_pos_trigrams_100per100_titles_only.RDS"))
+saveRDS(feats100per200_pos, paste0(bu_path, "/feats_pos_trigrams_100per200_titles_only.RDS"))
+#saveRDS(feats100per500_pos, paste0(bu_path, "/feats_pos_trigrams_100per500_titles_only.RDS"))
+#saveRDS(feats100per1000_pos, paste0(bu_path, "/feats_pos_trigrams_100per1000_titles_only.RDS"))
 
-saveRDS(feats200per200_pos, "C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_pos_trigrams_200per200_titles_only.RDS")
-saveRDS(feats200per500_pos, "C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_pos_trigrams_200per500_titles_only.RDS")
-#saveRDS(feats200per1000_pos, "C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_pos_trigrams_200per1000_titles_only.RDS")
-saveRDS(feats500per500_pos, "C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_pos_trigrams_500per500.RDS")
-saveRDS(feats500per1000_pos, "C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_pos_trigrams_500per1000_titles_only.RDS")
+saveRDS(feats200per200_pos, paste0(bu_path, "/feats_pos_trigrams_200per200_titles_only.RDS"))
+saveRDS(feats200per500_pos, paste0(bu_path, "/feats_pos_trigrams_200per500_titles_only.RDS"))
+#saveRDS(feats200per1000_pos, paste0(bu_path, "/feats_pos_trigrams_200per1000_titles_only.RDS"))
+saveRDS(feats500per500_pos, paste0(bu_path, "/feats_pos_trigrams_500per500.RDS"))
+saveRDS(feats500per1000_pos, paste0(bu_path, "/feats_pos_trigrams_500per1000_titles_only.RDS"))
 
 # 50 per 50
 qqq <- run_rf_once(df=df, features=feats50per50_pos, language="eng", filenamestem="pos_trigrams_50per50_titles_only", ntree=750, mtry=5)
@@ -130,7 +130,7 @@ qqq <- run_rf_once(df=df, features=feats500per1000_pos, language="eng", filename
 
 # Gather everything into one file
 pattern <- "pos_trigrams_[0-9]+per[0-9]+.*.txt"
-filepath <- "C:/Users/Hege/Opiskelu/Kurssit/Gradu/output"
+filepath <- outputpath
 
 ret <- aggregate_aggregated_cm(filepath=filepath, pattern=pattern)
 
@@ -138,7 +138,7 @@ names_ret <- str_extract(string = names(ret), pattern="[0-9]+per[0-9]+")
 names_ret <- str_replace(string=names_ret, pattern="per", replacement = " / ")
 names(ret) <- names_ret
 
-png(filename = "C:/Users/Hege/Opiskelu/Kurssit/gradu/output/all_pos_trigrams.png", width = 2000)
+png(filename = paste0(outputpath, "/all_pos_trigrams.png"), width = 2000)
 grid.table(ret)
 dev.off()
 
@@ -146,7 +146,7 @@ dev.off()
 
 # Gather mtry variance into one file
 pattern <- "^mtry.*.txt"
-filepath <- "C:/Users/Hege/Opiskelu/Kurssit/Gradu/output"
+filepath <- outputpath
 
 ret <- aggregate_aggregated_cm(filepath=filepath, pattern=pattern)
 
@@ -155,7 +155,7 @@ names_ret <- str_replace(string=names_ret, pattern="_", replacement="")
 names_ret <- str_replace(string=names_ret, pattern="conf", replacement="")
 names(ret) <- names_ret
 
-png(filename = "C:/Users/Hege/Opiskelu/Kurssit/gradu/output/mtry_values_ntree100_all_feats.png", width = 2000)
+png(filename = paste0(outputpath, "/mtry_values_ntree100_all_feats.png"), width = 2000)
 grid.table(ret)
 dev.off()
 
@@ -165,14 +165,14 @@ dev.off()
 
 # Gather poetry
 pattern <- "^poetry[0-9]+_confusionMatrix_combined.txt"
-filepath <- "C:/Users/Hege/Opiskelu/Kurssit/Gradu/output"
+filepath <- outputpath
 
 ret <- aggregate_aggregated_cm(filepath=filepath, pattern=pattern)
 
 names_ret <- str_extract(string=names(ret), pattern="[0-9]+")
 names(ret) <- names_ret
 
-png(filename = "C:/Users/Hege/Opiskelu/Kurssit/gradu/output/poetry_values_bagofwords.png", width = 2000)
+png(filename = paste0(outputpath, "/poetry_values_bagofwords.png"), width = 2000)
 grid.table(ret)
 dev.off()
 
@@ -184,14 +184,14 @@ files <- c("poetry50_confusionMatrix_combined.txt",
            "poetry50_mtry10_confusionMatrix_combined.txt", 
            "poetry50_mtry15_confusionMatrix_combined.txt",
            "poetry50_ntree750_mtry5_confusionMatrix_combined.txt")
-filepath <- "C:/Users/Hege/Opiskelu/Kurssit/Gradu/output"
+filepath <- outputpath
 
 ret <- aggregate_aggregated_cm(filepath=filepath, pattern=pattern, files=files)
 
 names_ret <- c("500 / 5", "500 / 10", "500 / 15", "750 / 5")
 names(ret) <- names_ret
 
-png(filename = "C:/Users/Hege/Opiskelu/Kurssit/gradu/output/poetry_bagofwords_ntree_and_mtry.png", width = 2000)
+png(filename = paste0(outputpath, "/poetry_bagofwords_ntree_and_mtry.png"), width = 2000)
 grid.table(ret)
 dev.off()
 
@@ -240,7 +240,7 @@ df <- cbind(n=as.integer(row.names(df_kpl)), df_kpl)
 
 
 # This is it
-png(filename = "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\Output\\Effect of word count in bag-of-words.png", width = 1000)
+png(filename = paste0(outputpath, "/Effect of word count in bag-of-words.png"), width = 1000)
 p <- ggplot(data=df, aes(n)) + 
   theme(legend.title=element_blank(), axis.title.x = element_text(size=18), axis.title.y = element_text(size=18),
         legend.text = element_text(size=14), 
@@ -274,7 +274,7 @@ df <- cbind(n=as.integer(row.names(df_kpl)), df_kpl)
 
 
 # This is it
-png(filename = "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\Output\\Effect of trigram count in POS trigrams.png", width = 1000)
+png(filename = paste0(outputpath, "/Effect of trigram count in POS trigrams.png"), width = 1000)
 p <- ggplot(data=df, aes(n)) + 
   theme(legend.title=element_blank(), axis.title.x = element_text(size=18), axis.title.y = element_text(size=18),
         legend.text = element_text(size=14), 
@@ -312,7 +312,7 @@ df <- cbind(n=as.integer(row.names(df_kpl)), df_kpl)
 
 
 # This is it
-png(filename = "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\Output\\Effect of adjusting mtry value.png", width = 1000)
+png(filename = paste0(outputpath, "/Effect of adjusting mtry value.png"), width = 1000)
 p <- ggplot(data=df, aes(n)) + 
   theme(legend.title=element_blank(), axis.title.x = element_text(size=18), axis.title.y = element_text(size=18),
         legend.text = element_text(size=14), 
@@ -351,7 +351,7 @@ df <- cbind(n=as.integer(row.names(df_kpl)), df_kpl)
 
 
 # This is it
-png(filename = "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\Output\\Effect of non-poetry POS trigram size.png", width = 1000)
+png(filename = paste0(outputpath, "/Effect of non-poetry POS trigram size.png"), width = 1000)
 p <- ggplot(data=df, aes(n)) + 
   theme(legend.title=element_blank(), axis.title.x = element_text(size=18), axis.title.y = element_text(size=18),
         legend.text = element_text(size=14), 
@@ -397,7 +397,7 @@ df <- cbind(n=as.integer(row.names(df_kpl)), df_kpl)
 override.linetype <- c("solid","solid","solid","dashed","dashed","dashed")
 override.colour <- c("red","purple","green","red","purple","green")
 # This is it
-png(filename = "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\Output\\Effect of non-poetry POS trigram size with SVM.png", width = 1000)
+png(filename = paste0(outputpath, "/Effect of non-poetry POS trigram size with SVM.png"), width = 1000)
 p <- ggplot(data=df, aes(x=n)) + 
   theme(legend.title=element_blank(), axis.title.x = element_text(size=18), axis.title.y = element_text(size=18),
         legend.text = element_text(size=14), 
@@ -455,7 +455,7 @@ feats_poetry_whole_title100 <- get_genre_word_freqs_alt(df.estc$whole_title_sans
                                                     exclude_titles=df.estc$whole_title_sans_edition[non_poetry_inds], 
                                                     max_count=100)
 feats_poetry_whole_title100 <- cbind(feats_poetry_whole_title100, is_poetry=feats$is_poetry)
-saveRDS(feats_poetry_whole_title100, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\feats_poetry_whole_title_alt_100_20170531.RDS")
+saveRDS(feats_poetry_whole_title100, paste0(bu_path, "/feats_poetry_whole_title_alt_100_20170531.RDS"))
 
 # Get top 50 (whole title)
 feats_poetry_whole_title50 <- get_genre_word_freqs_alt(df.estc$whole_title_sans_edition[poetry_inds], 
@@ -463,7 +463,7 @@ feats_poetry_whole_title50 <- get_genre_word_freqs_alt(df.estc$whole_title_sans_
                                                        exclude_titles=df.estc$whole_title_sans_edition[non_poetry_inds], 
                                                        max_count=50)
 feats_poetry_whole_title50 <- cbind(feats_poetry_whole_title50, is_poetry=feats$is_poetry)
-saveRDS(feats_poetry_whole_title50, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\feats_poetry_whole_title_alt_50_20170531.RDS")
+saveRDS(feats_poetry_whole_title50, paste0(bu_path, "/feats_poetry_whole_title_alt_50_20170531.RDS"))
 
 # Get top 150 (whole title)
 feats_poetry_whole_title150 <- get_genre_word_freqs_alt(df.estc$whole_title_sans_edition[poetry_inds], 
@@ -471,7 +471,7 @@ feats_poetry_whole_title150 <- get_genre_word_freqs_alt(df.estc$whole_title_sans
                                                         exclude_titles=df.estc$whole_title_sans_edition[non_poetry_inds], 
                                                         max_count=150)
 feats_poetry_whole_title150 <- cbind(feats_poetry_whole_title150, is_poetry=feats$is_poetry)
-saveRDS(feats_poetry_whole_title150, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\feats_poetry_whole_title_alt_150_20170531.RDS")
+saveRDS(feats_poetry_whole_title150, paste0(bu_path, "/feats_poetry_whole_title_alt_150_20170531.RDS"))
 
 # Get top 200 (whole title)
 feats_poetry_whole_title200 <- get_genre_word_freqs_alt(df.estc$whole_title_sans_edition[poetry_inds], 
@@ -479,7 +479,7 @@ feats_poetry_whole_title200 <- get_genre_word_freqs_alt(df.estc$whole_title_sans
                                                         exclude_titles=df.estc$whole_title_sans_edition[non_poetry_inds], 
                                                         max_count=200)
 feats_poetry_whole_title200 <- cbind(feats_poetry_whole_title200, is_poetry=feats$is_poetry)
-saveRDS(feats_poetry_whole_title200, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\feats_poetry_whole_title_alt_200_20170531.RDS")
+saveRDS(feats_poetry_whole_title200, paste0(bu_path, "/feats_poetry_whole_title_alt_200_20170531.RDS"))
 
 
 # AGAIN. Now title only
@@ -489,7 +489,7 @@ feats_poetry_title_only50 <- get_genre_word_freqs_alt(df.estc$title[poetry_inds]
                                                       exclude_titles=df.estc$title[non_poetry_inds], 
                                                       max_count=50)
 feats_poetry_title_only50 <- cbind(feats_poetry_title_only50, is_poetry=feats$is_poetry)
-saveRDS(feats_poetry_title_only50, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\feats_poetry_title_only_alt_50_20170531.RDS")
+saveRDS(feats_poetry_title_only50, paste0(bu_path, "/feats_poetry_title_only_alt_50_20170531.RDS"))
 
 # Get top 100 (title only)
 feats_poetry_title_only100 <- get_genre_word_freqs_alt(df.estc$title[poetry_inds], 
@@ -497,7 +497,7 @@ feats_poetry_title_only100 <- get_genre_word_freqs_alt(df.estc$title[poetry_inds
                                                        exclude_titles=df.estc$title[non_poetry_inds], 
                                                        max_count=100)
 feats_poetry_title_only100 <- cbind(feats_poetry_title_only100, is_poetry=feats$is_poetry)
-saveRDS(feats_poetry_title_only100, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\feats_poetry_title_only_alt_100_20170531.RDS")
+saveRDS(feats_poetry_title_only100, paste0(bu_path, "/feats_poetry_title_only_alt_100_20170531.RDS"))
 
 # Get top 150 (title only)
 feats_poetry_title_only150 <- get_genre_word_freqs_alt(df.estc$title[poetry_inds], 
@@ -505,7 +505,7 @@ feats_poetry_title_only150 <- get_genre_word_freqs_alt(df.estc$title[poetry_inds
                                                        exclude_titles=df.estc$title[non_poetry_inds], 
                                                        max_count=150)
 feats_poetry_title_only150 <- cbind(feats_poetry_title_only150, is_poetry=feats$is_poetry)
-saveRDS(feats_poetry_title_only150, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\feats_poetry_title_only_alt_150_20170531.RDS")
+saveRDS(feats_poetry_title_only150, paste0(bu_path, "/feats_poetry_title_only_alt_150_20170531.RDS"))
 
 # Get top 200 (title only)
 feats_poetry_title_only200 <- get_genre_word_freqs_alt(df.estc$title[poetry_inds], 
@@ -513,7 +513,7 @@ feats_poetry_title_only200 <- get_genre_word_freqs_alt(df.estc$title[poetry_inds
                                                        exclude_titles=df.estc$title[non_poetry_inds], 
                                                        max_count=200)
 feats_poetry_title_only200 <- cbind(feats_poetry_title_only200, is_poetry=feats$is_poetry)
-saveRDS(feats_poetry_title_only200, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\feats_poetry_title_only_alt_200_20170531.RDS")
+saveRDS(feats_poetry_title_only200, paste0(bu_path, "/feats_poetry_title_only_alt_200_20170531.RDS"))
 
 
 # THEN, THE ACTUAL RUNS
@@ -546,45 +546,45 @@ qqq <- run_rf_once(df=df.estc, features=feats_poetry_title_only200, filenamestem
 
 # Get an aggregated table (alt, whole title)
 pattern <- "^poetry[0-9]+_alt_confusionMatrix_combined.txt"
-filepath <- "C:/Users/Hege/Opiskelu/Kurssit/Gradu/output"
+filepath <- outputpath
 
 ret <- aggregate_aggregated_cm(filepath=filepath, pattern=pattern)
 names_ret <- str_extract(string=names(ret), pattern="[0-9]+")
 names(ret) <- names_ret
-png(filename = "C:/Users/Hege/Opiskelu/Kurssit/gradu/output/poetry_values_alt_whole_title.png", width = 2000)
+png(filename = paste0(outputpath, "/poetry_values_alt_whole_title.png"), width = 2000)
 grid.table(ret)
 dev.off()
 
 # Get an aggregated table (alt, title only)
 pattern <- "^poetry[0-9]+_alt_title_confusionMatrix_combined.txt"
-filepath <- "C:/Users/Hege/Opiskelu/Kurssit/Gradu/output"
+filepath <- outputpath
 
 ret <- aggregate_aggregated_cm(filepath=filepath, pattern=pattern)
 names_ret <- str_extract(string=names(ret), pattern="[0-9]+")
 names(ret) <- names_ret
-png(filename = "C:/Users/Hege/Opiskelu/Kurssit/gradu/output/poetry_values_alt_title_only.png", width = 2000)
+png(filename = paste0(outputpath, "/poetry_values_alt_title_only.png"), width = 2000)
 grid.table(ret)
 dev.off()
 
 # Get an aggregated table (alt + regular)
 pattern <- "^poetry[0-9]+_(alt_title_)?confusionMatrix_combined.txt"
-filepath <- "C:/Users/Hege/Opiskelu/Kurssit/Gradu/output"
+filepath <- outputpath
 
 ret <- aggregate_aggregated_cm(filepath=filepath, pattern=pattern)
 names_ret <- str_extract(string=names(ret), pattern="[0-9]+_(alt)?")
 names(ret) <- names_ret
-png(filename = "C:/Users/Hege/Opiskelu/Kurssit/gradu/output/poetry_values_alt_vs_regular.png", width = 2000)
+png(filename = paste0(outputpath, "/poetry_values_alt_vs_regular.png"), width = 2000)
 grid.table(ret)
 dev.off()
 
 # Get an aggregated table (alt, whole title vs. title only)
 pattern <- "^poetry[0-9]+_alt_(title_)?confusionMatrix_combined.txt"
-filepath <- "C:/Users/Hege/Opiskelu/Kurssit/Gradu/output"
+filepath <- outputpath
 
 ret <- aggregate_aggregated_cm(filepath=filepath, pattern=pattern)
 names_ret <- str_replace(string=names(ret), pattern="^poetry([0-9]+)_alt_(title)?.*", replacement="\\1\\2")
 names(ret) <- names_ret
-png(filename = "C:/Users/Hege/Opiskelu/Kurssit/gradu/output/poetry_values_alt_wholetitle_versus_titleonly.png", width = 2000)
+png(filename = paste0(outputpath, "/poetry_values_alt_wholetitle_versus_titleonly.png"), width = 2000)
 grid.table(ret)
 dev.off()
 
@@ -634,27 +634,27 @@ qqq2 <- run_all_once(df=df.estc, features = feats_poetry_whole_title150, k=7, on
 
 qqq3 <- run_all_once(df=df.estc, features = feats_poetry_whole_title200, k=7, oner_method="infogain", filenamestem = "ALL_poetry200")
 
-feats_poetry200 <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_poetry_whole_title200_20170511.RDS")
+feats_poetry200 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title200_20170511.RDS"))
 feats_poetry200$is_poetry <- feats$is_poetry
 qqq <- run_all_once(df=df, features=feats_poetry200, filenamestem = "ALL_20170609_poetry200", k=7,startpoint = 1)
 
-feats_poetry_whole_title150_alt <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_poetry_whole_title_alt_150_20170531.RDS")
+feats_poetry_whole_title150_alt <- readRDS(paste0(bu_path, "/feats_poetry_whole_title_alt_150_20170531.RDS"))
 qqq <- run_all_once(df=df, features=feats_poetry, filenamestem = "ALL_20170608_alt_poetry150", k=7,startpoint = 10)
 
 
 # WHILE IN MALMÖ
-feats_poetry_whole_title25 <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_poetry_whole_title25_20170618.RDS")
+feats_poetry_whole_title25 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title25_20170618.RDS"))
 qqq <- run_caret_rf_once(df=df, features=feats_poetry_whole_title25, filenamestem = "Poetry25_20170619b", get_pairwise_comparison = TRUE)
 
-feats_poetry_whole_title50 <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_poetry_whole_title50_20170618.RDS")
+feats_poetry_whole_title50 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title50_20170618.RDS"))
 qqq <- run_caret_rf_once(df=df, features=feats_poetry_whole_title50, filenamestem = "Poetry50_20170619b", get_pairwise_comparison = TRUE)
 
-feats_poetry_whole_title100 <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_poetry_whole_title100_20170618.RDS")
+feats_poetry_whole_title100 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title100_20170618.RDS"))
 qqq <- run_caret_rf_once(df=df, features=feats_poetry_whole_title100, filenamestem = "Poetry100_20170619b", get_pairwise_comparison = TRUE)
 
-feats_poetry_whole_title200 <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_poetry_whole_title200_20170618.RDS")
+feats_poetry_whole_title200 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title200_20170618.RDS"))
 qqq <- run_caret_rf_once(df=df, features=feats_poetry_whole_title200, filenamestem = "Poetry200_20170619b", get_pairwise_comparison = TRUE)
 
-feats_poetry_whole_title300 <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_poetry_whole_title300_20170618.RDS")
+feats_poetry_whole_title300 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title300_20170618.RDS"))
 qqq <- run_caret_rf_once(df=df, features=feats_poetry_whole_title300, filenamestem = "Poetry300_20170619b", get_pairwise_comparison = TRUE)
 

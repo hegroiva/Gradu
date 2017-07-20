@@ -41,7 +41,7 @@ run_caret_rf_once <- function(df, features, filenamestem, language="eng", ntree=
 #    }
 #  }
 #  aggr[["TOTAL"]] <- means
-#  sink(file = paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\output\\", filenamestem ,"aggregated.txt"),
+#  sink(file = paste0(outputpath, "/", filenamestem ,"aggregated.txt"),
 #       append=FALSE)
 #  
 #  print(aggr)

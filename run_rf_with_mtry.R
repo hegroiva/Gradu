@@ -47,7 +47,7 @@ run_rf_with_mtry <- function(df, features, filenamestem, language="eng", ntree=5
     }
   }
   aggr[["TOTAL"]] <- means
-  sink(file = paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\output\\", filestem ,"aggregated_mtry.txt"),
+  sink(file = paste0(outputpath, "/", filestem ,"aggregated_mtry.txt"),
        append=FALSE)
   
   print(aggr)

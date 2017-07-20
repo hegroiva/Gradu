@@ -1,8 +1,11 @@
 get_training_and_testing_sets <- function(features, 
                                           training_percent=50, 
                                           load=TRUE, 
-                                          path="C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\Titles\\",
+                                          path="",
                                           filenamestem="df_") {
+	if (path == "") {
+		path <- paste0(bu_path, "/Titles/")
+	}
   #tagged.training <- tagged[training_inds]
   #training <- df[training_inds,]
   #clean_titles.training <- clean_titles_all[training_inds]

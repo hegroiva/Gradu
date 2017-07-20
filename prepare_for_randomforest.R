@@ -4,30 +4,30 @@ prepare_for_randomforest <- function(df) {
   titles <- df$whole_title_sans_edition
   freq <- get_frequencies(titles)
   df$tagged <- get_POS_tags(titles=titles, 
-                            filename="C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\Titles\\tagged_titles3.RDS", 
+                            filename=paste0(bu_path, "/Titles/tagged_titles3.RDS"), 
                             load=TRUE)  
   POS_trigram_features <- get_POS_trigrams(df$tagged, no_of_levels=50)
   most_common_word_features <- get_unique_word_freqs(df$whole_title_sans_edition)
-  saveRDS(most_common_word_features, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\most_common_word_features.RDS")  
+  saveRDS(most_common_word_features, paste0(bu_path, "/most_common_word_features.RDS"))  
   
   
   titles_only <- df$title
   #title_only_inds <- which(df$title_remainder !="" & !is.na(df$title_remainder) & df$title != "" & !is.na(df.title))
   
   df$tagged_title_only <- get_POS_tags(titles=titles_only, 
-                                       filename="C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\Titles\\tagged_titles_only_RERUN.RDS",
+                                       filename=paste0(bu_path, "/Titles/tagged_titles_only_RERUN.RDS"),
                                        load=FALSE) 
   POS_trigram_features_title_only <- get_POS_trigrams(df$tagged_title_only, no_of_levels=50)
   # Then the same for poetry and non-poetry
-  poetry_terms <- read.csv2(file="C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\poetry_genres.txt", 
+  poetry_terms <- read.csv2(file=paste0(bu_path, "/poetry_genres.txt"), 
                             encoding = "UTF-8", 
                             header = FALSE,
                             stringsAsFactors = FALSE)[,1]
-  non_poetry_terms <- read.csv2(file="C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\non_poetry_genres.txt", 
+  non_poetry_terms <- read.csv2(file=paste0(bu_path, "/non_poetry_genres.txt"), 
                                 encoding = "UTF-8", 
                                 header = FALSE,
                                 stringsAsFactors = FALSE)[,1]
-  antique_names <- read.csv2(file="C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\metamorphoses_in_capitals.txt", 
+  antique_names <- read.csv2(file=paste0(bu_path, "/metamorphoses_in_capitals.txt"), 
                              encoding="UTF-8",
                              header=FALSE,
                              stringsAsFactors = FALSE, 

@@ -41,7 +41,7 @@ run_all_once <- function(df,
                      LDA=integer(22)
   )
   if (startpoint > 1) {
-    aggregated_results <- read.delim(paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr1.txt",sep= " "))
+    aggregated_results <- read.delim(paste0(outputpath, "/", filenamestem, "_aggr1.txt",sep= " "))
     rownames(aggr) <- mapply(aggregated_results[[1]], FUN=function(x) {unlist(str_split(x, " +"))[1]})
     aggregated_results <- mapply(aggregated_results[[1]], FUN=function(x) {unlist(str_split(x, " +"))[2]})
     aggr$SVM <-aggregated_results
@@ -57,14 +57,14 @@ run_all_once <- function(df,
       }
     })
     rownames(aggr) <- rownames(aggregated_results)
-    sink(file=paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr1.txt"), append=FALSE)
+    sink(file=paste0(outputpath, "/", filenamestem, "_aggr1.txt"), append=FALSE)
     print(aggr)
     sink()
   }
 
   
   if (startpoint > 2) {
-    aggregated_results <- read.delim(paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr2.txt",sep= " "))
+    aggregated_results <- read.delim(paste0(outputpath, "/", filenamestem, "_aggr2.txt",sep= " "))
     aggregated_results <- mapply(aggregated_results[[1]], FUN=function(x) {unlist(str_split(x, " +"))[3]})
     aggr$kNN <-aggregated_results
   } else {
@@ -79,13 +79,13 @@ run_all_once <- function(df,
         formatC(x=x, digits=8,format = "f")
       }
     })
-    sink(file=paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr2.txt"), append=FALSE)
+    sink(file=paste0(outputpath, "/", filenamestem, "_aggr2.txt"), append=FALSE)
     print(aggr)
     sink()
   }
 	
   if (startpoint > 3) {
-    aggregated_results <- read.delim(paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr3.txt",sep= " "))
+    aggregated_results <- read.delim(paste0(outputpath, "/", filenamestem, "_aggr3.txt",sep= " "))
     aggregated_results <- mapply(aggregated_results[[1]], FUN=function(x) {unlist(str_split(x, " +"))[4]})
     aggr$RF <-aggregated_results
   } else {
@@ -102,13 +102,13 @@ run_all_once <- function(df,
   	    formatC(x=x, digits=8,format = "f")
   	  }
   	})
-    sink(file=paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr3.txt"), append=FALSE)
+    sink(file=paste0(outputpath, "/", filenamestem, "_aggr3.txt"), append=FALSE)
     print(aggr)
     sink()
   }
   
   if (startpoint > 4) {
-    aggregated_results <- read.delim(paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr4.txt",sep= " "))
+    aggregated_results <- read.delim(paste0(outputpath, "/", filenamestem, "_aggr4.txt",sep= " "))
     aggregated_results <- mapply(aggregated_results[[1]], FUN=function(x) {unlist(str_split(x, " +"))[5]})
     aggr$OneR <-aggregated_results
   } else {
@@ -123,14 +123,14 @@ run_all_once <- function(df,
         formatC(x=x, digits=8,format = "f")
       }
     })
-    sink(file=paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr4.txt"), append=FALSE)
+    sink(file=paste0(outputpath, "/", filenamestem, "_aggr4.txt"), append=FALSE)
     print(aggr)
     sink()
   }
   
   # CART: Classification And Regression Trees
   if (startpoint > 5) {
-    aggregated_results <- read.delim(paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr5.txt",sep= " "))
+    aggregated_results <- read.delim(paste0(outputpath, "/", filenamestem, "_aggr5.txt",sep= " "))
     aggregated_results <- mapply(aggregated_results[[1]], FUN=function(x) {unlist(str_split(x, " +"))[6]})
     aggr$rpart <-aggregated_results
   } else {
@@ -145,14 +145,14 @@ run_all_once <- function(df,
         formatC(x=x, digits=8,format = "f")
       }
     })
-    sink(file=paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr5.txt"), append=FALSE)
+    sink(file=paste0(outputpath, "/", filenamestem, "_aggr5.txt"), append=FALSE)
     print(aggr)
     sink()
   }
   
 	# C4.5 (Weka)
   if (startpoint > 6) {
-    aggregated_results <- read.delim(paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr6.txt",sep= " "))
+    aggregated_results <- read.delim(paste0(outputpath, "/", filenamestem, "_aggr6.txt",sep= " "))
     aggregated_results <- mapply(aggregated_results[[1]], FUN=function(x) {unlist(str_split(x, " +"))[7]})
     aggr$C45 <-aggregated_results
   } else {
@@ -166,13 +166,13 @@ run_all_once <- function(df,
   	    formatC(x=x, digits=8,format = "f")
   	  }
   	})
-  	sink(file=paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr6.txt"), append=FALSE)
+  	sink(file=paste0(outputpath, "/", filenamestem, "_aggr6.txt"), append=FALSE)
   	print(aggr)
   	sink()
   }
 	
   if (startpoint > 7) {
-    aggregated_results <- read.delim(paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr7.txt",sep= " "))
+    aggregated_results <- read.delim(paste0(outputpath, "/", filenamestem, "_aggr7.txt",sep= " "))
     aggregated_results <- mapply(aggregated_results[[1]], FUN=function(x) {unlist(str_split(x, " +"))[8]})
     aggr$PART <-aggregated_results
   } else {
@@ -187,13 +187,13 @@ run_all_once <- function(df,
   	    formatC(x=x, digits=8,format = "f")
   	  }
   	})
-  	sink(file=paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr7.txt"), append=FALSE)
+  	sink(file=paste0(outputpath, "/", filenamestem, "_aggr7.txt"), append=FALSE)
   	print(aggr)
   	sink()
   }
 	
   if (startpoint > 8) {
-    aggregated_results <- read.delim(paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr8.txt",sep= " "))
+    aggregated_results <- read.delim(paste0(outputpath, "/", filenamestem, "_aggr8.txt",sep= " "))
     aggregated_results <- mapply(aggregated_results[[1]], FUN=function(x) {unlist(str_split(x, " +"))[9]})
     aggr$gbm <-aggregated_results
   } else {
@@ -209,13 +209,13 @@ run_all_once <- function(df,
   	    formatC(x=x, digits=8,format = "f")
   	  }
   	})
-  	sink(file=paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr8.txt"), append=FALSE)
+  	sink(file=paste0(outputpath, "/", filenamestem, "_aggr8.txt"), append=FALSE)
   	print(aggr)
   	sink()
   }	
 	# Naive Bayes
   if (startpoint > 9) {
-    aggregated_results <- read.delim(paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr9.txt",sep= " "))
+    aggregated_results <- read.delim(paste0(outputpath, "/", filenamestem, "_aggr9.txt",sep= " "))
     aggregated_results <- mapply(aggregated_results[[1]], FUN=function(x) {unlist(str_split(x, " +"))[10]})
     aggr$naive <-aggregated_results
   } else {
@@ -229,14 +229,14 @@ run_all_once <- function(df,
   	    formatC(x=x, digits=8,format = "f")
   	  }
   	})
-  	sink(file=paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr9.txt"), append=FALSE)
+  	sink(file=paste0(outputpath, "/", filenamestem, "_aggr9.txt"), append=FALSE)
   	print(aggr)
   	sink()
   }
   
 	# LDA
   if (startpoint > 10) {
-    aggregated_results <- read.delim(paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr10.txt",sep= " "))
+    aggregated_results <- read.delim(paste0(outputpath, "/", filenamestem, "_aggr10.txt",sep= " "))
     aggregated_results <- mapply(aggregated_results[[1]], FUN=function(x) {unlist(str_split(x, " +"))[11]})
     aggr$LDA <-aggregated_results
   } else {
@@ -250,7 +250,7 @@ run_all_once <- function(df,
   	    formatC(x=x, digits=8,format = "f")
   	  }
   	})
-  	sink(file=paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filenamestem, "_aggr10.txt"), append=FALSE)
+  	sink(file=paste0(outputpath, "/", filenamestem, "_aggr10.txt"), append=FALSE)
   	print(aggr)
   	sink()
   }

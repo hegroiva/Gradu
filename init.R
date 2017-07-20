@@ -67,5 +67,19 @@ source("GitHub/Gradu/add_customized_rf_model.R")
 source("GitHub/Gradu/hmeasureCaret.R")
 source("GitHub/Gradu/run_all_once.R")
 
-df <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/df.20170609.RDS")
-feats <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_poetry_whole_title100_20170515.RDS")
+if (Sys.info()["nodename"] == "MOOTTORI") {
+	bu_path <- "C:/Users/Hege/Opiskelu/Kurssit/Gradu/"
+	outputpath <- "C:Users/Hege/Opiskelu/Kurssit/Gradu/Output"
+	codepath <- "C:/Users/Hege/Tiedostot/GitHub/Gradu"
+} else if (Sys.info()["nodename"] =="LH6-FHKT3") {
+	bu_path <- "C:/HY-Data/HEGROIVA/Gradu"
+	outputpath <- "C:/HY-DATA/HEGROIVA/Gradu/Output"
+	codepath <- "C:/HY-DATA/HEGROIVA/GitHub/Gradu"
+} else {
+	bu_path <- getwd()
+	outputpath <-	paste0(bu_path, "/Output")
+	codepath <- getwd()
+}
+
+df <- readRDS(paste0(bu_path, "/df.20170609.RDS"))
+feats <- readRDS(paste0(bu_path, "/feats_poetry_whole_title100_20170515.RDS"))

@@ -1,4 +1,4 @@
-saveRDS(qqq2, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\feats_freq100_probably.RDS")
+saveRDS(qqq2, paste0(bu_path, "/feats_freq100_probably.RDS"))
 
 # Run against most common 100 words
 www <- mapply(feats_freq100[,1:100], FUN=function(x) {y <- x / features_all$no_of_words; y})

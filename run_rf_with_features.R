@@ -46,7 +46,7 @@ run_rf_with_features <- function(df, features, filenamestem, language="eng", ntr
     }
   }
   aggr[["TOTAL"]] <- means
-  sink(file = paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\output\\", filestem ,"aggregated_sans_fields_round1.txt"),
+  sink(file = paste0(outputpath, "/", filestem ,"aggregated_sans_fields_round1.txt"),
        append=FALSE)
   
   print(aggr)

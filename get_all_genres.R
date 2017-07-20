@@ -1,11 +1,11 @@
 get_all_genres <- function(genres) {
   genres <- unique(unlist(str_split(genres, ":::")))
   genres <- gsub("[.]$", "", genres)
-  poetry_terms <- read.csv2(file="C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\poetry_genres.txt", 
+  poetry_terms <- read.csv2(file=paste0(bu_path, "/poetry_genres.txt"), 
                             encoding = "UTF-8", 
                             header = FALSE,
                             stringsAsFactors = FALSE)[,1]
-  non_poetry_terms <- read.csv2(file="C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\non_poetry_genres.txt", 
+  non_poetry_terms <- read.csv2(file=paste0(bu_path, "/non_poetry_genres.txt"), 
                                 encoding = "UTF-8", 
                                 header = FALSE,
                                 stringsAsFactors = FALSE)[,1]
@@ -24,7 +24,7 @@ get_all_genres <- function(genres) {
   }
   print(inds[1:20])
   print(genres[1:20])
-  write.csv2(genres[which(inds==TRUE)],file = "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\new_genres.txt", fileEncoding = "UTF-8",
+  write.csv2(genres[which(inds==TRUE)],file = paste0(bu_path, "/new_genres.txt"), fileEncoding = "UTF-8",
              row.names =FALSE,
              quote=FALSE
             )

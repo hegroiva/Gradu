@@ -62,7 +62,7 @@ run_caret_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_pai
       predictedProbs <- predict(rf_Tune, features2, type="prob")
       hmeas.check<- HMeasure(true.class = is_poetry2 ,predictedProbs[,2])
       summary(hmeas.check)
-      sink(file = paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filestem, "_measures.txt"))
+      sink(file = paste0(outputpath, "/", filestem, "_measures.txt"))
       print(t(hmeas.check$metrics))
       sink()
     }
@@ -111,7 +111,7 @@ run_caret_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_pai
                                         stringsAsFactors = FALSE
                                         )
       
-      sink(file = paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filestem, "_variable_importance_conditional.txt"))
+      sink(file = paste0(outputpath, "/", filestem, "_variable_importance_conditional.txt"))
       print(variable_importance)
       sink()
     }
@@ -146,17 +146,17 @@ run_caret_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_pai
       imp2_no_cutoff <- randomForest::importance(retRF_no_cutoff)
       imp3_no_cutoff <- caret::varImp(retRF_no_cutoff, scale=FALSE)
       
-      sink(file = paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filestem, "_variable_importance_randomForest.txt"))
+      sink(file = paste0(outputpath, "/", filestem, "_variable_importance_randomForest.txt"))
       print(imp2)
       sink()
-      sink(file = paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filestem, "_variable_importance_caret.txt"))
+      sink(file = paste0(outputpath, "/", filestem, "_variable_importance_caret.txt"))
       print(imp3)
       sink()
       
-      sink(file = paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filestem, "_variable_importance_randomForest_no_cut.txt"))
+      sink(file = paste0(outputpath, "/", filestem, "_variable_importance_randomForest_no_cut.txt"))
       print(imp2_no_cutoff)
       sink()
-      sink(file = paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filestem, "_variable_importance_caret_no_cut.txt"))
+      sink(file = paste0(outputpath, "/", filestem, "_variable_importance_caret_no_cut.txt"))
       print(imp3_no_cutoff)
       sink()
     }
@@ -166,7 +166,7 @@ run_caret_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_pai
       f2 <- features
       f2$is_poetry <- NULL
       varLists <- rfe(x=f2, y=is_poetry, sizes=c(2:10,15,20), rfeControl = rfeControl(functions=rfFuncs))
-      sink(file = paste0("C:/Users/Hege/Opiskelu/Kurssit/Gradu/output/", filestem, "_recursive_feature_selection.txt"))
+      sink(file = paste0(output, "/", filestem, "_recursive_feature_selection.txt"))
       print(varLists)
       sink()
     }
@@ -187,7 +187,7 @@ run_caret_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_pai
     
     # Get variable_importance and print it
     if (set_no == 1) {
-      png(filename = paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\output\\", filestem, "variable_importance_", set_no, ".png"))
+      png(filename = paste0(outputpath, "/", filestem, "variable_importance_", set_no, ".png"))
       varImpPlot(retRF2, sort=TRUE, main="Variable importance")                      
       dev.off()
     }
@@ -195,7 +195,7 @@ run_caret_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_pai
     features2$is_poetry <- NULL
     prediction <- predict(retRF, features2)
     
-    #sink(file = paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\output\\", filestem ,"confusionMatrix_", set_no, ".txt"),
+    #sink(file = paste0(output", "/", filestem ,"confusionMatrix_", set_no, ".txt"),
     #     append=FALSE)
     #print(paste0("Number of trees: ", ntree))
     #print(paste0("Features tried: ", mtry))
@@ -210,7 +210,7 @@ run_caret_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_pai
     #matrices[[set_no]] <- cm
     gc()
   }
-  sink(file = paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\output\\", filestem ,"confusionMatrix_combined.txt"),
+  sink(file = paste0(outputpath, "/", filestem ,"confusionMatrix_combined.txt"),
        append=FALSE)
   
   aggregated_results <- aggregate_confusion_matrix(matrices)
@@ -219,7 +219,7 @@ run_caret_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_pai
   #  for (matr in matrices) {
   #    print(cm)
   #    sink()
-  #    sink(file = paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\output\\", filestem ,"confusionMatrix_combined.txt"),
+  #    sink(file = paste0(outputpath; "/", filestem ,"confusionMatrix_combined.txt"),
   #         append=TRUE)
   #  }
   #  sink()

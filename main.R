@@ -78,18 +78,18 @@ df.estc_genres <- listAll$df
 is_poetry_all <- listAll$is_poetry
 features_all$is_poetry <- is_poetry_all
 
-#saveRDS(features_all, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\features_all_20170425.RDS")
-#saveRDS(features_all, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\features_all_20170427.RDS")
-#saveRDS(df.estc_genres, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\df.estc_genres_20170425.RDS")
+#saveRDS(features_all, paste0(bu_path, "/features_all_20170425.RDS"))
+#saveRDS(features_all, paste0(bu_path, "/features_all_20170427.RDS"))
+#saveRDS(df.estc_genres, paste0(bu_path, "/df.estc_genres_20170425.RDS"))
 
-features_all <- readRDS("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\features_all_20170427.RDS")
-df.estc_genres <- readRDS("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\df.estc_genres_20170425.RDS")
+features_all <- readRDS(paste0(bu_path, "/features_all_20170427.RDS"))
+df.estc_genres <- readRDS(paste0(bu_path, "/df.estc_genres_20170425.RDS"))
 # Start here
 
-df.estc_genres <- readRDS("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\df.estc_genres_20170420.RDS")
+df.estc_genres <- readRDS(paste0(bu_path, "/df.estc_genres_20170420.RDS"))
 i <- 469
-features_all <- readRDS("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\features_all.RDS")
-features_more <- readRDS(paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\features_", 468, "_more_no_NER.RDS"))
+features_all <- readRDS(paste0(bu_path, "/features_all.RDS"))
+features_more <- readRDS(paste0(paste0(bu_path, "/features_", 468, "_more_no_NER.RDS")))
 while (i < (nrow(df.estc_genres) / 1000)) {
   
     lowerbound <- ((i * 1000) + 1)
@@ -110,7 +110,7 @@ while (i < (nrow(df.estc_genres) / 1000)) {
     features_more <- rbind(features_more, features_more_next)
   }
   #if ((i %% 10) == 0) {
-    saveRDS(features_more, paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\features_", i, "_more_no_NER.RDS"))
+    saveRDS(features_more, paste0(bu_path, "/features_", i, "_more_no_NER.RDS"))
   #}
   i <- i + 1
   detach("package:coreNLP", unload=TRUE)
@@ -119,7 +119,7 @@ while (i < (nrow(df.estc_genres) / 1000)) {
   initCoreNLP(libLoc="C:\\Users\\Hege\\Downloads\\stanford-corenlp-full-2016-10-31\\stanford-corenlp-full-2016-10-31",
               parameterFile = "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\coreNLP_parameters")
 }
-saveRDS(features_more, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\features_more_483334.RDS")
+saveRDS(features_more, paste0(bu_path, "/features_more_483334.RDS"))
 # COMBINE THE TWO FEATURE MATRICES
 
 
@@ -211,7 +211,7 @@ for (set_no in 1:length(df.english.training.split)) {
 
 
 listRet <- prepare_for_randomforest(df=df.english.genres.training)
-#saveRDS(listRet$df, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\df.english.genres.training.20170406.RDS")
+#saveRDS(listRet$df, paste0(bu_path, "/df.english.genres.training.20170406.RDS"))
 features <- listRet$features
 df <- listRet$df
 is_poetry <- listRet$is_poetry
@@ -236,7 +236,7 @@ confusionMatrix(data=prediction, reference=df$is_poetry)
 
 # Then the same with testing set
 listRet2 <- prepare_for_randomforest(df=df.english.genres.testing)
-saveRDS(listRet2$df, "C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\df.english.genres.testing.20170406.RDS")
+saveRDS(listRet2$df, paste0(bu_path, "/df.english.genres.testing.20170406.RDS"))
 features2 <- listRet2$features
 df2 <- listRet2$df
 is_poetry2 <- listRet2$is_poetry

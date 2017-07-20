@@ -1,6 +1,6 @@
 library(tidyr)
 library(ggplot2)
-make_pic_comparison_lines <- function(filepath="C:/Users/Hege/Opiskelu/Kurssit/Gradu/Output",
+make_pic_comparison_lines <- function(filepath,
                                       inputfile_patterns=c(""), 
                                       fileprefix,
                                       parameter_names,

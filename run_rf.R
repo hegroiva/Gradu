@@ -60,7 +60,7 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
     
     # Get variable_importance and print it
     if (set_no == 1) {
-      png(filename = paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\output\\", filestem, "variable_importance_", set_no, ".png"))
+      png(filename = paste0(outputpath, "/", filestem, "variable_importance_", set_no, ".png"))
       varImpPlot(retRF2, sort=TRUE, main="Variable importance")                      
       dev.off()
     }
@@ -68,7 +68,7 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
     features2$is_poetry <- NULL
     prediction <- predict(retRF, features2)
     
-    #sink(file = paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\output\\", filestem ,"confusionMatrix_", set_no, ".txt"),
+    #sink(file = paste0(outputpath, "/", filestem ,"confusionMatrix_", set_no, ".txt"),
     #     append=FALSE)
     #print(paste0("Number of trees: ", ntree))
     #print(paste0("Features tried: ", mtry))
@@ -83,7 +83,7 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
     #matrices[[set_no]] <- cm
     gc()
   }
-  sink(file = paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\output\\", filestem ,"confusionMatrix_combined.txt"),
+  sink(file = paste0(outputpath, "/", filestem ,"confusionMatrix_combined.txt"),
        append=FALSE)
   
   aggregated_results <- aggregate_confusion_matrix(matrices)
@@ -92,7 +92,7 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
 #  for (matr in matrices) {
 #    print(cm)
 #    sink()
-#    sink(file = paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\output\\", filestem ,"confusionMatrix_combined.txt"),
+#    sink(file = paste0(outputpath, "/", filestem ,"confusionMatrix_combined.txt"),
 #         append=TRUE)
 #  }
 #  sink()

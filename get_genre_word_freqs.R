@@ -46,7 +46,7 @@ get_genre_word_freqs <- function(genre_titles, prefix, all_titles, exclude_title
       length(which(title==t))
     })
     fr <- as.data.frame(unlist(fr))
-    savefile <- paste0("C:\\Users\\Hege\\Opiskelu\\Kurssit\\Gradu\\word_freqs\\", prefix, "_", t, ".RDS", sep="")
+    savefile <- paste0(bu_path, "/word_freqs/", prefix, "_", t, ".RDS", sep="")
     saveRDS(fr, savefile)
     unlist(fr)
   })
