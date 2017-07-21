@@ -18,6 +18,7 @@ library(gbm)
 library(hmeasure)
 
 options(scipen=3)
+options(width=1000)
 
 if (Sys.info()["nodename"] == "MOOTTORI") {
   bu_path <- "C:/Users/Hege/Opiskelu/Kurssit/Gradu/"
