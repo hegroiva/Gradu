@@ -1,5 +1,6 @@
 run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
   matrices = list()
+  matrices_no_cutoff = list()
   for (set_no in 1:length(features.split)) {
     print(paste0("Starting run_random_forest round ", set_no, " at ", date()))
     # Get all except one portion as a training group
