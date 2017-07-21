@@ -7,6 +7,9 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
 
     # Precaution
     names(features) <- gsub(" ", "_", names(features))
+    # Change names for cforest
+    levels(features$is_poetry) <- gsub("FALSE", "NONPOETRY", levels(features$is_poetry))
+    levels(features$is_poetry) <- gsub("TRUE", "POETRY", levels(features$is_poetry))
     
     is_poetry <- rbindlist(features.split[-set_no], use.names=TRUE)$is_poetry
     features$is_poetry <- is_poetry
@@ -54,6 +57,9 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
     features2 <- rbindlist(features.split[set_no])
     # Precaution
     names(features2) <- gsub(" ", "_", names(features2))
+    # Change names for cforest
+    levels(features$is_poetry) <- gsub("FALSE", "NONPOETRY", levels(features$is_poetry))
+    levels(features$is_poetry) <- gsub("TRUE", "POETRY", levels(features$is_poetry))
     
     is_poetry2 <- features2$is_poetry
     #varNames_2 <- names(features2)[!names(features2) %in% c("is_poetry")]
