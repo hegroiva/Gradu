@@ -4,6 +4,9 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
     print(paste0("Starting run_random_forest round ", set_no, " at ", date()))
     # Get all except one portion as a training group
     features <- rbindlist(features.split[-set_no], use.names=TRUE)
+
+    # Precaution
+    names(features) <- gsub(" ", "_", names(features))
     
     is_poetry <- rbindlist(features.split[-set_no], use.names=TRUE)$is_poetry
     features$is_poetry <- is_poetry
@@ -30,7 +33,7 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
                      metric="Hmeas",
                      verbose = FALSE)
     
-    varLists <- rfe(x=features, y=is_poetry, sizes=c(5,10,20), rfeControl = rfeControl(functions=rfFuncs))
+    #varLists <- rfe(x=features, y=is_poetry, sizes=c(5,10,20), rfeControl = rfeControl(functions=rfFuncs))
     retRF <- randomForest::randomForest(rfForm,
                                         features, 
                                         ntree=ntree, 
@@ -49,6 +52,9 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
     
     # Get the last portion as the test group
     features2 <- rbindlist(features.split[set_no])
+    # Precaution
+    names(features2) <- gsub(" ", "_", names(features2))
+    
     is_poetry2 <- features2$is_poetry
     #varNames_2 <- names(features2)[!names(features2) %in% c("is_poetry")]
     #varNames1_2 <- paste(varNames_2, collapse="+")
