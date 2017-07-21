@@ -38,35 +38,43 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
                                         mtry=mtry, 
                                         cutoff=c(1-ratio_is_poetry, ratio_is_poetry)
                                         )
+    retRF_no_cutoff <- randomForest::randomForest(rfForm,
+                                        features, 
+                                        ntree=ntree, 
+                                        importance=TRUE, 
+                                        mtry=mtry
+    )
 #                                        strata="is_poetry",
 #                                        sampsize=c(5000,500))
     
     # Get the last portion as the test group
     features2 <- rbindlist(features.split[set_no])
     is_poetry2 <- features2$is_poetry
-    varNames_2 <- names(features2)[!names(features2) %in% c("is_poetry")]
-    varNames1_2 <- paste(varNames_2, collapse="+")
-    rfForm2 <- as.formula(paste("is_poetry", varNames1_2, sep=" ~ "))
+    #varNames_2 <- names(features2)[!names(features2) %in% c("is_poetry")]
+    #varNames1_2 <- paste(varNames_2, collapse="+")
+    #rfForm2 <- as.formula(paste("is_poetry", varNames1_2, sep=" ~ "))
     
-    ratio_is_poetry <- length(which(features2$is_poetry==TRUE)) / length(features2$is_poetry==FALSE)
-    retRF2 <- randomForest::randomForest(rfForm2, 
-                                         features2, 
-                                         ntree=ntree, 
-                                         importance=TRUE, 
-                                         mtry=mtry,
-                                         #strata="is_poetry",
-                                         #sampsize=c(5000,500))
-                                         cutoff=c(1-ratio_is_poetry, ratio_is_poetry))
+    #ratio_is_poetry <- length(which(features2$is_poetry==TRUE)) / length(features2$is_poetry==FALSE)
+    #retRF2 <- randomForest::randomForest(rfForm2, 
+    #                                     features2, 
+    #                                     ntree=ntree, 
+    #                                     importance=TRUE, 
+    #                                     mtry=mtry,
+    #                                     #strata="is_poetry",
+    #                                     #sampsize=c(5000,500))
+    #                                     cutoff=c(1-ratio_is_poetry, ratio_is_poetry))
     
-    # Get variable_importance and print it
-    if (set_no == 1) {
-      png(filename = paste0(outputpath, "/", filestem, "variable_importance_", set_no, ".png"))
-      varImpPlot(retRF2, sort=TRUE, main="Variable importance")                      
-      dev.off()
-    }
+    ## Get variable_importance and print it
+    #if (set_no == 1) {
+    #  png(filename = paste0(outputpath, "/", filestem, "variable_importance_", set_no, ".png"))
+    #  varImpPlot(retRF2, sort=TRUE, main="Variable importance")                      
+    #  dev.off()
+    #}
     # Get prediction
     features2$is_poetry <- NULL
     prediction <- predict(retRF, features2)
+    
+    prediction_no_cutoff <- predict(retRF_no_cutoff, features2)
     
     #sink(file = paste0(outputpath, "/", filestem ,"confusionMatrix_", set_no, ".txt"),
     #     append=FALSE)
@@ -74,6 +82,9 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
     #print(paste0("Features tried: ", mtry))
     cm <- confusionMatrix(data=prediction, reference=is_poetry2, positive="TRUE")
     matrices[[set_no]] <- cm
+    
+    cm_no_cutoff <- confusionMatrix(data=prediction_no_cutoff, reference=is_poetry2, positive="TRUE")
+    matrices_no_cutoff[[set_no]] <- cm_no_cutoff
     #cm2 <- table(prediction, is_poetry2)
     #print(cm)
     #print(cm2)
@@ -88,6 +99,13 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
   
   aggregated_results <- aggregate_confusion_matrix(matrices)
   print(aggregated_results)
+  sink()
+  
+  sink(file = paste0(outputpath, "/", filestem ,"confusionMatrix_combined_no_cutoff.txt"),
+       append=FALSE)
+  
+  aggregated_results_no_cutoff <- aggregate_confusion_matrix(matrices_no_cutoff)
+  print(aggregated_results_no_cutoff)
   sink()
 #  for (matr in matrices) {
 #    print(cm)

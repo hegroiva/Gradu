@@ -658,3 +658,64 @@ qqq <- run_caret_rf_once(df=df, features=feats_poetry_whole_title200, filenamest
 feats_poetry_whole_title300 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title300_20170618.RDS"))
 qqq <- run_caret_rf_once(df=df, features=feats_poetry_whole_title300, filenamestem = "Poetry300_20170619b", get_pairwise_comparison = TRUE)
 
+
+# Back in Helsinki
+# Start with mtry & ntree variants
+feats_poetry_whole_title25 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title25_20170618.RDS"))
+qqq <- run_rf_once(df=df, features=feats25, language="eng", filenamestem = "poetry25_ntree250_mtry5", ntree = 250, mtry=5)
+qqq <- run_rf_once(df=df, features=feats25, language="eng", filenamestem = "poetry25_ntree250_mtry10", ntree = 250, mtry=10)
+qqq <- run_rf_once(df=df, features=feats25, language="eng", filenamestem = "poetry25_ntree250_mtry15", ntree = 250, mtry=15)
+qqq <- run_rf_once(df=df, features=feats25, language="eng", filenamestem = "poetry25_ntree500_mtry5", ntree = 500, mtry=5)
+qqq <- run_rf_once(df=df, features=feats25, language="eng", filenamestem = "poetry25_ntree500_mtry10", ntree = 500, mtry=10)
+qqq <- run_rf_once(df=df, features=feats25, language="eng", filenamestem = "poetry25_ntree500_mtry15", ntree = 500, mtry=15)
+qqq <- run_rf_once(df=df, features=feats25, language="eng", filenamestem = "poetry25_ntree750_mtry5", ntree = 750, mtry=5)
+qqq <- run_rf_once(df=df, features=feats25, language="eng", filenamestem = "poetry25_ntree750_mtry10", ntree = 750, mtry=10)
+qqq <- run_rf_once(df=df, features=feats25, language="eng", filenamestem = "poetry25_ntree750_mtry15", ntree = 750, mtry=15)
+
+feats_poetry_whole_title50 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title50_20170618.RDS"))
+qqq <- run_rf_once(df=df, features=feats50, language="eng", filenamestem = "poetry50_ntree250_mtry5", ntree = 250, mtry=5)
+qqq <- run_rf_once(df=df, features=feats50, language="eng", filenamestem = "poetry50_ntree250_mtry10", ntree = 250, mtry=10)
+qqq <- run_rf_once(df=df, features=feats50, language="eng", filenamestem = "poetry50_ntree250_mtry15", ntree = 250, mtry=15)
+qqq <- run_rf_once(df=df, features=feats50, language="eng", filenamestem = "poetry50_ntree500_mtry5", ntree = 500, mtry=5)
+qqq <- run_rf_once(df=df, features=feats50, language="eng", filenamestem = "poetry50_ntree500_mtry10", ntree = 500, mtry=10)
+qqq <- run_rf_once(df=df, features=feats50, language="eng", filenamestem = "poetry50_ntree500_mtry15", ntree = 500, mtry=15)
+qqq <- run_rf_once(df=df, features=feats50, language="eng", filenamestem = "poetry50_ntree750_mtry5", ntree = 750, mtry=5)
+qqq <- run_rf_once(df=df, features=feats50, language="eng", filenamestem = "poetry50_ntree750_mtry10", ntree = 750, mtry=10)
+qqq <- run_rf_once(df=df, features=feats50, language="eng", filenamestem = "poetry50_ntree750_mtry15", ntree = 750, mtry=15)
+
+feats_poetry_whole_title100 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title100_20170618.RDS"))
+qqq <- run_rf_once(df=df, features=feats100, language="eng", filenamestem = "poetry100_ntree250_mtry5", ntree = 250, mtry=5)
+qqq <- run_rf_once(df=df, features=feats100, language="eng", filenamestem = "poetry100_ntree250_mtry10", ntree = 250, mtry=10)
+qqq <- run_rf_once(df=df, features=feats100, language="eng", filenamestem = "poetry100_ntree250_mtry15", ntree = 250, mtry=15)
+qqq <- run_rf_once(df=df, features=feats100, language="eng", filenamestem = "poetry100_ntree500_mtry5", ntree = 500, mtry=5)
+qqq <- run_rf_once(df=df, features=feats100, language="eng", filenamestem = "poetry100_ntree500_mtry10", ntree = 500, mtry=10)
+qqq <- run_rf_once(df=df, features=feats100, language="eng", filenamestem = "poetry100_ntree500_mtry15", ntree = 500, mtry=15)
+qqq <- run_rf_once(df=df, features=feats100, language="eng", filenamestem = "poetry100_ntree750_mtry5", ntree = 750, mtry=5)
+qqq <- run_rf_once(df=df, features=feats100, language="eng", filenamestem = "poetry100_ntree750_mtry10", ntree = 750, mtry=10)
+qqq <- run_rf_once(df=df, features=feats100, language="eng", filenamestem = "poetry100_ntree750_mtry15", ntree = 750, mtry=15)
+
+feats_poetry_whole_title200 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title200_20170618.RDS"))
+qqq <- run_rf_once(df=df, features=feats200, language="eng", filenamestem = "poetry200_ntree250_mtry5", ntree = 250, mtry=5)
+qqq <- run_rf_once(df=df, features=feats200, language="eng", filenamestem = "poetry200_ntree250_mtry10", ntree = 250, mtry=10)
+qqq <- run_rf_once(df=df, features=feats200, language="eng", filenamestem = "poetry200_ntree250_mtry15", ntree = 250, mtry=15)
+qqq <- run_rf_once(df=df, features=feats200, language="eng", filenamestem = "poetry200_ntree500_mtry5", ntree = 500, mtry=5)
+qqq <- run_rf_once(df=df, features=feats200, language="eng", filenamestem = "poetry200_ntree500_mtry10", ntree = 500, mtry=10)
+qqq <- run_rf_once(df=df, features=feats200, language="eng", filenamestem = "poetry200_ntree500_mtry15", ntree = 500, mtry=15)
+qqq <- run_rf_once(df=df, features=feats200, language="eng", filenamestem = "poetry200_ntree750_mtry5", ntree = 750, mtry=5)
+qqq <- run_rf_once(df=df, features=feats200, language="eng", filenamestem = "poetry200_ntree750_mtry10", ntree = 750, mtry=10)
+qqq <- run_rf_once(df=df, features=feats200, language="eng", filenamestem = "poetry200_ntree750_mtry15", ntree = 750, mtry=15)
+
+feats_poetry_whole_title300 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title300_20170618.RDS"))
+qqq <- run_rf_once(df=df, features=feats300, language="eng", filenamestem = "poetry300_ntree250_mtry5", ntree = 250, mtry=5)
+qqq <- run_rf_once(df=df, features=feats300, language="eng", filenamestem = "poetry300_ntree250_mtry10", ntree = 250, mtry=10)
+qqq <- run_rf_once(df=df, features=feats300, language="eng", filenamestem = "poetry300_ntree250_mtry15", ntree = 250, mtry=15)
+qqq <- run_rf_once(df=df, features=feats300, language="eng", filenamestem = "poetry300_ntree500_mtry5", ntree = 500, mtry=5)
+qqq <- run_rf_once(df=df, features=feats300, language="eng", filenamestem = "poetry300_ntree500_mtry10", ntree = 500, mtry=10)
+qqq <- run_rf_once(df=df, features=feats300, language="eng", filenamestem = "poetry300_ntree500_mtry15", ntree = 500, mtry=15)
+qqq <- run_rf_once(df=df, features=feats300, language="eng", filenamestem = "poetry300_ntree750_mtry5", ntree = 750, mtry=5)
+qqq <- run_rf_once(df=df, features=feats300, language="eng", filenamestem = "poetry300_ntree750_mtry10", ntree = 750, mtry=10)
+qqq <- run_rf_once(df=df, features=feats300, language="eng", filenamestem = "poetry300_ntree750_mtry15", ntree = 750, mtry=15)
+
+
+
+
