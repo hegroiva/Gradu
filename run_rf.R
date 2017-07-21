@@ -28,13 +28,13 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
                          returnData=FALSE,
                          savePredictions=FALSE)
     
-    rf_Tune <- train(is_poetry ~ ., 
-                     data = features,method = "rf",
-                     trControl = ctrl,
-                     preProc =c(),
-                     #tuneLength = 15,
-                     metric="Hmeas",
-                     verbose = FALSE)
+    #rf_Tune <- train(is_poetry ~ ., 
+    #                 data = features,method = "rf",
+    #                 trControl = ctrl,
+    #                 preProc =c(),
+    #                 #tuneLength = 15,
+    #                 metric="Hmeas",
+    #                 verbose = FALSE)
     
     #varLists <- rfe(x=features, y=is_poetry, sizes=c(5,10,20), rfeControl = rfeControl(functions=rfFuncs))
     retRF <- randomForest::randomForest(rfForm,
