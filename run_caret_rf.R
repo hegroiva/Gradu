@@ -1,6 +1,13 @@
 library(caret)
 source("hmeasureCaret.R")
-run_caret_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_pairwise_comparison=TRUE, get_rfe=TRUE) {
+run_caret_rf <- function(features.split, 
+                         filestem="", 
+                         ntree=500, 
+                         mtry=5, 
+                         get_pairwise_comparison=TRUE, 
+                         get_varImp=TRUE, 
+                         get_rfe=TRUE, 
+                         get_prediction=FALSE) {
   matrices = list()
 
   custom_rf_method <- add_customized_rf_model()
@@ -116,49 +123,51 @@ run_caret_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_pai
       sink()
     }
     
-    varNames <- names(features)[!names(features) %in% c("is_poetry")]
-    varNames1 <- paste(varNames, collapse="+")
-    rfForm <- as.formula(paste("is_poetry", varNames1, sep=" ~ "))
-    ratio_is_poetry <- length(which(features$is_poetry=="POETRY")) / nrow(features)
+    if (get_varImp) {
+      varNames <- names(features)[!names(features) %in% c("is_poetry")]
+      varNames1 <- paste(varNames, collapse="+")
+      rfForm <- as.formula(paste("is_poetry", varNames1, sep=" ~ "))
+      ratio_is_poetry <- length(which(features$is_poetry=="POETRY")) / nrow(features)
     
     
-    retRF <- randomForest::randomForest(rfForm,
-                                        features, 
-                                        ntree=ntree, 
-                                        importance=TRUE, 
-                                        mtry=mtry, 
-                                        cutoff=c(1-ratio_is_poetry, ratio_is_poetry)
-                                        )
-    retRF_no_cutoff <- randomForest::randomForest(rfForm,
-                                        features, 
-                                        ntree=ntree, 
-                                        importance=TRUE, 
-                                        mtry=mtry 
-                                        #cutoff=c(1-ratio_is_poetry, ratio_is_poetry)
-                                        )
+      retRF <- randomForest::randomForest(rfForm,
+                                          features, 
+                                          ntree=ntree, 
+                                          importance=TRUE, 
+                                          mtry=mtry, 
+                                          cutoff=c(1-ratio_is_poetry, ratio_is_poetry)
+                                          )
+      retRF_no_cutoff <- randomForest::randomForest(rfForm,
+                                          features, 
+                                          ntree=ntree, 
+                                          importance=TRUE, 
+                                          mtry=mtry 
+                                          #cutoff=c(1-ratio_is_poetry, ratio_is_poetry)
+                                          )
     
     
-    if (set_no==1) {
-      print(paste0("...start caret::varImp at ", date()))
-      imp2 <- randomForest::importance(retRF)
-      imp3 <- caret::varImp(retRF, scale=FALSE)
+      if (set_no==1) {
+        print(paste0("...start caret::varImp at ", date()))
+        imp2 <- randomForest::importance(retRF)
+        imp3 <- caret::varImp(retRF, scale=FALSE)
       
-      imp2_no_cutoff <- randomForest::importance(retRF_no_cutoff)
-      imp3_no_cutoff <- caret::varImp(retRF_no_cutoff, scale=FALSE)
+        imp2_no_cutoff <- randomForest::importance(retRF_no_cutoff)
+        imp3_no_cutoff <- caret::varImp(retRF_no_cutoff, scale=FALSE)
       
-      sink(file = paste0(outputpath, "/", filestem, "_variable_importance_randomForest.txt"))
-      print(imp2)
-      sink()
-      sink(file = paste0(outputpath, "/", filestem, "_variable_importance_caret.txt"))
-      print(imp3)
-      sink()
+        sink(file = paste0(outputpath, "/", filestem, "_variable_importance_randomForest.txt"))
+        print(imp2)
+        sink()
+        sink(file = paste0(outputpath, "/", filestem, "_variable_importance_caret.txt"))
+        print(imp3)
+        sink()
       
-      sink(file = paste0(outputpath, "/", filestem, "_variable_importance_randomForest_no_cut.txt"))
-      print(imp2_no_cutoff)
-      sink()
-      sink(file = paste0(outputpath, "/", filestem, "_variable_importance_caret_no_cut.txt"))
-      print(imp3_no_cutoff)
-      sink()
+        sink(file = paste0(outputpath, "/", filestem, "_variable_importance_randomForest_no_cut.txt"))
+        print(imp2_no_cutoff)
+        sink()
+        sink(file = paste0(outputpath, "/", filestem, "_variable_importance_caret_no_cut.txt"))
+        print(imp3_no_cutoff)
+        sink()
+      }
     }
     
     if (get_rfe & set_no==1) {
@@ -171,51 +180,57 @@ run_caret_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_pai
       sink()
     }
     
-    varNames_2 <- names(features2)[!names(features2) %in% c("is_poetry")]
-    varNames1_2 <- paste(varNames_2, collapse="+")
-    rfForm2 <- as.formula(paste("is_poetry", varNames1_2, sep=" ~ "))
+    if (get_varImp || get_prediction) {
+      varNames_2 <- names(features2)[!names(features2) %in% c("is_poetry")]
+      varNames1_2 <- paste(varNames_2, collapse="+")
+      rfForm2 <- as.formula(paste("is_poetry", varNames1_2, sep=" ~ "))
     
-    ratio_is_poetry <- length(which(features2$is_poetry=="POETRY")) / nrow(features2)
-    retRF2 <- randomForest::randomForest(rfForm2, 
-                                         features2, 
-                                         ntree=ntree, 
-                                         importance=TRUE, 
-                                         mtry=mtry,
-                                         #strata="is_poetry",
-                                         #sampsize=c(5000,500))
-                                         cutoff=c(1-ratio_is_poetry, ratio_is_poetry))
+      ratio_is_poetry <- length(which(features2$is_poetry=="POETRY")) / nrow(features2)
+      retRF2 <- randomForest::randomForest(rfForm2, 
+                                           features2, 
+                                           ntree=ntree, 
+                                           importance=TRUE, 
+                                           mtry=mtry,
+                                           #strata="is_poetry",
+                                           #sampsize=c(5000,500))
+                                           cutoff=c(1-ratio_is_poetry, ratio_is_poetry))
     
-    # Get variable_importance and print it
-    if (set_no == 1) {
-      png(filename = paste0(outputpath, "/", filestem, "variable_importance_", set_no, ".png"))
-      varImpPlot(retRF2, sort=TRUE, main="Variable importance")                      
-      dev.off()
+      # Get variable_importance and print it
+      if (set_no == 1 && get_varImp) {
+        png(filename = paste0(outputpath, "/", filestem, "variable_importance_", set_no, ".png"))
+        varImpPlot(retRF2, sort=TRUE, main="Variable importance")                      
+        dev.off()
+      }
+      if (get_prediction) {
+        # Get prediction
+        features2$is_poetry <- NULL
+        prediction <- predict(retRF, features2)
+    
+        #sink(file = paste0(output", "/", filestem ,"confusionMatrix_", set_no, ".txt"),
+        #     append=FALSE)
+        #print(paste0("Number of trees: ", ntree))
+        #print(paste0("Features tried: ", mtry))
+        cm <- confusionMatrix(data=prediction, reference=is_poetry2, positive="POETRY")
+        matrices[[set_no]] <- cm
+        #cm2 <- table(prediction, is_poetry2)
+        #print(cm)
+        #print(cm2)
+        #print("--------------------------------------------------------------------------------------------")
+        #print(date())
+        #sink()
+        #matrices[[set_no]] <- cm
+      }
     }
-    # Get prediction
-    features2$is_poetry <- NULL
-    prediction <- predict(retRF, features2)
-    
-    #sink(file = paste0(output", "/", filestem ,"confusionMatrix_", set_no, ".txt"),
-    #     append=FALSE)
-    #print(paste0("Number of trees: ", ntree))
-    #print(paste0("Features tried: ", mtry))
-    cm <- confusionMatrix(data=prediction, reference=is_poetry2, positive="POETRY")
-    matrices[[set_no]] <- cm
-    #cm2 <- table(prediction, is_poetry2)
-    #print(cm)
-    #print(cm2)
-    #print("--------------------------------------------------------------------------------------------")
-    #print(date())
-    #sink()
-    #matrices[[set_no]] <- cm
     gc()
   }
-  sink(file = paste0(outputpath, "/", filestem ,"confusionMatrix_combined.txt"),
-       append=FALSE)
+  if (get_prediction) {
+    sink(file = paste0(outputpath, "/", filestem ,"confusionMatrix_combined.txt"),
+         append=FALSE)
   
-  aggregated_results <- aggregate_confusion_matrix(matrices)
-  print(aggregated_results)
-  sink()
+    aggregated_results <- aggregate_confusion_matrix(matrices)
+    print(aggregated_results)
+    sink()
+  }
   #  for (matr in matrices) {
   #    print(cm)
   #    sink()
@@ -223,6 +238,7 @@ run_caret_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_pai
   #         append=TRUE)
   #  }
   #  sink()
-  return(aggregated_results)
+  #return(aggregated_results)
+  return()
   #cm2
 }

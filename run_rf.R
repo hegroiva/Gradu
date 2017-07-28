@@ -1,4 +1,4 @@
-run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
+run_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_cutoff=FALSE) {
   matrices = list()
   matrices_no_cutoff = list()
   for (set_no in 1:length(features.split)) {
@@ -38,13 +38,16 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
     #                 verbose = FALSE)
     
     #varLists <- rfe(x=features, y=is_poetry, sizes=c(5,10,20), rfeControl = rfeControl(functions=rfFuncs))
-    retRF <- randomForest::randomForest(rfForm,
-                                        features, 
-                                        ntree=ntree, 
-                                        importance=TRUE, 
-                                        mtry=mtry, 
-                                        cutoff=c(1-ratio_is_poetry, ratio_is_poetry)
-                                        )
+    if (get_cutoff) {
+      retRF <- randomForest::randomForest(rfForm,
+                                          features, 
+                                          ntree=ntree, 
+                                          importance=TRUE, 
+                                          mtry=mtry, 
+                                          cutoff=c(1-ratio_is_poetry, ratio_is_poetry)
+                                          )
+    }
+    
     retRF_no_cutoff <- randomForest::randomForest(rfForm,
                                         features, 
                                         ntree=ntree, 
@@ -85,7 +88,11 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
     #}
     # Get prediction
     features2$is_poetry <- NULL
-    prediction <- predict(retRF, features2)
+    if (get_cutoff) {
+      prediction <- predict(retRF, features2)
+      cm <- confusionMatrix(data=prediction, reference=is_poetry2, positive="TRUE")
+      matrices[[set_no]] <- cm
+    }
     
     prediction_no_cutoff <- predict(retRF_no_cutoff, features2)
     
@@ -93,8 +100,6 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
     #     append=FALSE)
     #print(paste0("Number of trees: ", ntree))
     #print(paste0("Features tried: ", mtry))
-    cm <- confusionMatrix(data=prediction, reference=is_poetry2, positive="TRUE")
-    matrices[[set_no]] <- cm
     
     cm_no_cutoff <- confusionMatrix(data=prediction_no_cutoff, reference=is_poetry2, positive="TRUE")
     matrices_no_cutoff[[set_no]] <- cm_no_cutoff
@@ -107,12 +112,15 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
     #matrices[[set_no]] <- cm
     gc()
   }
-  sink(file = paste0(outputpath, "/", filestem ,"confusionMatrix_combined.txt"),
-       append=FALSE)
   
-  aggregated_results <- aggregate_confusion_matrix(matrices)
-  print(aggregated_results)
-  sink()
+  if (get_cutoff) {
+    sink(file = paste0(outputpath, "/", filestem ,"confusionMatrix_combined.txt"),
+         append=FALSE)
+  
+    aggregated_results <- aggregate_confusion_matrix(matrices)
+    print(aggregated_results)
+    sink()
+  }
   
   sink(file = paste0(outputpath, "/", filestem ,"confusionMatrix_combined_no_cutoff.txt"),
        append=FALSE)
@@ -127,6 +135,6 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5) {
 #         append=TRUE)
 #  }
 #  sink()
-  return(aggregated_results)
+  return(aggregated_results_no_cutoff)
   #cm2
 }

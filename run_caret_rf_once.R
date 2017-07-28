@@ -1,5 +1,15 @@
 #run_rf_once <- function(df, features, filenamestem, language="eng", ntree=500, mtry=5) {
-run_caret_rf_once <- function(df, features, filenamestem, language="eng", ntree=500, mtry=5, get_pairwise_comparison=TRUE, get_rfe=TRUE) {
+run_caret_rf_once <- function(df, 
+                              features, 
+                              filenamestem, 
+                              language="eng", 
+                              ntree=500, 
+                              mtry=5, 
+                              get_pairwise_comparison=TRUE, 
+                              get_varImp=TRUE,
+                              get_rfe=TRUE,
+                              get_prediction=FALSE
+                              ) {
   
   feats <- features[which(df$language==language & df$genre!=""),]
   
@@ -25,8 +35,10 @@ run_caret_rf_once <- function(df, features, filenamestem, language="eng", ntree=
                                               filestem = paste0(filenamestem, "_"),
                                               ntree=ntree, 
                                               mtry=mtry,
-                                              get_pairwise_comparison = get_pairwise_comparison,
-                                              get_rfe=get_rfe
+                                              get_pairwise_comparison=get_pairwise_comparison,
+                                              get_varImp = get_varImp,
+                                              get_rfe=get_rfe,
+                                              get_prediction=get_prediction
                                     )
       aggr[["TOTAL"]] <- t(as.data.frame(aggregated_results[,"total"]))
       rownames(aggr) <- rownames(aggregated_results)

@@ -16,13 +16,14 @@ library(rpart)
 library(RWeka)
 library(gbm)
 library(hmeasure)
+library(gtools)
 
 options(scipen=3)
 options(width=1000)
 
 if (Sys.info()["nodename"] == "MOOTTORI") {
   bu_path <- "C:/Users/Hege/Opiskelu/Kurssit/Gradu/"
-  outputpath <- "C:Users/Hege/Opiskelu/Kurssit/Gradu/Output"
+  outputpath <- "C:/Users/Hege/Opiskelu/Kurssit/Gradu/Output"
   codepath <- "C:/Users/Hege/Documents/GitHub/Gradu"
   setwd(codepath)
 } else if (Sys.info()["nodename"] =="LH6-FHKT3") {
