@@ -910,3 +910,9 @@ qqq <- run_rf_once(df=df, features=feats_pos_500per1000_title_only, filenamestem
 feats_pos_500per1000_title_only <- NULL
 
 
+# TODO: 
+# 1) Check results between whole_title and title_only
+# 2) Get varimps from 1-5 best in a winning category
+# 3) Check varimps and possible collect the winners
+
+
