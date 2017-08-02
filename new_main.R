@@ -921,3 +921,118 @@ make_pic_comparison_lines(filepath=outputpath,
                           legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
                           x_tick_labels = c("50", "100", "200"), 
                           legend_title_parentheses=c("Method 1", "Method 2"))
+
+# PIC OF ALT VS REGULAR INCLUDING TITLE ONLY
+make_pic_comparison_lines(filepath=outputpath, 
+                          inputfile_patterns = c("poetry((50)|(100)|(200))_ntree250_mtry5_.*combined_no_cutoff.txt",
+                                                 "poetry((50)|(100)|(200))_whole_title_alt_ntree250_mtry5_.*combined_no_cutoff.txt",
+                                                 "poetry((50)|(100)|(200))_title_only_alt_ntree250_mtry5_.*combined_no_cutoff.txt") , 
+                          parameter_names = c("precision", "recall", "balanced_accuracy"), 
+                          outputfile = "Effect of different methods in deciding the poetry words incl title only", 
+                          main_title = "Effect of different methods for deciding the poetry words, ntree = 250, mtry=5", 
+                          sub_title = "Features: 50, 100, 200 most common words in poetry book titles",
+                          x_title = "", 
+                          legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
+                          x_tick_labels = c("50", "100", "200"), 
+                          legend_title_parentheses=c("Method 1", "Method 2", "Method 3"))
+
+
+# PIC OF POS TRIGRAMS: WHOLE TITLE vs. TITLE ONLY
+make_pic_comparison_lines(filepath=outputpath, 
+                          inputfile_patterns = c("pos_((50per50)|(100per100)|(200per200)|(500per500))_whole_title_.*combined_no_cutoff.txt",
+                                                 "pos_((50per50)|(100per100)|(200per200)|(500per500))_title_only_.*combined_no_cutoff.txt") , 
+                          parameter_names = c("precision", "recall", "balanced_accuracy"), 
+                          outputfile = "Effect of title definition on POS trigrams", 
+                          main_title = "Effect of title definition on POS trigrams, ntree = 250, mtry=5", 
+                          sub_title = "Features: 50, 100, 200 most common POS trigrams",
+                          x_title = "", 
+                          legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
+                          x_tick_labels = c("50/50", "100/100", "200/200", "500/500"), 
+                          legend_title_parentheses=c("Whole title", "Title only"))
+
+
+# AGAIN: poetry alt whole title & title only
+feats200_whole_title_alt <- readRDS(paste0(bu_path, "/feats_poetry_whole_title_alt_200_20170531.RDS"))
+feats100_whole_title_alt <- readRDS(paste0(bu_path, "/feats_poetry_whole_title_alt_100_20170531.RDS"))
+feats50_whole_title_alt <- readRDS(paste0(bu_path, "/feats_poetry_whole_title_alt_50_20170531.RDS"))
+
+feats200_title_only_alt <- readRDS(paste0(bu_path, "/feats_poetry_title_only_alt_200_20170531.RDS"))
+feats100_title_only_alt <- readRDS(paste0(bu_path, "/feats_poetry_title_only_alt_100_20170531.RDS"))
+feats50_title_only_alt <- readRDS(paste0(bu_path, "/feats_poetry_title_only_alt_50_20170531.RDS"))
+
+
+# REDO with mtry10
+# poetry50 whole title alt
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats50_whole_title_alt, 
+                         filenamestem="poetry50caret_whole_title_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = FALSE,
+                         get_varImp = FALSE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+qqq <- run_rf_once(df=df, features=feats50_whole_title_alt, filenamestem="poetry50_whole_title_alt_ntree250_mtry10", ntree=250, mtry=10)
+
+# poetry100 whole title alt
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats100_whole_title_alt, 
+                         filenamestem="poetry100caret_whole_title_alt_ntree250_mtry10", 
+                         ntree=250,
+                         mtry=10,
+                         get_pairwise_comparison = FALSE,
+                         get_varImp = FALSE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+qqq <- run_rf_once(df=df, features=feats100_whole_title_alt, filenamestem="poetry100_whole_title_alt_ntree250_mtry10", ntree=250, mtry=10)
+
+# poetry200 whole title alt
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats200_whole_title_alt, 
+                         filenamestem="poetry200caret_whole_title_alt_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = FALSE,
+                         get_varImp = FALSE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+qqq <- run_rf_once(df=df, features=feats200_whole_title_alt, filenamestem="poetry200_whole_title_alt_ntree250_mtry10", ntree=250, mtry=10)
+
+
+
+
+# poetry50 title only alt
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats50_title_only_alt, 
+                         filenamestem="poetry50caret_title_only_ntree250_mtry10", 
+                         ntree=250,
+                         mtry=10,
+                         get_pairwise_comparison = FALSE,
+                         get_varImp = FALSE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+qqq <- run_rf_once(df=df, features=feats50_title_only_alt, filenamestem="poetry50_title_only_alt_ntree250_mtry10", ntree=250, mtry=10)
+
+# poetry100 title only alt
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats100_title_only_alt, 
+                         filenamestem="poetry100caret_title_only_alt_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = FALSE,
+                         get_varImp = FALSE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+qqq <- run_rf_once(df=df, features=feats100_title_only_alt, filenamestem="poetry100_title_only_alt_ntree250_mtry10", ntree=250, mtry=10)
+
+# poetry200 title only alt
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats200_title_only_alt, 
+                         filenamestem="poetry200caret_title_only_alt_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = FALSE,
+                         get_varImp = FALSE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+qqq <- run_rf_once(df=df, features=feats200_title_only_alt, filenamestem="poetry200_title_only_alt_ntree250_mtry10", ntree=250, mtry=10)
