@@ -1036,3 +1036,112 @@ qqq <- run_caret_rf_once(df=df,
                          get_rfe = FALSE,
                          get_prediction = FALSE)
 qqq <- run_rf_once(df=df, features=feats200_title_only_alt, filenamestem="poetry200_title_only_alt_ntree250_mtry10", ntree=250, mtry=10)
+
+
+
+# Get the feature sets from poetry alt 25 & 300
+
+poetry_inds <- which(feats_pos_500per1000$is_poetry==TRUE)
+non_poetry_inds <- which(df$genre!="" & feats_pos_500per1000$is_poetry==FALSE)
+
+# Get top 25 (whole title)
+feats_poetry_whole_title25 <- get_genre_word_freqs_alt(df$whole_title_sans_edition[poetry_inds], 
+                                                       prefix="poetry_alt", all_titles=df$whole_title_sans_edition, 
+                                                       exclude_titles=df$whole_title_sans_edition[non_poetry_inds], 
+                                                       max_count=25)
+feats_poetry_whole_title25 <- cbind(feats_poetry_whole_title25, is_poetry=feats$is_poetry)
+feats_poetry_whole_title25$is_poetry <- feats_pos_500per1000$is_poetry
+saveRDS(feats_poetry_whole_title25, paste0(bu_path, "/feats_poetry_whole_title_alt_25_20170802.RDS"))
+
+# Get top 300 (whole title)
+feats_poetry_whole_title300 <- get_genre_word_freqs_alt(df$whole_title_sans_edition[poetry_inds], 
+                                                       prefix="poetry_alt", all_titles=df$whole_title_sans_edition, 
+                                                       exclude_titles=df$whole_title_sans_edition[non_poetry_inds], 
+                                                       max_count=300)
+feats_poetry_whole_title300 <- cbind(feats_poetry_whole_title300, is_poetry=feats$is_poetry)
+feats_poetry_whole_title300$is_poetry <- feats_pos_500per1000$is_poetry
+saveRDS(feats_poetry_whole_title300, paste0(bu_path, "/feats_poetry_whole_title_alt_300_20170802.RDS"))
+
+
+# Get top 25 (title only)
+feats_poetry_title_only25 <- get_genre_word_freqs_alt(df$title[poetry_inds], 
+                                                       prefix="poetry_alt", all_titles=df$title, 
+                                                       exclude_titles=df$title[non_poetry_inds], 
+                                                       max_count=25)
+feats_poetry_title_only25 <- cbind(feats_poetry_title_only25, is_poetry=feats$is_poetry)
+feats_poetry_title_only25$is_poetry <- feats_pos_500per1000$is_poetry
+saveRDS(feats_poetry_title_only25, paste0(bu_path, "/feats_poetry_title_only_alt_25_20170802.RDS"))
+
+# Get top 300 (title only)
+feats_poetry_title_only300 <- get_genre_word_freqs_alt(df$title[poetry_inds], 
+                                                        prefix="poetry_alt", all_titles=df$title, 
+                                                        exclude_titles=df$title[non_poetry_inds], 
+                                                        max_count=300)
+feats_poetry_title_only300 <- cbind(feats_poetry_title_only300, is_poetry=feats$is_poetry)
+feats_poetry_title_only300$is_poetry <- feats_pos_500per1000$is_poetry
+saveRDS(feats_poetry_title_only300, paste0(bu_path, "/feats_poetry_title_only_alt_300_20170802.RDS"))
+
+
+
+
+# Get the missing poetry 25 and 300
+# poetry25 title only alt
+feats25_title_only_alt <- readRDS(paste0(bu_path, "/feats_poetry_title_only_alt_25_20170802.RDS"))
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats25_title_only_alt, 
+                         filenamestem="poetry25caret_title_only_alt_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = FALSE,
+                         get_varImp = FALSE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+qqq <- run_rf_once(df=df, features=feats25_title_only_alt, filenamestem="poetry25_title_only_alt_ntree250_mtry10", ntree=250, mtry=10)
+qqq <- run_rf_once(df=df, features=feats25_title_only_alt, filenamestem="poetry25_title_only_alt_ntree250_mtry5", ntree=250, mtry=5)
+feats25_title_only_alt <- NULL
+
+# poetry300 title only alt
+feats300_title_only_alt <- readRDS(paste0(bu_path, "/feats_poetry_title_only_alt_300_20170802.RDS"))
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats300_title_only_alt, 
+                         filenamestem="poetry300caret_title_only_alt_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = FALSE,
+                         get_varImp = FALSE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+qqq <- run_rf_once(df=df, features=feats300_title_only_alt, filenamestem="poetry300_title_only_alt_ntree250_mtry10", ntree=250, mtry=10)
+qqq <- run_rf_once(df=df, features=feats300_title_only_alt, filenamestem="poetry300_title_only_alt_ntree250_mtry5", ntree=250, mtry=5)
+feats_poetry_title_only300 <- NULL
+
+
+# poetry25 whole title alt
+feats25_whole_title_alt <- readRDS(paste0(bu_path, "/feats_poetry_whole_title_alt_25_20170802.RDS"))
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats25_whole_title_alt, 
+                         filenamestem="poetry25caret_whole_title_alt_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = FALSE,
+                         get_varImp = FALSE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+qqq <- run_rf_once(df=df, features=feats25_whole_title_alt, filenamestem="poetry25_whole_title_alt_ntree250_mtry10", ntree=250, mtry=10)
+qqq <- run_rf_once(df=df, features=feats25_whole_title_alt, filenamestem="poetry25_whole_title_alt_ntree250_mtry5", ntree=250, mtry=5)
+feats25_whole_title_alt <- NULL
+
+# poetry300 title only alt
+feats300_whole_title_alt <- readRDS(paste0(bu_path, "/feats_poetry_whole_title_alt_300_20170802.RDS"))
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats300_whole_title_alt, 
+                         filenamestem="poetry300caret_whole_title_alt_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = FALSE,
+                         get_varImp = FALSE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+qqq <- run_rf_once(df=df, features=feats300_whole_title_alt, filenamestem="poetry300_whole_title_alt_ntree250_mtry10", ntree=250, mtry=10)
+qqq <- run_rf_once(df=df, features=feats300_whole_title_alt, filenamestem="poetry300_whole_title_alt_ntree250_mtry5", ntree=250, mtry=5)
+feats300_whole_title_alt <- NULL
