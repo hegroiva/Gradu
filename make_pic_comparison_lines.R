@@ -51,14 +51,18 @@ make_pic_comparison_lines <- function(filepath,
 
   # This is it
   outputfilepath <- paste0(filepath, "/", outputfile, ".png")
-  png(filename = outputfilepath, width = 200 * length(x_tick_labels))
+  png(filename = outputfilepath, width = (200 * length(x_tick_labels)) + 200)
   p <- ggplot(data=df, aes(x=n)) + 
     theme(legend.title=element_blank(), axis.title.x = element_text(size=18), axis.title.y = element_text(size=18),
           legend.text = element_text(size=14), 
           axis.text.x = element_text(size=12), 
           axis.text.y = element_text(size=12),
           plot.title = element_text(size=20),
-          plot.subtitle = element_text(size=14), legend.key.width = unit(3, "cm")
+          plot.subtitle = element_text(size=14), legend.key.width = unit(3, "cm"),
+          panel.grid.major = element_blank(),
+          panel.grid.minor = element_blank(),
+          panel.background = element_blank(),
+          axis.line = element_line(color="black")
     ) +
     scale_x_continuous(breaks=df$n, labels=x_tick_labels) +
     scale_y_continuous(labels=scales::percent) +
@@ -68,9 +72,9 @@ make_pic_comparison_lines <- function(filepath,
     
   for (j in 1:length(all_params)) {
     if (length(inputfile_patterns) > 1) {
-      p <- p + geom_line(aes_string(y=names(all_params)[j], col=shQuote(letters[j]), linetype=shQuote(letters[j])))
+      p <- p + geom_line(aes_string(y=names(all_params)[j], col=shQuote(letters[j]), linetype=shQuote(letters[j])), size=1.5)
     } else {
-      p <- p + geom_line(aes_string(y=names(all_params)[j], col=shQuote(override.colour[j])))
+      p <- p + geom_line(aes_string(y=names(all_params)[j], col=shQuote(override.colour[j])), size=1.5)
     }
   } 
   

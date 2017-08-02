@@ -85,7 +85,7 @@ source("run_caret_rf_once.R")
 source("add_customized_rf_model.R")
 source("hmeasureCaret.R")
 source("run_all_once.R")
-
+source("make_pic_comparison_lines.R")
 
 df <- readRDS(paste0(bu_path, "/df.20170609.RDS"))
 feats <- readRDS(paste0(bu_path, "/feats_poetry_whole_title100_20170515.RDS"))
