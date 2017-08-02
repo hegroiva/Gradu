@@ -751,12 +751,6 @@ feats200_title_only_alt <- readRDS(paste0(bu_path, "/feats_poetry_title_only_alt
 feats100_title_only_alt <- readRDS(paste0(bu_path, "/feats_poetry_title_only_alt_100_20170531.RDS"))
 feats50_title_only_alt <- readRDS(paste0(bu_path, "/feats_poetry_title_only_alt_50_20170531.RDS"))
 
-qqq <- run_rf_once(df=df, features=feats200, language="eng", filenamestem = "poetry200_ntree250_mtry5", ntree = 250, mtry=5)
-qqq <- run_rf_once(df=df, features=feats200, language="eng", filenamestem = "poetry200_ntree250_mtry5", ntree = 250, mtry=5)
-qqq <- run_rf_once(df=df, features=feats200, language="eng", filenamestem = "poetry200_ntree250_mtry5", ntree = 250, mtry=5)
-qqq <- run_rf_once(df=df, features=feats200, language="eng", filenamestem = "poetry200_ntree250_mtry5", ntree = 250, mtry=5)
-qqq <- run_rf_once(df=df, features=feats200, language="eng", filenamestem = "poetry200_ntree250_mtry5", ntree = 250, mtry=5)
-qqq <- run_rf_once(df=df, features=feats200, language="eng", filenamestem = "poetry200_ntree250_mtry5", ntree = 250, mtry=5)
 
 # poetry50 whole title alt
 qqq <- run_caret_rf_once(df=df, 
@@ -832,80 +826,80 @@ qqq <- run_rf_once(df=df, features=feats200_title_only_alt, filenamestem="poetry
 
 # REDO POS trigrams 2017-07-31
 # First phase: whole title
-feats_pos_50per50_whole_title <- readRDS(paste0(bu_path, "feats_pos_trigrams_50per50.RDS"))
+feats_pos_50per50_whole_title <- readRDS(paste0(bu_path, "/feats_pos_trigrams_50per50.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_50per50_whole_title, filenamestem="pos_50per50_whole_title_ntree250_mtry5", ntree=250)
 feats_pos_50per50_whole_title <- NULL
 
-feats_pos_50per100_whole_title <- readRDS(paste0(bu_path, "feats_pos_trigrams_50per100.RDS"))
+feats_pos_50per100_whole_title <- readRDS(paste0(bu_path, "/feats_pos_trigrams_50per100.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_50per100_whole_title, filenamestem="pos_50per100_whole_title_ntree250_mtry5", ntree=250)
 feats_pos_50per100_whole_title <- NULL
 
-feats_pos_100per50_whole_title <- readRDS(paste0(bu_path, "feats_pos_trigrams_100per50.RDS"))
+feats_pos_100per50_whole_title <- readRDS(paste0(bu_path, "/feats_pos_trigrams_100per50.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_100per50_whole_title, filenamestem="pos_100per50_whole_title_ntree250_mtry5", ntree=250)
 feats_pos_100per50_whole_title <- NULL
 
-feats_pos_100per100_whole_title <- readRDS(paste0(bu_path, "feats_pos_trigrams_100per100.RDS"))
+feats_pos_100per100_whole_title <- readRDS(paste0(bu_path, "/feats_pos_trigrams_100per100.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_100per100_whole_title, filenamestem="pos_100per100_whole_title_ntree250_mtry5", ntree=250)
 feats_pos_100per100_whole_title <- NULL
 
-feats_pos_100per200_whole_title <- readRDS(paste0(bu_path, "feats_pos_trigrams_100per200.RDS"))
+feats_pos_100per200_whole_title <- readRDS(paste0(bu_path, "/feats_pos_trigrams_100per200.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_100per200_whole_title, filenamestem="pos_100per20_whole_title_ntree250_mtry5", ntree=250)
 feats_pos_100per200_whole_title <- NULL
 
-feats_pos_200per200_whole_title <- readRDS(paste0(bu_path, "feats_pos_trigrams_200per200fixed.RDS"))
+feats_pos_200per200_whole_title <- readRDS(paste0(bu_path, "/feats_pos_trigrams_200per200fixed.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_200per200_whole_title, filenamestem="pos_200per200_whole_title_ntree250_mtry5", ntree=250)
 feats_pos_200per200_whole_title <- NULL
 
-feats_pos_200per500_whole_title <- readRDS(paste0(bu_path, "feats_pos_trigrams_200per500fixed.RDS"))
+feats_pos_200per500_whole_title <- readRDS(paste0(bu_path, "/feats_pos_trigrams_200per500fixed.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_200per500_whole_title, filenamestem="pos_200per500_whole_title_ntree250_mtry5", ntree=250)
 feats_pos_200per500_whole_title <- NULL
 
-feats_pos_500per500_whole_title <- readRDS(paste0(bu_path, "features_POS_trigrams_500per500.RDS"))
+feats_pos_500per500_whole_title <- readRDS(paste0(bu_path, "/features_POS_trigrams_500per500.RDS"))
 names(feats_pos_500per500_whole_title) <- str_replace_all(names(feats_pos_500per500_whole_title), " ", "_")
 saveRDS(feats_pos_500per500_whole_title, paste0(bu_path, "feats_pos_trigrams_500per500.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_500per500_whole_title, filenamestem="pos_500per500_whole_title_ntree250_mtry5", ntree=250)
 feats_pos_500per500_whole_title <- NULL
 
-feats_pos_500per1000_whole_title <- readRDS(paste0(bu_path, "feats_pos_trigrams_500per1000.RDS"))
+feats_pos_500per1000_whole_title <- readRDS(paste0(bu_path, "/feats_pos_trigrams_500per1000.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_500per1000_whole_title, filenamestem="pos_500per1000_whole_title_ntree250_mtry5", ntree=250)
 feats_pos_500per1000_whole_title <- NULL
 
 
 # REDO POS trigrams 2017-07-31
 # Second phase: title only
-feats_pos_50per50_title_only <- readRDS(paste0(bu_path, "feats_pos_trigrams_50per50_titles_only.RDS"))
+feats_pos_50per50_title_only <- readRDS(paste0(bu_path, "/feats_pos_trigrams_50per50_titles_only.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_50per50_title_only, filenamestem="pos_50per50_title_only_ntree250_mtry5", ntree=250)
 feats_pos_50per50_title_only <- NULL
 
-feats_pos_50per100_title_only <- readRDS(paste0(bu_path, "feats_pos_trigrams_50per100_titles_only.RDS"))
+feats_pos_50per100_title_only <- readRDS(paste0(bu_path, "/feats_pos_trigrams_50per100_titles_only.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_50per100_title_only, filenamestem="pos_50per100_title_only_ntree250_mtry5", ntree=250)
 feats_pos_50per100_title_only <- NULL
 
-feats_pos_100per50_title_only <- readRDS(paste0(bu_path, "feats_pos_trigrams_100per50_titles_only.RDS"))
+feats_pos_100per50_title_only <- readRDS(paste0(bu_path, "/feats_pos_trigrams_100per50_titles_only.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_100per50_title_only, filenamestem="pos_100per50_title_only_ntree250_mtry5", ntree=250)
 feats_pos_100per50_title_only <- NULL
 
-feats_pos_100per100_title_only <- readRDS(paste0(bu_path, "feats_pos_trigrams_100per100_titles_only.RDS"))
+feats_pos_100per100_title_only <- readRDS(paste0(bu_path, "/feats_pos_trigrams_100per100_titles_only.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_100per100_title_only, filenamestem="pos_100per100_title_only_ntree250_mtry5", ntree=250)
 feats_pos_100per100_title_only <- NULL
 
-feats_pos_100per200_title_only <- readRDS(paste0(bu_path, "feats_pos_trigrams_100per200_titles_only.RDS"))
+feats_pos_100per200_title_only <- readRDS(paste0(bu_path, "/feats_pos_trigrams_100per200_titles_only.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_100per200_title_only, filenamestem="pos_100per200_title_only_ntree250_mtry5", ntree=250)
 feats_pos_100per200_title_only <- NULL
 
-feats_pos_200per200_title_only <- readRDS(paste0(bu_path, "feats_pos_trigrams_200per200_titles_only.RDS"))
+feats_pos_200per200_title_only <- readRDS(paste0(bu_path, "/feats_pos_trigrams_200per200_titles_only.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_200per200_title_only, filenamestem="pos_200per200_title_only_ntree250_mtry5", ntree=250)
 feats_pos_200per200_title_only <- NULL
 
-feats_pos_200per500_title_only <- readRDS(paste0(bu_path, "feats_pos_trigrams_200per500_titles_only.RDS"))
+feats_pos_200per500_title_only <- readRDS(paste0(bu_path, "/feats_pos_trigrams_200per500_titles_only.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_200per500_title_only, filenamestem="pos_200per500_title_only_ntree250_mtry5", ntree=250)
 feats_pos_200per500_title_only <- NULL
 
-feats_pos_500per500_title_only <- readRDS(paste0(bu_path, "feats_pos_trigrams_500per500_titles_only.RDS"))
+feats_pos_500per500_title_only <- readRDS(paste0(bu_path, "/feats_pos_trigrams_500per500_titles_only.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_500per500_title_only, filenamestem="pos_500per500_title_only_ntree250_mtry5", ntree=250)
 feats_pos_500per500_title_only <- NULL
 
-feats_pos_500per1000_title_only <- readRDS(paste0(bu_path, "feats_pos_trigrams_500per1000_titles_only.RDS"))
+feats_pos_500per1000_title_only <- readRDS(paste0(bu_path, "/feats_pos_trigrams_500per1000_titles_only.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_500per1000_title_only, filenamestem="pos_500per1000_title_only_ntree250_mtry5", ntree=250)
 feats_pos_500per1000_title_only <- NULL
 
