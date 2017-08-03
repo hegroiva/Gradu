@@ -25,10 +25,11 @@ make_pic_comparison_lines <- function(filepath,
     rets[["pattern"]] <- aggregate_aggregated_cm(filepath=filepath, pattern=inputfile_patterns[i])
     params <- data.frame(matrix(ncol=length(parameter_names), nrow=length(rets[["pattern"]])),stringsAsFactors = FALSE)
     names(params) <- paste0(letters[i], "_", parameter_names)
-    #message(names(params))
+  
     for (param in parameter_names) {
       params[paste0(letters[i], "_", param)] <- as.numeric(t(rets[["pattern"]][param,]))
     }
+
     if (i == 1) {
       all_params <- params
     } else {
@@ -76,18 +77,18 @@ make_pic_comparison_lines <- function(filepath,
          subtitle=sub_title) 
     
   for (j in 1:length(all_params)) {
-    if (length(inputfile_patterns) > 1) {
-      p <- p + geom_line(aes_string(y=names(all_params)[j], col=shQuote(letters[j]), linetype=shQuote(letters[j])), size=1.5)
-    } else {
-      p <- p + geom_line(aes_string(y=names(all_params)[j], col=shQuote(override.colour[j])), size=1.5)
-    }
+      p <- p + geom_line(aes_string(y=names(all_params)[j], col=shQuote(letters[j]), linetype=shQuote(letters[j])), size=1.3)
   } 
   
   final_legend_labels <- character(length(legend_title_parentheses) * length(legend_labels))
   l <- 1
   for (j in 1:length(legend_title_parentheses)) {
     for (k in 1:length(legend_labels)) {
-      final_legend_labels[l] <- paste0(legend_labels[k], "  (", legend_title_parentheses[j], ")")
+      if (identical(legend_title_parentheses, c(""))) {
+        final_legend_labels[l] <- legend_labels[k]
+      } else {
+        final_legend_labels[l] <- paste0(legend_labels[k], "  (", legend_title_parentheses[j], ")")
+      }
       l <- l + 1
     }
   }
