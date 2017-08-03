@@ -10,7 +10,8 @@ make_pic_comparison_lines <- function(filepath,
                                       x_title="",
                                       y_title="",
                                       legend_labels=c(""),
-                                      x_tick_labels=c("")) {
+                                      x_tick_labels=c(""),
+                                      x_tick_breaks=c("")){
   # Check that there's a pattern declared
   if (identical(inputfile_patterns,c(""))) {
     message("Please fill in inputfile_patterns also.")
@@ -40,7 +41,11 @@ make_pic_comparison_lines <- function(filepath,
   #rownames(df_kpl) <- as.character(point_values)
   colnames(df_kpl) <- names(all_params)
   
-  row.names(df_kpl) <- 1:length(x_tick_labels)
+  if (!identical(x_tick_breaks, c(""))) {
+    row.names(df_kpl) <- x_tick_breaks
+  } else {
+    row.names(df_kpl) <- 1:length(x_tick_labels)
+  }
   df <- cbind(n=as.integer(row.names(df_kpl)), df_kpl)
   
   linetypes <- c("solid", "dashed", "dotted", "longdash", "twodash")[1:length(inputfile_patterns)]
