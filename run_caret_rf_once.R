@@ -28,8 +28,8 @@ run_caret_rf_once <- function(df,
   features.training.split <- split_training_set(features=features.training, parts=5)
   features.split <- features.training.split
     
-  aggr <- as.data.frame(matrix(nrow = 22, ncol = length(features)))
-  names(aggr) <- append(names(features[names(features)!="is_poetry"]), "TOTAL")
+  #aggr <- as.data.frame(matrix(nrow = 22, ncol = length(features)))
+  #names(aggr) <- append(names(features[names(features)!="is_poetry"]), "TOTAL")
   
   aggregated_results <- run_caret_rf(features.split=features.split, 
                                               filestem = paste0(filenamestem, "_"),
@@ -40,8 +40,8 @@ run_caret_rf_once <- function(df,
                                               get_rfe=get_rfe,
                                               get_prediction=get_prediction
                                     )
-      aggr[["TOTAL"]] <- t(as.data.frame(aggregated_results[,"total"]))
-      rownames(aggr) <- rownames(aggregated_results)
+      #aggr[["TOTAL"]] <- t(as.data.frame(aggregated_results[,"total"]))
+      #rownames(aggr) <- rownames(aggregated_results)
     #} 
   #}  
 #  means <- list()
@@ -58,5 +58,6 @@ run_caret_rf_once <- function(df,
 #  
 #  print(aggr)
 #  sink()
-  return(aggr)
+  #return(aggr)
+  return()
 }
