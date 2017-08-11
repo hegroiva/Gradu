@@ -102,9 +102,12 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_cutoff=FA
     #print(paste0("Features tried: ", mtry))
     
     cm_no_cutoff <- confusionMatrix(data=prediction_no_cutoff, reference=is_poetry2, positive="TRUE")
-    matrices_no_cutoff[[set_no]] <- cm_no_cutoff
-    #cm2 <- table(prediction, is_poetry2)
-    #print(cm)
+    cm_df <- convert_cm_to_df(cm_no_cutoff)
+    matrices_no_cutoff[[set_no]] <- cm_df
+    #cm2 <- table(prediction_no_cutoff, is_poetry2)
+    #print(prediction_no_cutoff)
+    #print("---")
+    #print(cm_no_cutoff)
     #print(cm2)
     #print("--------------------------------------------------------------------------------------------")
     #print(date())
@@ -113,6 +116,8 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_cutoff=FA
     gc()
   }
   
+  
+    
   if (get_cutoff) {
     sink(file = paste0(outputpath, "/", filestem ,"confusionMatrix_combined.txt"),
          append=FALSE)
@@ -125,7 +130,8 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_cutoff=FA
   sink(file = paste0(outputpath, "/", filestem ,"confusionMatrix_combined_no_cutoff.txt"),
        append=FALSE)
   
-  aggregated_results_no_cutoff <- aggregate_confusion_matrix(matrices_no_cutoff)
+  #aggregated_results_no_cutoff <- aggregate_confusion_matrix(matrices_no_cutoff)
+  aggregated_results_no_cutoff <- aggregate_cm_dynamically(matrices_no_cutoff)
   print(aggregated_results_no_cutoff)
   sink()
 #  for (matr in matrices) {

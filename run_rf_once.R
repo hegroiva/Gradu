@@ -42,8 +42,8 @@ run_rf_once <- function(df, features, filenamestem, language="eng", ntree=500, m
                                               filestem = paste0(filenamestem, "_"),
                                               ntree=ntree, 
                                               mtry=mtry)
-      aggr[["TOTAL"]] <- t(as.data.frame(aggregated_results[,"total"]))
-      rownames(aggr) <- rownames(aggregated_results)
+      #aggr[["TOTAL"]] <- t(as.data.frame(aggregated_results[,"total"]))
+      #rownames(aggr) <- rownames(aggregated_results)
     #} 
   #}  
 #  means <- list()

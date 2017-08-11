@@ -1145,3 +1145,333 @@ qqq <- run_caret_rf_once(df=df,
 qqq <- run_rf_once(df=df, features=feats300_whole_title_alt, filenamestem="poetry300_whole_title_alt_ntree250_mtry10", ntree=250, mtry=10)
 qqq <- run_rf_once(df=df, features=feats300_whole_title_alt, filenamestem="poetry300_whole_title_alt_ntree250_mtry5", ntree=250, mtry=5)
 feats300_whole_title_alt <- NULL
+
+
+
+
+
+
+feats25_whole_title_alt <- readRDS(paste0(bu_path, "/feats_poetry_whole_title_alt_25_20170802.RDS"))
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats25_whole_title_alt, 
+                         filenamestem="poetry25caret_whole_title_alt_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = FALSE,
+                         get_varImp = FALSE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+qqq <- run_rf_once(df=df, features=feats25_whole_title_alt, filenamestem="poetry25_whole_title_alt_ntree250_mtry15", ntree=250, mtry=15)
+qqq <- run_rf_once(df=df, features=feats25_whole_title_alt, filenamestem="poetry25_whole_title_alt_ntree250_mtry10", ntree=250, mtry=10)
+qqq <- run_rf_once(df=df, features=feats25_whole_title_alt, filenamestem="poetry25_whole_title_alt_ntree500_mtry5", ntree=500, mtry=5)
+qqq <- run_rf_once(df=df, features=feats25_whole_title_alt, filenamestem="poetry25_whole_title_alt_ntree500_mtry10", ntree=500, mtry=10)
+qqq <- run_rf_once(df=df, features=feats25_whole_title_alt, filenamestem="poetry25_whole_title_alt_ntree250_mtry5", ntree=250, mtry=5)
+feats25_whole_title_alt <- NULL
+
+feats50_whole_title_alt <- readRDS(paste0(bu_path, "/feats_poetry_whole_title_alt_50_20170531.RDS"))
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats50_whole_title_alt, 
+                         filenamestem="poetry50caret_whole_title_alt_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = FALSE,
+                         get_varImp = FALSE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+
+qqq <- run_rf_once(df=df, features=feats50_whole_title_alt, filenamestem="poetry50_whole_title_alt_ntree500_mtry5", ntree=500, mtry=5)
+qqq <- run_rf_once(df=df, features=feats50_whole_title_alt, filenamestem="poetry50_whole_title_alt_ntree500_mtry10", ntree=500, mtry=10)
+qqq <- run_rf_once(df=df, features=feats50_whole_title_alt, filenamestem="poetry50_whole_title_alt_ntree250_mtry15", ntree=250, mtry=15)
+feats50_whole_title_alt <- NULL
+
+feats100_whole_title_alt <- readRDS(paste0(bu_path, "/feats_poetry_whole_title_alt_100_20170531.RDS"))
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats100_whole_title_alt, 
+                         filenamestem="poetry100caret_whole_title_alt_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = FALSE,
+                         get_varImp = FALSE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+
+qqq <- run_rf_once(df=df, features=feats100_whole_title_alt, filenamestem="poetry100_whole_title_alt_ntree500_mtry5", ntree=500, mtry=5)
+qqq <- run_rf_once(df=df, features=feats100_whole_title_alt, filenamestem="poetry100_whole_title_alt_ntree500_mtry10", ntree=500, mtry=10)
+qqq <- run_rf_once(df=df, features=feats100_whole_title_alt, filenamestem="poetry100_whole_title_alt_ntree250_mtry15", ntree=250, mtry=15)
+feats100_whole_title_alt <- NULL
+
+feats200_whole_title_alt <- readRDS(paste0(bu_path, "/feats_poetry_whole_title_alt_200_20170531.RDS"))
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats200_whole_title_alt, 
+                         filenamestem="poetry200caret_whole_title_alt_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = FALSE,
+                         get_varImp = FALSE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+
+qqq <- run_rf_once(df=df, features=feats200_whole_title_alt, filenamestem="poetry200_whole_title_alt_ntree500_mtry5", ntree=500, mtry=5)
+qqq <- run_rf_once(df=df, features=feats200_whole_title_alt, filenamestem="poetry200_whole_title_alt_ntree500_mtry10", ntree=500, mtry=10)
+qqq <- run_rf_once(df=df, features=feats200_whole_title_alt, filenamestem="poetry200_whole_title_alt_ntree250_mtry15", ntree=250, mtry=15)
+feats200_whole_title_alt <- NULL
+
+feats300_whole_title_alt <- readRDS(paste0(bu_path, "/feats_poetry_whole_title_alt_300_20170802.RDS"))
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats300_whole_title_alt, 
+                         filenamestem="poetry300caret_whole_title_alt_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = FALSE,
+                         get_varImp = FALSE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+
+qqq <- run_rf_once(df=df, features=feats300_whole_title_alt, filenamestem="poetry300_whole_title_alt_ntree250_mtry5", ntree=250, mtry=5)
+qqq <- run_rf_once(df=df, features=feats300_whole_title_alt, filenamestem="poetry300_whole_title_alt_ntree250_mtry15", ntree=250, mtry=15)
+feats300_whole_title_alt <- NULL
+
+
+# Get the other feature sets
+features_all <- readRDS(paste0(bu_path, "/features_all_20170429.RDS"))
+features_basic <- features_all[,c(1:27,60)]
+saveRDS(features_basic, paste0(bu_path, "/features_basic_20170803.RDS"))
+
+features_marc <- features_all[,c(29:32,60)]
+saveRDS(features_marc, paste0(bu_path, "/features_marc_20170803.RDS"))
+
+features_antique <- features_all[,c(28,60)]
+saveRDS(features_antique, paste0(bu_path, "/features_antique_20170803.RDS"))
+
+# SKIP THIS!!!
+#features_first_last_pos
+
+features_stopmarks <- features_all[,c(28,60)]
+
+
+features_NLP <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/features_more_483334.RDS")
+features_NLP$is_poetry <- features_all$is_poetry
+saveRDS(features_NLP, paste0(bu_path, "/features_NLP_20170803.RDS"))
+
+pos_trigram_tags_punct_whole_title <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/tags_only_punct.20170524.RDS")
+pos_trigram_tags_no_punct_whole_title <- str_replace_all(pos_trigram_tags_punct_whole_title, "[^A-Z ]", "")
+pos_trigram_tags_no_punct_whole_title <- str_replace_all(pos_trigram_tags_no_punct_whole_title, "[ ]+", " ")
+pos_trigram_tags_no_punct_whole_title <- str_replace_all(pos_trigram_tags_no_punct_whole_title, "[ ]$", "")
+
+
+
+# Distinction between hc and regular poetry genres
+
+source("get_genre_word_freqs_alt.R")
+get_genre_word_freqs_alt()
+
+source("get_poetry_inds.R")
+get_poetry_inds(df, )
+
+
+poetry_hardcore_terms <- read.csv2(file=paste0(bu_path, "/poetry_hardcore_genres.txt"), 
+                          encoding = "UTF-8", 
+                          header = FALSE,
+                          stringsAsFactors = FALSE)[,1]
+poetry_terms <- read.csv2(file=paste0(bu_path, "/poetry_genres.txt"), 
+                              encoding = "UTF-8", 
+                              header = FALSE,
+                              stringsAsFactors = FALSE)[,1]
+fringe_poetry_terms <- poetry_terms[!poetry_terms %in% poetry_hardcore_terms]
+
+
+non_poetry_terms <- read.csv2(file=paste0(bu_path, "/non_poetry_genres.txt"), 
+                           encoding="UTF-8",
+                           header=FALSE, 
+                           stringsAsFactors = FALSE)[,1]
+poetry_hardcore_inds <- get_poetry_inds(df=df, terms=poetry_hardcore_terms, exact=FALSE)
+poetry_fringe_inds <- get_poetry_inds(df=df, terms=fringe_poetry_terms, exact=FALSE)
+non_poetry_inds <- get_poetry_inds(df, non_poetry_terms, exact=FALSE)
+
+length(intersect(poetry_hardcore_inds, poetry_fringe_inds))
+
+poetry_hardcore_titles <- df$whole_title_sans_edition[poetry_hardcore_inds]
+poetry_fringe_titles <- df$whole_title_sans_edition[poetry_fringe_inds]
+non_poetry_titles <- df$whole_title_sans_edition[non_poetry_inds]
+
+responses_hc_prevails <- rep(NA, nrow(df))
+responses_hc_prevails[non_poetry_inds] <- "NONPOETRY"
+responses_hc_prevails[poetry_fringe_inds] <- "FRINGE"
+responses_hc_prevails[poetry_hardcore_inds] <- "HARDCORE"
+length(which(is.na(responses_hc_prevails)))
+saveRDS(responses_hc_prevails, paste0(bu_path, "/responses_hc_prevails.RDS"))
+df$is_poetry <- responses_hc_prevails
+saveRDS(df, paste0(bu_path, "/df_responses_hc_prevails_with_na.RDS"))
+
+
+responses_hc_prevails <- rep(NA, nrow(df))
+responses_hc_prevails[non_poetry_inds] <- "NONPOETRY"
+responses_hc_prevails[poetry_fringe_inds] <- "FRINGE"
+responses_hc_prevails[poetry_hardcore_inds] <- "HARDCORE"
+length(which(is.na(responses_hc_prevails)))
+saveRDS(responses_hc_prevails, paste0(bu_path, "/responses_hc_prevails.RDS"))
+df2 <- df[which(!is.na(responses_hc_prevails)),]
+responses_hc_prevails <- responses_hc_prevails[which(!is.na(responses_hc_prevails))]
+df2$is_poetry <- responses_hc_prevails
+saveRDS(df2, paste0(bu_path, "/df_responses_hc_prevails_sans_na.RDS"))
+
+responses_fringe_prevails <- rep(NA, nrow(df))
+responses_fringe_prevails[non_poetry_inds] <- "NONPOETRY"
+responses_fringe_prevails[poetry_hardcore_inds] <- "HARDCORE"
+responses_fringe_prevails[poetry_fringe_inds] <- "FRINGE"
+length(which(is.na(responses_fringe_prevails)))
+saveRDS(responses_fringe_prevails, paste0(bu_path, "/responses_fringe_prevails.RDS"))
+df$is_poetry <- responses_fringe_prevails
+saveRDS(df, paste0(bu_path, "/df_responses_fringe_prevails_with_na.RDS"))
+
+responses_fringe_prevails <- rep(NA, nrow(df))
+responses_fringe_prevails[which(df$genre!="")] <- "UNKNOWN"
+responses_fringe_prevails[non_poetry_inds] <- "NONPOETRY"
+responses_fringe_prevails[poetry_hardcore_inds] <- "HARDCORE"
+responses_fringe_prevails[poetry_fringe_inds] <- "FRINGE"
+df2 <- df[which(!is.na(responses_fringe_prevails)),]
+responses_fringe_prevails <- responses_fringe_prevails[which(!is.na(responses_fringe_prevails))]
+df2$is_poetry <- responses_fringe_prevails
+saveRDS(df2, paste0(bu_path, "/df_responses_fringe_prevails_sans_na.RDS"))
+
+responses_hc_prevails <- readRDS(paste0(bu_path, "/responses_hc_prevails.RDS"))
+feats_poetry25 <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_poetry_whole_title_alt_25_20170802.RDS")
+feats_poetry25$is_poetry <- as.factor(responses_hc_prevails)
+feats_poetry25 <- feats_poetry25[which(!is.na(as.character(responses_hc_prevails))),]
+df_mod <- df[which(!is.na(responses_hc_prevails)),]
+responses_hc_prevails <- responses_hc_prevails[which(!is.na(as.character(responses_hc_prevails)))]
+qqq <- run_rf_once(df=df_mod, features=feats_poetry25, filenamestem="poetry25_hc_prevails_whole_title_alt_ntree100_mtry5", ntree=100, mtry=5)
+
+
+
+# Three variable types: HARDCORE, NONPOETRY, FRINGE (FRINGE from POETRY)
+#
+# poetry25 alt whole title
+#
+# responses_hc_prevails
+responses_hc_prevails <- readRDS(paste0(bu_path, "/responses_hc_prevails.RDS"))
+feats_poetry25 <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_poetry_whole_title_alt_25_20170802.RDS")
+feats_poetry25$is_poetry <- as.factor(responses_hc_prevails)
+feats_poetry25 <- feats_poetry25[which(!is.na(as.character(responses_hc_prevails))),]
+df_mod <- df[which(!is.na(responses_hc_prevails)),]
+responses_hc_prevails <- responses_hc_prevails[which(!is.na(as.character(responses_hc_prevails)))]
+qqq <- run_rf_once(df=df_mod, features=feats_poetry25, filenamestem="poetry25_hc_prevails_whole_title_alt_ntree250_mtry5", ntree=250, mtry=5)
+qqq <- run_rf_once(df=df_mod, features=feats_poetry25, filenamestem="poetry25_hc_prevails_whole_title_alt_ntree250_mtry10", ntree=250, mtry=10)
+# responses_fringe_prevails
+responses_fringe_prevails <- readRDS(paste0(bu_path, "/responses_fringe_prevails.RDS"))
+feats_poetry25$is_poetry <- as.factor(responses_fringe_prevails)
+df_mod <- df[which(!is.na(responses_hc_prevails)),]
+responses_fringe_prevails <- responses_fringe_prevails[which(!is.na(as.character(responses_hc_prevails)))]
+qqq <- run_rf_once(df=df_mod, features=feats_poetry25, filenamestem="poetry25_fringe_prevails_whole_title_alt_ntree250_mtry5", ntree=250, mtry=5)
+qqq <- run_rf_once(df=df_mod, features=feats_poetry25, filenamestem="poetry25_fringe_prevails_whole_title_alt_ntree250_mtry10", ntree=250, mtry=10)
+# plus: poetry vs. nonpoetry variable importance
+responses_standard <- feats$is_poetry
+feats_poetry25$is_poetry <- responses_standard
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_poetry25, 
+                         filenamestem="poetry25caret_whole_title_alt_ntree250_mtry10_B", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_poetry25 <- NULL
+
+# poetry50 alt whole title
+#
+# responses_hc_prevails
+responses_hc_prevails <- readRDS(paste0(bu_path, "/responses_hc_prevails.RDS"))
+feats_poetry50 <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_poetry_whole_title_alt_50_20170531.RDS")
+feats_poetry50$is_poetry <- as.factor(responses_hc_prevails)
+feats_poetry50 <- feats_poetry50[which(!is.na(as.character(responses_hc_prevails))),]
+df_mod <- df[which(!is.na(responses_hc_prevails)),]
+responses_hc_prevails <- responses_hc_prevails[which(!is.na(as.character(responses_hc_prevails)))]
+qqq <- run_rf_once(df=df_mod, features=feats_poetry50, filenamestem="poetry50_hc_prevails_whole_title_alt_ntree250_mtry5", ntree=250, mtry=5)
+qqq <- run_rf_once(df=df_mod, features=feats_poetry50, filenamestem="poetry50_hc_prevails_whole_title_alt_ntree250_mtry10", ntree=250, mtry=10)
+# responses_fringe_prevails
+responses_fringe_prevails <- readRDS(paste0(bu_path, "/responses_fringe_prevails.RDS"))
+feats_poetry50$is_poetry <- as.factor(responses_fringe_prevails)
+df_mod <- df[which(!is.na(responses_hc_prevails)),]
+responses_fringe_prevails <- responses_fringe_prevails[which(!is.na(as.character(responses_hc_prevails)))]
+qqq <- run_rf_once(df=df_mod, features=feats_poetry50, filenamestem="poetry50_fringe_prevails_whole_title_alt_ntree250_mtry5", ntree=250, mtry=5)
+qqq <- run_rf_once(df=df_mod, features=feats_poetry50, filenamestem="poetry50_fringe_prevails_whole_title_alt_ntree250_mtry10", ntree=250, mtry=10)
+# plus: poetry vs. nonpoetry variable importance
+responses_standard <- feats$is_poetry
+feats_poetry50$is_poetry <- responses_standard
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_poetry50, 
+                         filenamestem="poetry50caret_whole_title_alt_ntree250_mtry10_B", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_poetry50 <- NULL
+
+# poetry100 alt whole title
+#
+# responses_hc_prevails
+responses_hc_prevails <- readRDS(paste0(bu_path, "/responses_hc_prevails.RDS"))
+feats_poetry100 <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_poetry_whole_title_alt_100_20170531.RDS")
+feats_poetry100$is_poetry <- as.factor(responses_hc_prevails)
+feats_poetry100 <- feats_poetry100[which(!is.na(as.character(responses_hc_prevails))),]
+df_mod <- df[which(!is.na(responses_hc_prevails)),]
+responses_hc_prevails <- responses_hc_prevails[which(!is.na(as.character(responses_hc_prevails)))]
+qqq <- run_rf_once(df=df_mod, features=feats_poetry100, filenamestem="poetry100_hc_prevails_whole_title_alt_ntree250_mtry5", ntree=250, mtry=5)
+qqq <- run_rf_once(df=df_mod, features=feats_poetry100, filenamestem="poetry100_hc_prevails_whole_title_alt_ntree250_mtry10", ntree=250, mtry=10)
+# responses_fringe_prevails
+responses_fringe_prevails <- readRDS(paste0(bu_path, "/responses_fringe_prevails.RDS"))
+feats_poetry100$is_poetry <- as.factor(responses_fringe_prevails)
+df_mod <- df[which(!is.na(responses_hc_prevails)),]
+responses_fringe_prevails <- responses_fringe_prevails[which(!is.na(as.character(responses_hc_prevails)))]
+qqq <- run_rf_once(df=df_mod, features=feats_poetry100, filenamestem="poetry100_fringe_prevails_whole_title_alt_ntree250_mtry5", ntree=250, mtry=5)
+qqq <- run_rf_once(df=df_mod, features=feats_poetry100, filenamestem="poetry100_fringe_prevails_whole_title_alt_ntree250_mtry10", ntree=250, mtry=10)
+# plus: poetry vs. nonpoetry variable importance
+responses_standard <- feats$is_poetry
+feats_poetry100$is_poetry <- responses_standard
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_poetry100, 
+                         filenamestem="poetry100caret_whole_title_alt_ntree250_mtry10_B", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_poetry100 <- NULL
+
+
+# poetry200 alt whole title
+#
+# responses_hc_prevails
+responses_hc_prevails <- readRDS(paste0(bu_path, "/responses_hc_prevails.RDS"))
+feats_poetry200 <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_poetry_whole_title_alt_100_20170531.RDS")
+feats_poetry200$is_poetry <- as.factor(responses_hc_prevails)
+feats_poetry200 <- feats_poetry200[which(!is.na(as.character(responses_hc_prevails))),]
+df_mod <- df[which(!is.na(responses_hc_prevails)),]
+responses_hc_prevails <- responses_hc_prevails[which(!is.na(as.character(responses_hc_prevails)))]
+qqq <- run_rf_once(df=df_mod, features=feats_poetry200, filenamestem="poetry200_hc_prevails_whole_title_alt_ntree250_mtry5", ntree=250, mtry=5)
+qqq <- run_rf_once(df=df_mod, features=feats_poetry200, filenamestem="poetry200_hc_prevails_whole_title_alt_ntree250_mtry10", ntree=250, mtry=10)
+# responses_fringe_prevails
+responses_fringe_prevails <- readRDS(paste0(bu_path, "/responses_fringe_prevails.RDS"))
+feats_poetry200$is_poetry <- as.factor(responses_fringe_prevails)
+df_mod <- df[which(!is.na(responses_hc_prevails)),]
+responses_fringe_prevails <- responses_fringe_prevails[which(!is.na(as.character(responses_hc_prevails)))]
+qqq <- run_rf_once(df=df_mod, features=feats_poetry200, filenamestem="poetry200_fringe_prevails_whole_title_alt_ntree250_mtry5", ntree=250, mtry=5)
+qqq <- run_rf_once(df=df_mod, features=feats_poetry200, filenamestem="poetry200_fringe_prevails_whole_title_alt_ntree250_mtry10", ntree=250, mtry=10)
+# plus: poetry vs. nonpoetry variable importance
+responses_standard <- feats$is_poetry
+feats_poetry200$is_poetry <- responses_standard
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_poetry200, 
+                         filenamestem="poetry200caret_whole_title_alt_ntree250_mtry10_B", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_poetry200 <- NULL
+

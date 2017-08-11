@@ -57,7 +57,7 @@ make_pic_comparison_lines <- function(filepath,
 
   # This is it
   outputfilepath <- paste0(filepath, "/", outputfile, ".png")
-  png(filename = outputfilepath, width = (200 * length(x_tick_labels)) + 200)
+  png(filename = outputfilepath, width = (200 * length(x_tick_labels)) + 400)
   p <- ggplot(data=df, aes(x=n)) + 
     theme(legend.title=element_blank(), axis.title.x = element_text(size=18), axis.title.y = element_text(size=18),
           legend.text = element_text(size=14), 
