@@ -1350,7 +1350,7 @@ qqq <- run_rf_once(df=df_mod, features=feats_poetry25, filenamestem="poetry25_hc
 #
 # responses_hc_prevails
 responses_hc_prevails <- readRDS(paste0(bu_path, "/responses_hc_prevails.RDS"))
-feats_poetry25 <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_poetry_whole_title_alt_25_20170802.RDS")
+feats_poetry25 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title_alt_25_20170802.RDS"))
 feats_poetry25$is_poetry <- as.factor(responses_hc_prevails)
 feats_poetry25 <- feats_poetry25[which(!is.na(as.character(responses_hc_prevails))),]
 df_mod <- df[which(!is.na(responses_hc_prevails)),]
@@ -1382,7 +1382,7 @@ feats_poetry25 <- NULL
 #
 # responses_hc_prevails
 responses_hc_prevails <- readRDS(paste0(bu_path, "/responses_hc_prevails.RDS"))
-feats_poetry50 <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_poetry_whole_title_alt_50_20170531.RDS")
+feats_poetry50 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title_alt_50_20170531.RDS"))
 feats_poetry50$is_poetry <- as.factor(responses_hc_prevails)
 feats_poetry50 <- feats_poetry50[which(!is.na(as.character(responses_hc_prevails))),]
 df_mod <- df[which(!is.na(responses_hc_prevails)),]
@@ -1414,7 +1414,7 @@ feats_poetry50 <- NULL
 #
 # responses_hc_prevails
 responses_hc_prevails <- readRDS(paste0(bu_path, "/responses_hc_prevails.RDS"))
-feats_poetry100 <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_poetry_whole_title_alt_100_20170531.RDS")
+feats_poetry100 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title_alt_100_20170531.RDS"))
 feats_poetry100$is_poetry <- as.factor(responses_hc_prevails)
 feats_poetry100 <- feats_poetry100[which(!is.na(as.character(responses_hc_prevails))),]
 df_mod <- df[which(!is.na(responses_hc_prevails)),]
@@ -1447,7 +1447,7 @@ feats_poetry100 <- NULL
 #
 # responses_hc_prevails
 responses_hc_prevails <- readRDS(paste0(bu_path, "/responses_hc_prevails.RDS"))
-feats_poetry200 <- readRDS("C:/Users/Hege/Opiskelu/Kurssit/Gradu/feats_poetry_whole_title_alt_100_20170531.RDS")
+feats_poetry200 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title_alt_100_20170531.RDS"))
 feats_poetry200$is_poetry <- as.factor(responses_hc_prevails)
 feats_poetry200 <- feats_poetry200[which(!is.na(as.character(responses_hc_prevails))),]
 df_mod <- df[which(!is.na(responses_hc_prevails)),]
