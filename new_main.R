@@ -1359,7 +1359,9 @@ qqq <- run_rf_once(df=df_mod, features=feats_poetry25, filenamestem="poetry25_hc
 qqq <- run_rf_once(df=df_mod, features=feats_poetry25, filenamestem="poetry25_hc_prevails_whole_title_alt_ntree250_mtry10", ntree=250, mtry=10)
 # responses_fringe_prevails
 responses_fringe_prevails <- readRDS(paste0(bu_path, "/responses_fringe_prevails.RDS"))
+feats_poetry25 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title_alt_25_20170802.RDS"))
 feats_poetry25$is_poetry <- as.factor(responses_fringe_prevails)
+feats_poetry25 <- feats_poetry25[which(!is.na(as.character(responses_fringe_prevails))),]
 df_mod <- df[which(!is.na(responses_fringe_prevails)),]
 responses_fringe_prevails <- responses_fringe_prevails[which(!is.na(as.character(responses_fringe_prevails)))]
 qqq <- run_rf_once(df=df_mod, features=feats_poetry25, filenamestem="poetry25_fringe_prevails_whole_title_alt_ntree250_mtry5", ntree=250, mtry=5)
@@ -1392,7 +1394,9 @@ qqq <- run_rf_once(df=df_mod, features=feats_poetry50, filenamestem="poetry50_hc
 qqq <- run_rf_once(df=df_mod, features=feats_poetry50, filenamestem="poetry50_hc_prevails_whole_title_alt_ntree250_mtry10", ntree=250, mtry=10)
 # responses_fringe_prevails
 responses_fringe_prevails <- readRDS(paste0(bu_path, "/responses_fringe_prevails.RDS"))
+feats_poetry50 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title_alt_50_20170531.RDS"))
 feats_poetry50$is_poetry <- as.factor(responses_fringe_prevails)
+feats_poetry50 <- feats_poetry50[which(!is.na(as.character(responses_fringe_prevails))),]
 df_mod <- df[which(!is.na(responses_fringe_prevails)),]
 responses_fringe_prevails <- responses_fringe_prevails[which(!is.na(as.character(responses_fringe_prevails)))]
 qqq <- run_rf_once(df=df_mod, features=feats_poetry50, filenamestem="poetry50_fringe_prevails_whole_title_alt_ntree250_mtry5", ntree=250, mtry=5)
@@ -1424,7 +1428,9 @@ qqq <- run_rf_once(df=df_mod, features=feats_poetry100, filenamestem="poetry100_
 qqq <- run_rf_once(df=df_mod, features=feats_poetry100, filenamestem="poetry100_hc_prevails_whole_title_alt_ntree250_mtry10", ntree=250, mtry=10)
 # responses_fringe_prevails
 responses_fringe_prevails <- readRDS(paste0(bu_path, "/responses_fringe_prevails.RDS"))
+feats_poetry100 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title_alt_100_20170531.RDS"))
 feats_poetry100$is_poetry <- as.factor(responses_fringe_prevails)
+feats_poetry100 <- feats_poetry100[which(!is.na(as.character(responses_fringe_prevails))),]
 df_mod <- df[which(!is.na(responses_fringe_prevails)),]
 responses_fringe_prevails <- responses_fringe_prevails[which(!is.na(as.character(responses_fringe_prevails)))]
 qqq <- run_rf_once(df=df_mod, features=feats_poetry100, filenamestem="poetry100_fringe_prevails_whole_title_alt_ntree250_mtry5", ntree=250, mtry=5)
@@ -1458,7 +1464,9 @@ qqq <- run_rf_once(df=df_mod, features=feats_poetry200, filenamestem="poetry200_
 qqq <- run_rf_once(df=df_mod, features=feats_poetry200, filenamestem="poetry200_hc_prevails_whole_title_alt_ntree250_mtry10", ntree=250, mtry=10)
 # responses_fringe_prevails
 responses_fringe_prevails <- readRDS(paste0(bu_path, "/responses_fringe_prevails.RDS"))
+feats_poetry200 <- readRDS(paste0(bu_path, "/feats_poetry_whole_title_alt_100_20170531.RDS"))
 feats_poetry200$is_poetry <- as.factor(responses_fringe_prevails)
+feats_poetry200 <- feats_poetry200[which(!is.na(as.character(responses_fringe_prevails))),]
 df_mod <- df[which(!is.na(responses_fringe_prevails)),]
 responses_fringe_prevails <- responses_fringe_prevails[which(!is.na(as.character(responses_fringe_prevails)))]
 qqq <- run_rf_once(df=df_mod, features=feats_poetry200, filenamestem="poetry200_fringe_prevails_whole_title_alt_ntree250_mtry5", ntree=250, mtry=5)
