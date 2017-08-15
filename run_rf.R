@@ -8,6 +8,7 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_cutoff=FA
 
     # Precaution
     names(features) <- gsub(" ", "_", names(features))
+    
     # Change names for cforest
     levels(features$is_poetry) <- gsub("FALSE", "NONPOETRY", levels(features$is_poetry))
     levels(features$is_poetry) <- gsub("TRUE", "POETRY", levels(features$is_poetry))
