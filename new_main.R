@@ -1486,3 +1486,270 @@ qqq <- run_caret_rf_once(df=df,
                          get_prediction = FALSE)
 feats_poetry200 <- NULL
 
+
+
+# Create bagofwords corpus and run a 
+feats_bagofwords <- feats_poetry100[,c("poetry_alt_tune", 
+                                       "poetry_alt_song", 
+                                       "poetry_alt_poem", 
+                                       "poetry_alt_songs", 
+                                       "poetry_alt_poems", 
+                                       "poetry_alt_sung", 
+                                       "poetry_alt_love", 
+                                       "poetry_alt_ballad", 
+                                       "poetry_alt_poetical", 
+                                       "poetry_alt_elegy", 
+                                       "poetry_alt_ode", 
+                                       "poetry_alt_maid", 
+                                       "poetry_alt_garland", 
+                                       "poetry_alt_lamentation", 
+                                       "poetry_alt_hymn", 
+                                       "poetry_alt_hymns", 
+                                       "poetry_alt_epistle", 
+                                       "poetry_alt_psalms")]
+feats_bagofwords$is_poetry <- feats_poetry100$is_poetry
+saveRDS(feats_bagofwords, paste0(bu_path, "/bagofwords18.RDS"))
+
+# Start runs with different subgroups
+#
+# 20170815
+#
+# bagofwords with 18 words only
+feats_bagofwords18 <- readRDS(paste0(bu_path, "/bagofwords18.RDS"))
+qqq <- run_rf_once(df=df, features=feats_bagofwords18, ntree=250, mtry=5, filenamestem="bagofwords18_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_bagofwords18, ntree=250, mtry=10, filenamestem="bagofwords18_ntree250_mtry10")
+feats_bagofwords18 <- NULL
+
+# basic set only
+feats_basic <- readRDS(paste0(bu_path, "/features_basic_20170803.RDS"))
+qqq <- run_rf_once(df=df, features=feats_basic, ntree=250, mtry=5, filenamestem="basic_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic, ntree=250, mtry=10, filenamestem="basic_ntree250_mtry10")
+feats_basic <- NULL
+
+# bagofwords with 18 words and the basic set
+feats_basic_bow18 <- readRDS(paste0(bu_path, "/bagofwords18.RDS"))
+feats_basic <- readRDS(paste0(bu_path, "/features_basic_20170803.RDS"))
+feats_basic$is_poetry <- NULL
+feats_basic_bow18 <- cbind(feats_basic, feats_basic_bow18)
+saveRDS(feats_basic_bow18, paste0(bu_path, "/features_basic_bow18.RDS"))
+qqq <- run_rf_once(df=df, features=feats_basic_bow18, ntree=5, mtry=5, filenamestem="basic_bow18_ntree5_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow18, ntree=250, mtry=10, filenamestem="basic_bow18_ntree250_mtry10")
+feats_basic <- NULL
+feats_basic_bow18 <- NULL
+
+
+# prepare NLP features
+feats_basic <- readRDS(paste0(bu_path, "/features_basic_20170803.RDS"))
+feats_NLP <- readRDS(paste0(bu_path, "/features_NLP_20170803.RDS"))
+feats_NLP$no_of_dependents <- feats_NLP$no_of_dependents / feats_basic$no_of_words
+feats_NLP$no_of_root <- feats_NLP$no_of_root / feats_basic$no_of_words 
+# root_offset_characters_relative kertoo root-sanan sijainnista (alku vs. loppu),
+# root_offset_characters kertoo root-sanan absoluuttisesta sijainnista alkuun nähden
+feats_NLP$root_offset_characters_relative <- feats_NLP$root_offset_characters / feats_basic$no_of_words
+feats_NLP$x_no_of_inflected_words <- feats_NLP$x_no_of_inflected_words / feats_basic$no_of_words
+feats_NLP$is_poetry <- feats_basic$is_poetry
+feats_NLP$root_pos <- as.factor(feats_NLP$root_pos)
+saveRDS(feats_NLP, paste0(bu_path, "/features_NLP_20170803b.RDS"))
+feats_basic <- NULL
+feats_NLP <- NULL
+
+# Process NLP features only
+feats_NLP <- readRDS(paste0(bu_path, "/features_NLP_20170803b.RDS"))
+qqq <- run_rf_once(df=df, features=feats_NLP, ntree=250, mtry=5, filenamestem="nlp_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_NLP, ntree=250, mtry=10, filenamestem="nlp_ntree250_mtry10")
+feats_NLP <- NULL
+
+# Process basic, bow18, NLP features
+feats_basic_bow18_NLP <- readRDS(paste0(bu_path, "/features_NLP_20170803b.RDS"))
+feats_basic_bow18 <- readRDS(paste0(bu_path, "/features_basic_bow18.RDS"))
+feats_basic_bow18$is_poetry <- NULL
+feats_basic_bow18_NLP <- cbind(feats_basic_bow18, feats_basic_bow18_NLP)
+qqq <- run_rf_once(df=df, features=feats_basic_bow18_NLP, ntree=250, mtry=5, filenamestem="basic_bow18_nlp_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow18_NLP, ntree=250, mtry=10, filenamestem="basic_bow18_nlp_ntree250_mtry10")
+feats_basic_bow18 <- NULL
+feats_basic_bow18_NLP <- NULL
+
+# Prepare stopmarks:
+# Probably unwise to divide by no_of_words / no_of_chars / no_of_sentences
+# lengths will be included in the other variables anyway
+feats_stopmarks <- data.frame(is_poetry=feats_basic$is_poetry)
+feats_stopmarks$no_of_question_marks <- str_count(df$whole_title_sans_edition, "[?]")
+feats_stopmarks$no_of_exclamation_marks <- str_count(df$whole_title_sans_edition, "[!]")
+feats_stopmarks$no_of_colons <- str_count(df$whole_title_sans_edition, "[:]")
+# Apparently there are no doublequotes at all, maybe British Library policy
+#no_of_doublequotes <- str_count(df$whole_title_sans_edition, "\"")
+feats_stopmarks$no_of_singlequotes <- str_count(df$whole_title_sans_edition, "[']")
+feats_stopmarks$no_of_semicolons <- str_count(df$whole_title_sans_edition, "[;]")
+feats_stopmarks$no_of_periods <- str_count(df$whole_title_sans_edition, "[.]")
+feats_stopmarks$no_of_hyphens <- str_count(df$whole_title_sans_edition, "[-]")
+saveRDS(feats_stopmarks, paste0(bu_path, "/features_stopmarks_20170815.RDS"))
+
+# Process basic, bow18, stopmarks features
+feats_basic_bow18_stopmarks <- readRDS(paste0(bu_path, "/features_stopmarks_20170815.RDS"))
+feats_basic_bow18 <- readRDS(paste0(bu_path, "/features_basic_bow18.RDS"))
+feats_basic_bow18$is_poetry <- NULL
+feats_basic_bow18_stopmarks <- cbind(feats_basic_bow18, feats_basic_bow18_stopmarks)
+qqq <- run_rf_once(df=df, features=feats_basic_bow18_stopmarks, ntree=250, mtry=5, filenamestem="basic_bow18_stopmarks_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow18_stopmarks, ntree=250, mtry=10, filenamestem="basic_bow18_stopmarks_ntree250_mtry10")
+feats_basic_bow18 <- NULL
+feats_basic_bow18_stopmarks <- NULL
+
+# Prepare & process basic, bow18, MARC
+feats_basic_bow18_marc <- readRDS(paste0(bu_path, "/features_marc_20170803.RDS"))
+feats_basic_bow18_marc$author_age <- NULL
+feats_basic_bow18_marc$pagecount <- df$pagecount
+include_inds <- which(!is.na(df$pagecount))
+include_inds <- intersect(include_inds, which(feats_basic_bow18_marc$physical_extent!="NA"))
+include_inds <- intersect(include_inds, which(feats_basic_bow18_marc$publication_year>1400))
+feats_basic_bow18_marc$is_poetry <- NULL
+feats_basic_bow18_marc$physical_extent <- factor(feats_basic_bow18_marc$physical_extent)
+feats_basic_bow18 <- readRDS(paste0(bu_path, "/features_basic_bow18.RDS"))
+feats_basic_bow18_marc <- cbind(feats_basic_bow18[include_inds,], feats_basic_bow18_marc[include_inds,])
+qqq <- run_rf_once(df=df[include_inds,], features=feats_basic_bow18_marc, ntree=250, mtry=5, filenamestem="basic_bow18_marc_ntree250_mtry5")
+qqq <- run_rf_once(df=df[include_inds,], features=feats_basic_bow18_marc, ntree=250, mtry=10, filenamestem="basic_bow18_marc_ntree250_mtry10")
+feats_basic_bow18 <- NULL
+feats_basic_bow18_marc <- NULL
+
+# Process basic, bow18, antique
+feats_basic_bow18_antique <- readRDS(paste0(bu_path, "/features_antique_20170803.RDS"))
+feats_basic_bow18 <- readRDS(paste0(bu_path, "/features_basic_bow18.RDS"))
+feats_basic_bow18$is_poetry <- NULL
+feats_basic_bow18_antique <- cbind(feats_basic_bow18, feats_basic_bow18_antique)
+qqq <- run_rf_once(df=df, features=feats_basic_bow18_antique, ntree=250, mtry=5, filenamestem="basic_bow18_antique_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow18_antique, ntree=250, mtry=10, filenamestem="basic_bow18_antique_ntree250_mtry10")
+feats_basic_bow18 <- NULL
+feats_basic_bow18_antique <- NULL
+
+feats_all <- readRDS(paste0(bu_path, "/features_all_20170429.RDS"))
+feats_genreshares <- feats_all[,c("no_of_poetry_words", 
+                                  "no_of_non_poetry_words",
+                                  "no_of_common_words",
+                                  "no_of_poetry_words_share50", 
+                                  "no_of_non_poetry_words_share50",
+                                  "no_of_poetry_words_share100", 
+                                  "no_of_non_poetry_words_share100",
+                                  "is_poetry")]
+saveRDS(feats_genreshares, paste0(bu_path, "/features_genreshares_20170816.RDS"))                                
+
+# Process basic, bow18, WITHOUT genre shares
+feats_basic_bow18_sans_genreshares <- readRDS(paste0(bu_path, "/features_basic_bow18.RDS"))
+feats_genreshares <- readRDS(paste0(bu_path, "/features_genreshares_20170816.RDS"))
+feats_basic_bow18_sans_genreshares <- feats_basic_bow18_sans_genreshares[,c(which(names(feats_basic_bow18_sans_genreshares) %in%
+                                                                             names(feats_genreshares) == FALSE))]
+# remember to add $is_poetry anyway
+feats_basic_bow18_sans_genreshares$is_poetry <- feats_genreshares$is_poetry
+qqq <- run_rf_once(df=df, features=feats_basic_bow18_sans_genreshares, ntree=250, mtry=5, filenamestem="basic_bow18_sans_genreshares_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow18_sans_genreshares, ntree=250, mtry=10, filenamestem="basic_bow18_sans_genreshares_ntree250_mtry10")
+feats_basic_bow18_sans_genreshares <- NULL
+feats_genreshares <- NULL
+
+
+# PROCESS POS TAGS
+#
+# Title only
+tagged_title_only <- readRDS(paste0(bu_path, "/Titles/tagged_titles_only_RERUN.RDS"))
+unique_tags <- unique(unlist(str_extract_all(tagged_title_only, "(?:/)[^ /0-9]+ ")))
+unique_tags <- gsub("^/", "", unique_tags)
+unique_tags <- gsub(" $", "", unique_tags)
+tags_title_only <- str_extract_all(tagged_title_only, "(?:/)[^ /0-9]+ ")
+saveRDS(unique_tags, paste0(bu_path, "/Titles/unique_POS_tags_title_only.RDS"))
+saveRDS(tags_title_only, paste0(bu_path, "/tags_title_only_20170816.RDS"))
+pos_tags <- list()
+feats_pos_title_only <- lapply(unique_tags, FUN=function(x, pos_tags) {
+  tag_name <- paste0("pos_", x)
+  tag_name <- gsub("[,]", "comma", tag_name)
+  tag_name <- gsub("[.]", "period", tag_name)
+  tag_name <- gsub("[-]", "hyphen", tag_name)
+  tag_name <- gsub("[$]", "dollar", tag_name)
+  tag_name <- gsub("[:]", "semicolon", tag_name)
+  tag_name <- gsub("[`']", "singlequote", tag_name)
+  pos_tags_title_only[[tag_name]] <- str_count(string=tags_title_only, pattern=paste0("/", x, " ")) / feats_all$no_of_words_title_only
+  pos_tags_title_only
+}, pos_tags=pos_tags)
+feats_pos_title_only <- data.frame(feats_pos_title_only)
+feats_pos_title_only$pos_singlequote <- feats_pos_title_only$pos_singlequotesinglequote + feats_pos_title_only$pos_singlequotesinglequote.1
+feats_pos_title_only$pos_singlequotesinglequote <- NULL
+feats_pos_title_only$pos_singlequotesinglequote.1 <- NULL
+feats_pos_title_only$is_poetry <- feats_all$is_poetry
+saveRDS(feats_pos_title_only, paste0(bu_path, "/feats_pos_title_only_20170816.RDS"))
+#
+#
+# Whole title
+tagged_whole_title <- readRDS(paste0(bu_path, "/Titles/tagged_titles3.RDS"))
+unique_tags <- unique(unlist(str_extract_all(tagged_whole_title, "(?:/)[^ /0-9]+ ")))
+unique_tags <- gsub("^/", "", unique_tags)
+unique_tags <- gsub(" $", "", unique_tags)
+tags_whole_title <- str_extract_all(tagged_whole_title, "(?:/)[^ /0-9]+ ")
+saveRDS(unique_tags, paste0(bu_path, "/Titles/unique_POS_tags_whole_title.RDS"))
+saveRDS(tags_whole_title, paste0(bu_path, "/tags_whole_title_20170816.RDS"))
+pos_tag <- list()
+feats_pos_whole_title <- lapply(unique_tags, FUN=function(x, pos_tag) {
+  tag_name <- paste0("pos_", x)
+  tag_name <- gsub("[,]", "comma", tag_name)
+  tag_name <- gsub("[.]", "period", tag_name)
+  tag_name <- gsub("[-]", "hyphen", tag_name)
+  tag_name <- gsub("[$]", "dollar", tag_name)
+  tag_name <- gsub("[:]", "semicolon", tag_name)
+  tag_name <- gsub("[`']", "singlequote", tag_name)
+  pos_tag[[tag_name]] <- str_count(string=tags_whole_title, pattern=paste0("/", x, " ")) / feats_all$no_of_words
+  print(paste0(tag_name, pos_tag[[tag_name]][1000:1003]))
+  pos_tag
+}, pos_tag=pos_tag)
+
+feats_pos_whole_title <- data.frame(feats_pos_whole_title)
+feats_pos_whole_title$pos_singlequote <- feats_pos_whole_title$pos_singlequotesinglequote + feats_pos_whole_title$pos_singlequotesinglequote.1
+feats_pos_whole_title$pos_singlequotesinglequote <- NULL
+feats_pos_whole_title$pos_singlequotesinglequote.1 <- NULL
+feats_pos_whole_title$is_poetry <- feats_all$is_poetry
+saveRDS(feats_pos_whole_title, paste0(bu_path, "/feats_pos_whole_title_20170816.RDS"))
+
+
+# Process POS title only
+feats_pos_title_only <- readRDS(paste0(bu_path, "/feats_pos_title_only_20170816.RDS"))
+qqq <- run_rf_once(df=df, features=feats_pos_title_only, ntree=250, mtry=5, filenamestem="pos_title_only_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_pos_title_only, ntree=250, mtry=10, filenamestem="pos_title_only_ntree250_mtry10")
+feats_pos_title_only <- NULL
+
+# Process POS whole title
+feats_pos_whole_title <- readRDS(paste0(bu_path, "/feats_pos_whole_title_20170816.RDS"))
+qqq <- run_rf_once(df=df, features=feats_pos_whole_title, ntree=250, mtry=5, filenamestem="pos_whole_title_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_pos_whole_title, ntree=250, mtry=10, filenamestem="pos_whole_title_ntree250_mtry10")
+feats_pos_whole_title <- NULL
+
+
+# Process POS trigrams
+tags_whole_title <- readRDS(paste0(bu_path, "/tags_whole_title_20170816.RDS"))
+tags_whole_title <- lapply(tags_whole_title, FUN=function(x) { paste(x, collapse="")})
+tags_whole_title <- lapply(tags_whole_title, FUN=function(x) { gsub("/", "", x)})
+tags_whole_title <- lapply(tags_whole_title, FUN=function(x) {gsub(" $", "", x)})
+tags_whole_title <- lapply(tags_whole_title, FUN=function(x) {gsub("[,]", "comma", x)})
+tags_whole_title <- lapply(tags_whole_title, FUN=function(x) {gsub("[:]", "semicolon", x)})
+tags_whole_title <- lapply(tags_whole_title, FUN=function(x) {gsub("[.]", "period", x)})
+tags_whole_title <- lapply(tags_whole_title, FUN=function(x) {gsub("[-]", "hyphen", x)})
+tags_whole_title <- lapply(tags_whole_title, FUN=function(x) {gsub("['`]", "apostrophe", x)})
+tags_whole_title <- lapply(tags_whole_title, FUN=function(x) {gsub("([[:lower:]]+) period", "\\1", x)})
+tags_whole_title <- unlist(tags_whole_title)
+saveRDS(tags_whole_title, paste0(bu_path, "/tags_whole_title_preprocessed_20170816.RDS"))
+tags_whole_title <- readRDS(paste0(bu_path, "/tags_whole_title_preprocessed_20170816.RDS"))
+
+feats_all <- readRDS(paste0(bu_path, "/features_all_20170429.RDS"))
+poetry_inds <- which(feats_all$is_poetry=="TRUE")
+
+rets <- lapply(tags_whole_title, FUN=function(x) {
+  x <- unlist(str_split(x, " "))
+  ret <- list()
+  if (length(x) >=3) {
+    for (i in 1:(length(x)-2)) {
+      trigram <- paste0(x[i:(i+2)], collapse=" ", sep="")
+      if (is.null(ret[[trigram]])) {
+        ret[[trigram]] <- 1
+      } else {
+        ret[[trigram]] <- ret[[trigram]] + 1
+      }
+    }
+  }
+  ret
+})
+ttt <- tapply(unlist(rets), names(unlist(rets)), sum)
+
+str_extract_all(string=tags_whole_title[1010], pattern = "(^| )[^ ]+ [^ ]+ [^ ]+( |$)")
