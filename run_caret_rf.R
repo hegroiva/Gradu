@@ -186,15 +186,18 @@ run_caret_rf <- function(features.split,
       rfForm2 <- as.formula(paste("is_poetry", varNames1_2, sep=" ~ "))
     
       ratio_is_poetry <- length(which(features2$is_poetry=="POETRY")) / nrow(features2)
-      retRF2 <- randomForest::randomForest(rfForm2, 
+      
+      if (get_prediction || set_no == 1) {
+        retRF2 <- randomForest::randomForest(rfForm2, 
                                            features2, 
-                                           ntree=ntree, 
-                                           importance=TRUE, 
-                                           mtry=mtry,
-                                           #strata="is_poetry",
-                                           #sampsize=c(5000,500))
-                                           cutoff=c(1-ratio_is_poetry, ratio_is_poetry))
-    
+                                             ntree=ntree, 
+                                             importance=TRUE, 
+                                             mtry=mtry,
+                                             #strata="is_poetry",
+                                             #sampsize=c(5000,500))
+                                             cutoff=c(1-ratio_is_poetry, ratio_is_poetry))
+      }
+      
       # Get variable_importance and print it
       if (set_no == 1 && get_varImp) {
         png(filename = paste0(outputpath, "/", filestem, "variable_importance_", set_no, ".png"))

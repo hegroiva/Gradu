@@ -1708,16 +1708,35 @@ saveRDS(feats_pos_whole_title, paste0(bu_path, "/feats_pos_whole_title_20170816.
 feats_pos_title_only <- readRDS(paste0(bu_path, "/feats_pos_title_only_20170816.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_title_only, ntree=250, mtry=5, filenamestem="pos_title_only_ntree250_mtry5")
 qqq <- run_rf_once(df=df, features=feats_pos_title_only, ntree=250, mtry=10, filenamestem="pos_title_only_ntree250_mtry10")
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_pos_title_only, 
+                         filenamestem="pos_caret_title_only_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
 feats_pos_title_only <- NULL
 
 # Process POS whole title
 feats_pos_whole_title <- readRDS(paste0(bu_path, "/feats_pos_whole_title_20170816.RDS"))
 qqq <- run_rf_once(df=df, features=feats_pos_whole_title, ntree=250, mtry=5, filenamestem="pos_whole_title_ntree250_mtry5")
 qqq <- run_rf_once(df=df, features=feats_pos_whole_title, ntree=250, mtry=10, filenamestem="pos_whole_title_ntree250_mtry10")
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_pos_whole_title, 
+                         filenamestem="pos_caret_whole_title_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
 feats_pos_whole_title <- NULL
 
-
-# Process POS trigrams
+# POS TRIGRAMS 20170817
+#
+# Process POS trigrams whole title
 tags_whole_title <- readRDS(paste0(bu_path, "/tags_whole_title_20170816.RDS"))
 tags_whole_title <- lapply(tags_whole_title, FUN=function(x) { paste(x, collapse="")})
 tags_whole_title <- lapply(tags_whole_title, FUN=function(x) { gsub("/", "", x)})
@@ -1726,6 +1745,7 @@ tags_whole_title <- lapply(tags_whole_title, FUN=function(x) {gsub("[,]", "comma
 tags_whole_title <- lapply(tags_whole_title, FUN=function(x) {gsub("[:]", "semicolon", x)})
 tags_whole_title <- lapply(tags_whole_title, FUN=function(x) {gsub("[.]", "period", x)})
 tags_whole_title <- lapply(tags_whole_title, FUN=function(x) {gsub("[-]", "hyphen", x)})
+tags_whole_title <- lapply(tags_whole_title, FUN=function(x) {gsub("[$]", "dollar", x)})
 tags_whole_title <- lapply(tags_whole_title, FUN=function(x) {gsub("['`]", "apostrophe", x)})
 tags_whole_title <- lapply(tags_whole_title, FUN=function(x) {gsub("([[:lower:]]+) period", "\\1", x)})
 tags_whole_title <- unlist(tags_whole_title)
@@ -1735,7 +1755,8 @@ tags_whole_title <- readRDS(paste0(bu_path, "/tags_whole_title_preprocessed_2017
 feats_all <- readRDS(paste0(bu_path, "/features_all_20170429.RDS"))
 poetry_inds <- which(feats_all$is_poetry=="TRUE")
 
-rets <- lapply(tags_whole_title, FUN=function(x) {
+# Get most common POETRY tags
+rets <- lapply(tags_whole_title[poetry_inds], FUN=function(x) {
   x <- unlist(str_split(x, " "))
   ret <- list()
   if (length(x) >=3) {
@@ -1751,5 +1772,99 @@ rets <- lapply(tags_whole_title, FUN=function(x) {
   ret
 })
 ttt <- tapply(unlist(rets), names(unlist(rets)), sum)
+ttt <- ttt[which(ttt>2000)]
 
-str_extract_all(string=tags_whole_title[1010], pattern = "(^| )[^ ]+ [^ ]+ [^ ]+( |$)")
+# extract the most common tags from the mass
+feats_pos_whole_title <- list()
+for (name in names(ttt)) {
+  mod_name <- gsub(" ", "_", name)
+  feats_pos_whole_title[[mod_name]] <- str_count(string=tags_whole_title, pattern = name)
+}
+feats_pos_whole_title <- data.frame(feats_pos_whole_title)
+feats_pos_whole_title$is_poetry <- feats_all$is_poetry
+saveRDS(feats_pos_whole_title, paste0(bu_path, "/features_pos_trigrams_whole_title_20170817.RDS"))
+feats_pos_whole_title <- NULL
+
+# POS TRIGRAMS 20170817
+#
+# Process POS trigrams title only
+tags_title_only <- readRDS(paste0(bu_path, "/tags_title_only_20170816.RDS"))
+tags_title_only <- lapply(tags_title_only, FUN=function(x) { paste(x, collapse="")})
+tags_title_only <- lapply(tags_title_only, FUN=function(x) { gsub("/", "", x)})
+tags_title_only <- lapply(tags_title_only, FUN=function(x) {gsub(" $", "", x)})
+tags_title_only <- lapply(tags_title_only, FUN=function(x) {gsub("[,]", "comma", x)})
+tags_title_only <- lapply(tags_title_only, FUN=function(x) {gsub("[:]", "semicolon", x)})
+tags_title_only <- lapply(tags_title_only, FUN=function(x) {gsub("[.]", "period", x)})
+tags_title_only <- lapply(tags_title_only, FUN=function(x) {gsub("[-]", "hyphen", x)})
+tags_title_only <- lapply(tags_title_only, FUN=function(x) {gsub("[$]", "dollar", x)})
+tags_title_only <- lapply(tags_title_only, FUN=function(x) {gsub("['`]", "apostrophe", x)})
+tags_title_only <- lapply(tags_title_only, FUN=function(x) {gsub("([[:lower:]]+) period", "\\1", x)})
+tags_title_only <- unlist(tags_title_only)
+saveRDS(tags_title_only, paste0(bu_path, "/tags_title_only_preprocessed_20170816.RDS"))
+tags_title_only <- readRDS(paste0(bu_path, "/tags_title_only_preprocessed_20170816.RDS"))
+
+feats_all <- readRDS(paste0(bu_path, "/features_all_20170429.RDS"))
+poetry_inds <- which(feats_all$is_poetry=="TRUE")
+
+# Get most common POETRY tags
+rets <- lapply(tags_title_only[poetry_inds], FUN=function(x) {
+  x <- unlist(str_split(x, " "))
+  ret <- list()
+  if (length(x) >=3) {
+    for (i in 1:(length(x)-2)) {
+      trigram <- paste0(x[i:(i+2)], collapse=" ", sep="")
+      if (is.null(ret[[trigram]])) {
+        ret[[trigram]] <- 1
+      } else {
+        ret[[trigram]] <- ret[[trigram]] + 1
+      }
+    }
+  }
+  ret
+})
+ttt <- tapply(unlist(rets), names(unlist(rets)), sum)
+ttt <- ttt[which(ttt>500)]
+
+# extract the most common tags from the mass
+feats_pos_title_only <- list()
+for (name in names(ttt)) {
+  mod_name <- gsub(" ", "_", name)
+  feats_pos_title_only[[mod_name]] <- str_count(string=tags_title_only, pattern = name)
+}
+feats_pos_title_only <- data.frame(feats_pos_title_only)
+feats_pos_title_only$is_poetry <- feats_all$is_poetry
+saveRDS(feats_pos_title_only, paste0(bu_path, "/features_pos_trigrams_title_only_20170817.RDS"))
+
+
+
+# Process POS trigrams whole title
+feats_pos_trigrams_whole_title <- readRDS(paste0(bu_path, "/features_pos_trigrams_whole_title_20170817.RDS"))
+qqq <- run_rf_once(df=df, features=feats_pos_trigrams_whole_title, ntree=250, mtry=5, filenamestem="pos_trigrams_whole_title_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_pos_trigrams_whole_title, ntree=250, mtry=10, filenamestem="pos_trigrams_whole_title_ntree250_mtry10")
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_pos_trigrams_whole_title, 
+                         filenamestem="pos_trigrams_caret_whole_title_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_pos_trigrams_whole_title <- NULL
+
+# Process POS title only
+feats_pos_trigrams_title_only <- readRDS(paste0(bu_path, "/features_pos_trigrams_title_only_20170817.RDS"))
+qqq <- run_rf_once(df=df, features=feats_pos_trigrams_title_only, ntree=250, mtry=5, filenamestem="pos_trigrams_title_only_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_pos_trigrams_title_only, ntree=250, mtry=10, filenamestem="pos_trigrams_title_only_ntree250_mtry10")
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_pos_trigrams_title_only, 
+                         filenamestem="pos_trigrams_caret_title_only_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_pos_trigrams_title_only <- NULL
+
+
