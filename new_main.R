@@ -1868,3 +1868,170 @@ qqq <- run_caret_rf_once(df=df,
 feats_pos_trigrams_title_only <- NULL
 
 
+# Other machine learning methods
+#
+# 20170817
+#
+# Support Virtual Machine
+feats_basic_bow18 <- readRDS(paste0(bu_path, "/features_basic_bow18.RDS"))
+qqq <- run_svm_once(df=df, features=feats_basic_bow18, filenamestem="basic_bow18_svm_20170817")
+feats_basic_bow18 <- NULL
+
+
+
+# Start runs with different subgroups for varimps
+#
+# 20170818
+#
+# bagofwords with 18 words only
+feats_bagofwords18 <- readRDS(paste0(bu_path, "/bagofwords18.RDS"))
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_bagofwords18, 
+                         filenamestem="bow18_caret_title_only_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+qqq <- run_svm_once(df=df, features=feats_bagofwords18, filenamestem="bow18_svm_20170818")
+feats_bagofwords18 <- NULL
+
+# basic set only
+feats_basic <- readRDS(paste0(bu_path, "/features_basic_20170803.RDS"))
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_basic, 
+                         filenamestem="basic_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+qqq <- run_svm_once(df=df, features=feats_basic, filenamestem="basic_svm_20170818")
+feats_basic <- NULL
+
+# bagofwords with 18 words and the basic set
+feats_basic_bow18 <- readRDS(paste0(bu_path, "/bagofwords18.RDS"))
+feats_basic <- readRDS(paste0(bu_path, "/features_basic_20170803.RDS"))
+feats_basic$is_poetry <- NULL
+feats_basic_bow18 <- cbind(feats_basic, feats_basic_bow18)
+saveRDS(feats_basic_bow18, paste0(bu_path, "/features_basic_bow18.RDS"))
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_basic_bow18, 
+                         filenamestem="basic_bow18_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+qqq <- run_svm_once(df=df, features=feats_basic_bow18, filenamestem="basic_bow18_svm_20170818")
+feats_basic <- NULL
+feats_basic_bow18 <- NULL
+
+
+# Process NLP features only
+feats_NLP <- readRDS(paste0(bu_path, "/features_NLP_20170803b.RDS"))
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_NLP, 
+                         filenamestem="NLP_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+qqq <- run_svm_once(df=df, features=feats_NLP, filenamestem="NLP_svm_20170818")
+feats_NLP <- NULL
+
+# Process basic, bow18, NLP features
+feats_basic_bow18_NLP <- readRDS(paste0(bu_path, "/features_NLP_20170803b.RDS"))
+feats_basic_bow18 <- readRDS(paste0(bu_path, "/features_basic_bow18.RDS"))
+feats_basic_bow18$is_poetry <- NULL
+feats_basic_bow18_NLP <- cbind(feats_basic_bow18, feats_basic_bow18_NLP)
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_basic_bow18_NLP, 
+                         filenamestem="basic_bow18_NLP_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+qqq <- run_svm_once(df=df, features=feats_basic_bow18_NLP, filenamestem="basic_bow18_NLP_svm_20170818")
+feats_basic_bow18 <- NULL
+feats_basic_bow18_NLP <- NULL
+
+# Process basic, bow18, stopmarks features
+feats_basic_bow18_stopmarks <- readRDS(paste0(bu_path, "/features_stopmarks_20170815.RDS"))
+feats_basic_bow18 <- readRDS(paste0(bu_path, "/features_basic_bow18.RDS"))
+feats_basic_bow18$is_poetry <- NULL
+feats_basic_bow18_stopmarks <- cbind(feats_basic_bow18, feats_basic_bow18_stopmarks)
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_basic_bow18_stopmarks, 
+                         filenamestem="basic_bow18_stopmarks_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+qqq <- run_svm_once(df=df, features=feats_basic_bow18_stopmarks, filenamestem="basic_bow18_stopmarks_svm_20170818")
+feats_basic_bow18 <- NULL
+feats_basic_bow18_stopmarks <- NULL
+
+# Prepare & process basic, bow18, MARC
+feats_basic_bow18_marc <- readRDS(paste0(bu_path, "/features_marc_20170803.RDS"))
+feats_basic_bow18_marc$author_age <- NULL
+feats_basic_bow18_marc$pagecount <- df$pagecount
+include_inds <- which(!is.na(df$pagecount))
+include_inds <- intersect(include_inds, which(feats_basic_bow18_marc$physical_extent!="NA"))
+include_inds <- intersect(include_inds, which(feats_basic_bow18_marc$publication_year>1400))
+feats_basic_bow18_marc$is_poetry <- NULL
+feats_basic_bow18_marc$physical_extent <- factor(feats_basic_bow18_marc$physical_extent)
+feats_basic_bow18 <- readRDS(paste0(bu_path, "/features_basic_bow18.RDS"))
+feats_basic_bow18_marc <- cbind(feats_basic_bow18[include_inds,], feats_basic_bow18_marc[include_inds,])
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_basic_bow18_marc, 
+                         filenamestem="basic_bow18_MARC_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+qqq <- run_svm_once(df=df, features=feats_basic_bow18_marc, filenamestem="basic_bow18_MARC_svm_20170818")
+feats_basic_bow18 <- NULL
+feats_basic_bow18_marc <- NULL
+
+# Process basic, bow18, antique
+feats_basic_bow18_antique <- readRDS(paste0(bu_path, "/features_antique_20170803.RDS"))
+feats_basic_bow18 <- readRDS(paste0(bu_path, "/features_basic_bow18.RDS"))
+feats_basic_bow18$is_poetry <- NULL
+feats_basic_bow18_antique <- cbind(feats_basic_bow18, feats_basic_bow18_antique)
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_basic_bow18_antique, 
+                         filenamestem="basic_bow18_antique_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+qqq <- run_svm_once(df=df, features=feats_basic_bow18_antique, filenamestem="basic_bow18_antique_svm_20170818")
+feats_basic_bow18 <- NULL
+feats_basic_bow18_antique <- NULL
+
+
+
+# Process basic, bow18, WITHOUT genre shares
+feats_basic_bow18_sans_genreshares <- readRDS(paste0(bu_path, "/features_basic_bow18.RDS"))
+feats_genreshares <- readRDS(paste0(bu_path, "/features_genreshares_20170816.RDS"))
+feats_basic_bow18_sans_genreshares <- feats_basic_bow18_sans_genreshares[,c(which(names(feats_basic_bow18_sans_genreshares) %in%
+                                                                                    names(feats_genreshares) == FALSE))]
+# remember to add $is_poetry anyway
+feats_basic_bow18_sans_genreshares$is_poetry <- feats_genreshares$is_poetry
+qqq <- run_svm_once(df=df, features=feats_basic_bow18_sans_genreshares, filenamestem="basic_bow18_sans_genreshares_svm_20170818")
+feats_basic_bow18_sans_genreshares <- NULL
+feats_genreshares <- NULL

@@ -120,20 +120,27 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_cutoff=FA
   
     
   if (get_cutoff) {
+    aggregated_results <- aggregate_confusion_matrix(matrices)
     sink(file = paste0(outputpath, "/", filestem ,"confusionMatrix_combined.txt"),
          append=FALSE)
-  
-    aggregated_results <- aggregate_confusion_matrix(matrices)
+    width <- getOption("width")
+    options("width"=1000)
     print(aggregated_results)
+    options("width"=width)
     sink()
   }
   
+  aggregated_results_no_cutoff <- aggregate_cm_dynamically(matrices_no_cutoff)
   sink(file = paste0(outputpath, "/", filestem ,"confusionMatrix_combined_no_cutoff.txt"),
        append=FALSE)
   
   #aggregated_results_no_cutoff <- aggregate_confusion_matrix(matrices_no_cutoff)
-  aggregated_results_no_cutoff <- aggregate_cm_dynamically(matrices_no_cutoff)
+  
+  width <- getOption("width")
+  options("width"=1000)
   print(aggregated_results_no_cutoff)
+  options("width"=width)
+
   sink()
 #  for (matr in matrices) {
 #    print(cm)

@@ -1,9 +1,11 @@
 run_svm_once <- function(df, features, filenamestem, language="eng") {
+  feats <- features[which(df$language==language & df$genre!=""),]
+  
   df <- get_subset(language=language, 
                    df=df)
   df.genres <- df$df.genres
   
-  df.genres.sets <- get_training_and_testing_sets(features=df.genres, 
+  df.genres.sets <- get_training_and_testing_sets(features=feats, 
                                                   training_percent=50, 
                                                   filenamestem=filenamestem, 
                                                   load=FALSE)
@@ -18,10 +20,9 @@ run_svm_once <- function(df, features, filenamestem, language="eng") {
   names(aggr) <- append(names(features[names(features)!="is_poetry"]), "TOTAL")
 
   aggregated_results <- run_svm(features.split=features.split, 
-                                          filestem = paste0(filenamestem, "_"),
-                                          ntree=ntree,
-                                          mtry=mtry)
-  aggr[["TOTAL"]] <- t(as.data.frame(aggregated_results[,"total"]))
-  rownames(aggr) <- rownames(aggregated_results)
-  return(aggr)
+                                          filestem = paste0(filenamestem, "_"))
+  
+  #aggr[["TOTAL"]] <- t(as.data.frame(aggregated_results[,"total"]))
+  #rownames(aggr) <- rownames(aggregated_results)
+  return(aggregated_results)
 }
