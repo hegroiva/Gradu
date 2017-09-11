@@ -34,7 +34,7 @@ aggregate_aggregated_cm <- function(filepath, pattern, files=NULL) {
   names(ret) <- filenames
   i <- 1
   for (file in mixedsort(files)) {
-    cm <- read.delim(file=file)
+    cm <- read.delim(file=file,sep="")
     ret["FALSEFALSE", i] <- unlist(str_split(as.character(cm[["total"]][1]), " +"))[7]
     ret["FALSETRUE", i] <- unlist(str_split(as.character(cm[["total"]][2]), " +"))[7]
     ret["TRUEFALSE", i] <- unlist(str_split(as.character(cm[["total"]][3]), " +"))[7]

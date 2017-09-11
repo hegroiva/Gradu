@@ -145,4 +145,87 @@ make_all_pics <- function() {
                             x_tick_labels = c("5", "10", "15"), 
                             x_tick_breaks = c(5, 10, 15),
                             legend_title_parentheses=c("Ntree=250", "Ntree=500", "Ntree=750"))
+  
+  # POS tags
+  # check which POS is the best
+  make_pic_comparison_bars(filepath=outputpath, 
+                            inputfile_patterns = c("pos_caret_whole_title.*_mtry10__measures.txt",
+                                                   "pos_caret_title_only.*_mtry10__measures.txt") , 
+                            parameter_names = c("H", "Precision", "Recall"), 
+                            group_names = c("Whole title", "Title only"),
+                            outputfile = "Qualification - POS tags", 
+                            main_title = "Qualification - POS tags", 
+                            sub_title = "Features: POS tags from the title, subtitle included or excluded",
+                            x_title = "", 
+                            y_title = "",
+                            legend_labels = c("H", "Precision", "Recall"), 
+                            #x_tick_labels = c("Main title only", "Whole title"), 
+                            #x_tick_breaks = c(1,2),
+                            legend_title_parentheses=c(""))
+  # POS tags II
+  # check which mtry is the best
+  make_pic_comparison_bars(filepath=outputpath, 
+                           inputfile_patterns = c("pos_whole_title_ntree250_mtry5_confusionMatrix_combined_no_cutoff.txt",
+                                                  "pos_whole_title_ntree250_mtry10_confusionMatrix_combined_no_cutoff.txt") , 
+                           parameter_names = c("precision", "recall", "balanced_accuracy"), 
+                           group_names = c("Mtry 5", "Mtry 10"),
+                           outputfile = "Qualification - POS tags and the effect of mtry", 
+                           main_title = "Qualification - POS tags and the effect of mtry", 
+                           sub_title = "Features: POS tags from the whole title",
+                           x_title = "", 
+                           y_title = "",
+                           legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
+                           #x_tick_labels = c("Mtry 5", "Mtry 10"), 
+                           #x_tick_breaks = c(1,2),
+                           legend_title_parentheses=c(""), 
+                           newschool = TRUE)
+  # POS trigrams
+  # check which POS trigrams are the best
+  make_pic_comparison_bars(filepath=outputpath, 
+                           inputfile_patterns = c("pos_trigrams_caret_whole_title.*_mtry10__measures.txt",
+                                                  "pos_trigrams_caret_title_only.*_mtry10__measures.txt") , 
+                           parameter_names = c("H", "Precision", "Recall"), 
+                           group_names = c("Whole title", "Title only"),
+                           outputfile = "Qualification - POS trigrams", 
+                           main_title = "Qualification - POS trigrams", 
+                           sub_title = "Features: POS trigrams from the title, subtitle included or excluded",
+                           x_title = "", 
+                           y_title = "",
+                           legend_labels = c("H", "Precision", "Recall"), 
+                           #x_tick_labels = c("Main title only", "Whole title"), 
+                           #x_tick_breaks = c(1,2),
+                           legend_title_parentheses=c(""))
+  # POS trigrams II
+  # check which mtry is the best
+  make_pic_comparison_bars(filepath=outputpath, 
+                           inputfile_patterns = c("pos_trigrams_whole_title_ntree250_mtry5_confusionMatrix_combined_no_cutoff.txt",
+                                                  "pos_trigrams_whole_title_ntree250_mtry10_confusionMatrix_combined_no_cutoff.txt") , 
+                           parameter_names = c("precision", "recall", "balanced_accuracy"), 
+                           group_names = c("Mtry 5", "Mtry 10"),
+                           outputfile = "Qualification - POS trigrams and the effect of mtry", 
+                           main_title = "Qualification - POS trigrams and the effect of mtry", 
+                           sub_title = "Features: POS trigrams from the whole title",
+                           x_title = "", 
+                           y_title = "",
+                           legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
+                           #x_tick_labels = c("Mtry 5", "Mtry 10"), 
+                           #x_tick_breaks = c(1,2),
+                           legend_title_parentheses=c(""), 
+                           newschool = TRUE)
+
+  # POS vs. POS trigrams
+  make_pic_comparison_bars(filepath=outputpath, 
+                           inputfile_patterns = c("pos_caret_whole_title_ntree250_mtry10__measures.txt",
+                                                  "pos_trigrams_caret_whole_title_ntree250_mtry10__measures.txt") , 
+                           parameter_names = c("H", "Precision", "Recall"), 
+                           group_names = c("POS tags", "POS trigrams"),
+                           outputfile = "POS tags versus POS trigrams", 
+                           main_title = "POS tags versus POS trigrams", 
+                           sub_title = "Mtry values 10, ntree 250",
+                           x_title = "", 
+                           y_title = "",
+                           legend_labels = c("H", "Precision", "Recall"), 
+                           #x_tick_labels = c("Main title only", "Whole title"), 
+                           #x_tick_breaks = c(1,2),
+                           legend_title_parentheses=c(""))
 }

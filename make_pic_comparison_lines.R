@@ -17,12 +17,18 @@ make_pic_comparison_lines <- function(filepath,
     message("Please fill in inputfile_patterns also.")
     return()
   }
+
   
   # Get all the values for all the patterns
   # Add letter at the start of the param name just for alphabetic purposes
   rets <- list()
   for (i in 1:length(inputfile_patterns)) {
-    rets[["pattern"]] <- aggregate_aggregated_cm(filepath=filepath, pattern=inputfile_patterns[i])
+    if (length(grep("__measures", inputfile_patterns[i])) > 0)  {
+      rets[["pattern"]] <- aggregate_measures(filepath=filepath, pattern=inputfile_patterns[i])
+    } else {
+      rets[["pattern"]] <- aggregate_aggregated_cm(filepath=filepath, pattern=inputfile_patterns[i])
+    }  
+    
     params <- data.frame(matrix(ncol=length(parameter_names), nrow=length(rets[["pattern"]])),stringsAsFactors = FALSE)
     names(params) <- paste0(letters[i], "_", parameter_names)
   

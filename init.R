@@ -87,10 +87,13 @@ source("add_customized_rf_model.R")
 source("hmeasureCaret.R")
 source("run_all_once.R")
 source("make_pic_comparison_lines.R")
+source("make_pic_comparison_bars.R")
 source("aggregate_cm_dynamically.R")
 source("arrange_pics.R")
 source("make_all_pics.R")
 source("convert_cm_to_df.R")
+source("aggregate_aggregated_cm_newschool.R")
+source("aggregate_measures.R")
 #source("get_first_and_last_pos.R")
 
 
