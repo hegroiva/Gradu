@@ -1,18 +1,19 @@
 make_all_pics <- function() {
   
   # ALT VS REGULAR POETRY
-  make_pic_comparison_lines(filepath=outputpath, 
-                            inputfile_patterns = c("poetry((50)|(100)|(200))_ntree250_mtry5_.*combined_no_cutoff.txt",
-                                                   "poetry((50)|(100)|(200))_whole_title_alt_ntree250_mtry5_.*combined_no_cutoff.txt") , 
-                            parameter_names = c("precision", "recall", "balanced_accuracy"), 
-                            outputfile = "Effect of different methods in deciding the poetry words", 
-                            main_title = "Effect of different methods for deciding the poetry words, ntree = 250, mtry=5", 
-                            sub_title = "Features: 25, 50, 100, 200, 300 most common words in poetry book titles",
-                            x_title = "", 
-                            legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
-                            x_tick_labels = c("25", "50", "100", "200", "300"), 
-                            x_tick_breaks = c(25, 50, 100, 200, 300),
-                            legend_title_parentheses=c("Method 1", "Method 2"))
+  # This fails and is unnecessary
+#  make_pic_comparison_lines(filepath=outputpath, 
+#                            inputfile_patterns = c("poetry((50)|(100)|(200))_ntree250_mtry5_.*combined_no_cutoff.txt",
+#                                                   "poetry((50)|(100)|(200))_whole_title_alt_ntree250_mtry5_.*combined_no_cutoff.txt") , 
+#                            parameter_names = c("precision", "recall", "balanced_accuracy"), 
+#                            outputfile = "Effect of different methods in deciding the poetry words 50-200", 
+#                            main_title = "Effect of different methods for deciding the poetry words, ntree = 250, mtry=5", 
+#                            sub_title = "Features: 50, 100, 200 most common words in poetry book titles",
+#                            x_title = "", 
+#                            legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
+#                            x_tick_labels = c("50", "100", "200"), 
+#                            x_tick_breaks = c(50, 100, 200),
+#                            legend_title_parentheses=c("Method 1", "Method 2"))
   
   
   # ALT VS REGULAR INCLUDING TITLE ONLY
@@ -32,71 +33,71 @@ make_all_pics <- function() {
   
   
   # POS TRIGRAMS
-  make_pic_comparison_lines(filepath=outputpath, 
-                            inputfile_patterns = c("pos_((50per50)|(100per100)|(200per200)|(500per500))_whole_title_.*combined_no_cutoff.txt",
-                                                   "pos_((50per50)|(100per100)|(200per200)|(500per500))_title_only_.*combined_no_cutoff.txt") , 
-                            parameter_names = c("precision", "recall", "balanced_accuracy"), 
-                            outputfile = "Effect of title definition on POS trigrams", 
-                            main_title = "Effect of title definition on POS trigrams, ntree = 250, mtry=5", 
-                            sub_title = "Features: 50, 100, 200, 500 most common POS trigrams",
-                            x_title = "", 
-                            legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
-                            x_tick_labels = c("50/50", "100/100", "200/200", "500/500"), 
-                            x_tick_breaks = c(50, 100, 200, 500),
-                            legend_title_parentheses=c("Whole title", "Title only"))
+#  make_pic_comparison_lines(filepath=outputpath, 
+#                            inputfile_patterns = c("pos_((50per50)|(100per100)|(200per200)|(500per500))_whole_title_.*combined_no_cutoff.txt",
+#                                                   "pos_((50per50)|(100per100)|(200per200)|(500per500))_title_only_.*combined_no_cutoff.txt") , 
+#                            parameter_names = c("precision", "recall", "balanced_accuracy"), 
+#                            outputfile = "Effect of title definition on POS trigrams", 
+#                            main_title = "Effect of title definition on POS trigrams, ntree = 250, mtry=5", 
+#                            sub_title = "Features: 50, 100, 200, 500 most common POS trigrams",
+#                            x_title = "", 
+#                            legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
+#                            x_tick_labels = c("50/50", "100/100", "200/200", "500/500"), 
+#                            x_tick_breaks = c(50, 100, 200, 500),
+#                            legend_title_parentheses=c("Whole title", "Title only"))
 
   # EFFECT OF EXCLUSION CORPUS ON POS TRIGRAMS
-  make_pic_comparison_lines(filepath=outputpath, 
-                            inputfile_patterns = c("pos_((100per50)|(100per100)|(100per200))_whole_title_.*combined_no_cutoff.txt") , 
-                            parameter_names = c("precision", "recall", "balanced_accuracy"), 
-                            outputfile = "Effect of size of the exclusion corpus on POS trigrams 100", 
-                            main_title = "Effect of size of the exclusion corpus on POS trigrams, ntree = 250, mtry=5", 
-                            sub_title = "Features: 100 most common POS trigrams",
-                            x_title = "", 
-                            legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
-                            x_tick_labels = c("50", "100", "200"), 
-                            x_tick_breaks = c(50, 100, 200))
+#  make_pic_comparison_lines(filepath=outputpath, 
+#                            inputfile_patterns = c("pos_((100per50)|(100per100)|(100per200))_whole_title_.*combined_no_cutoff.txt") , 
+#                            parameter_names = c("precision", "recall", "balanced_accuracy"), 
+#                            outputfile = "Effect of size of the exclusion corpus on POS trigrams 100", 
+#                            main_title = "Effect of size of the exclusion corpus on POS trigrams, ntree = 250, mtry=5", 
+#                            sub_title = "Features: 100 most common POS trigrams",
+#                            x_title = "", 
+#                            legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
+#                            x_tick_labels = c("50", "100", "200"), 
+#                            x_tick_breaks = c(50, 100, 200))
   
-  make_pic_comparison_lines(filepath=outputpath, 
-                            inputfile_patterns = c("pos_((200per200)|(200per500))_whole_title_.*combined_no_cutoff.txt") , 
-                            parameter_names = c("precision", "recall", "balanced_accuracy"), 
-                            outputfile = "Effect of size of the exclusion corpus on POS trigrams 200", 
-                            main_title = "Effect of size of the exclusion corpus on POS trigrams, ntree = 250, mtry=5", 
-                            sub_title = "Features: 200 most common POS trigrams",
-                            x_title = "", 
-                            legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
-                            x_tick_labels = c("200", "500"), 
-                            x_tick_breaks = c(200, 500))
+#  make_pic_comparison_lines(filepath=outputpath, 
+#                            inputfile_patterns = c("pos_((200per200)|(200per500))_whole_title_.*combined_no_cutoff.txt") , 
+#                            parameter_names = c("precision", "recall", "balanced_accuracy"), 
+#                            outputfile = "Effect of size of the exclusion corpus on POS trigrams 200", 
+#                            main_title = "Effect of size of the exclusion corpus on POS trigrams, ntree = 250, mtry=5", 
+#                            sub_title = "Features: 200 most common POS trigrams",
+#                            x_title = "", 
+#                            legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
+#                            x_tick_labels = c("200", "500"), 
+#                            x_tick_breaks = c(200, 500))
   
-  make_pic_comparison_lines(filepath=outputpath, 
-                            inputfile_patterns = c("pos_((50per50)|(50per100))_whole_title_.*combined_no_cutoff.txt") , 
-                            parameter_names = c("precision", "recall", "balanced_accuracy"), 
-                            outputfile = "Effect of size of the exclusion corpus on POS trigrams 50", 
-                            main_title = "Effect of size of the exclusion corpus on POS trigrams, ntree = 250, mtry=5", 
-                            sub_title = "Features: 50 most common POS trigrams",
-                            x_title = "", 
-                            legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
-                            x_tick_labels = c("50", "100"), 
-                            x_tick_breaks = c(50, 100))
+#  make_pic_comparison_lines(filepath=outputpath, 
+#                            inputfile_patterns = c("pos_((50per50)|(50per100))_whole_title_.*combined_no_cutoff.txt") , 
+#                            parameter_names = c("precision", "recall", "balanced_accuracy"), 
+#                            outputfile = "Effect of size of the exclusion corpus on POS trigrams 50", 
+#                            main_title = "Effect of size of the exclusion corpus on POS trigrams, ntree = 250, mtry=5", 
+#                            sub_title = "Features: 50 most common POS trigrams",
+#                            x_title = "", 
+#                            legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
+#                            x_tick_labels = c("50", "100"), 
+#                            x_tick_breaks = c(50, 100))
   
-  make_pic_comparison_lines(filepath=outputpath, 
-                            inputfile_patterns = c("pos_((500per500)|(500per1000))_whole_title_.*combined_no_cutoff.txt") , 
-                            parameter_names = c("precision", "recall", "balanced_accuracy"), 
-                            outputfile = "Effect of size of the exclusion corpus on POS trigrams 500", 
-                            main_title = "Effect of size of the exclusion corpus on POS trigrams, ntree = 250, mtry=5", 
-                            sub_title = "Features: 500 most common POS trigrams",
-                            x_title = "", 
-                            legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
-                            x_tick_labels = c("500", "1000"), 
-                            x_tick_breaks = c(500, 1000))
+#  make_pic_comparison_lines(filepath=outputpath, 
+#                            inputfile_patterns = c("pos_((500per500)|(500per1000))_whole_title_.*combined_no_cutoff.txt") , 
+#                            parameter_names = c("precision", "recall", "balanced_accuracy"), 
+#                            outputfile = "Effect of size of the exclusion corpus on POS trigrams 500", 
+#                            main_title = "Effect of size of the exclusion corpus on POS trigrams, ntree = 250, mtry=5", 
+#                            sub_title = "Features: 500 most common POS trigrams",
+#                            x_title = "", 
+#                            legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
+#                            x_tick_labels = c("500", "1000"), 
+#                            x_tick_breaks = c(500, 1000))
   
-  arrange_pics(images=c("Effect of size of the exclusion corpus on POS trigrams 50.png",
-                        "Effect of size of the exclusion corpus on POS trigrams 100.png",
-                        "Effect of size of the exclusion corpus on POS trigrams 200.png",
-                        "Effect of size of the exclusion corpus on POS trigrams 500.png"),
-               filepath="Effect of size of the exclusion crpus in POS trigrams ALL.png",
-               columns=2,
-               rows=2)
+#  arrange_pics(images=c("Effect of size of the exclusion corpus on POS trigrams 50.png",
+#                        "Effect of size of the exclusion corpus on POS trigrams 100.png",
+#                        "Effect of size of the exclusion corpus on POS trigrams 200.png",
+#                        "Effect of size of the exclusion corpus on POS trigrams 500.png"),
+#               filepath="Effect of size of the exclusion crpus in POS trigrams ALL.png",
+#               columns=2,
+#               rows=2)
   
   # EFFECT OF NTREE
   # check first which poetry set is the best
@@ -132,6 +133,7 @@ make_all_pics <- function() {
   
   # EFFECT OF DIFFERENT SETS
   # check which poetry is the best
+  # Effect of mtry and ntree
   make_pic_comparison_lines(filepath=outputpath, 
                             inputfile_patterns = c("poetry100_ntree250_mtry.*combined_no_cutoff.txt",
                                                    "poetry100_ntree500_mtry.*combined_no_cutoff.txt",
@@ -146,6 +148,44 @@ make_all_pics <- function() {
                             x_tick_breaks = c(5, 10, 15),
                             legend_title_parentheses=c("Ntree=250", "Ntree=500", "Ntree=750"))
   
+  # Effect of number of words in poetry BOW
+  make_pic_comparison_lines(filepath=outputpath, 
+                            inputfile_patterns = c("poetry[0-9]+_ntree250_mtry10.*combined_no_cutoff.txt") , 
+                            parameter_names = c("precision", "recall", "balanced_accuracy"), 
+                            outputfile = "Effect of BOW size", 
+                            main_title = "Effect of BOW size: Method 1", 
+                            sub_title = "Features: 25, 50, 100, 200, 300 most common words in poetry book titles. Ntree = 250, mtry = 10",
+                            x_title = "", 
+                            legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
+                            x_tick_labels = c("25", "50", "100", "200", "300"), 
+                            x_tick_breaks = c(25, 50, 100, 200, 300),
+                            legend_title_parentheses=c(""))
+  
+  # The same for alt
+  make_pic_comparison_lines(filepath=outputpath, 
+                            inputfile_patterns = c("poetry[0-9]+_whole_title_alt_ntree250_mtry10.*no_cutoff.txt") , 
+                            parameter_names = c("precision", "recall", "balanced_accuracy"), 
+                            outputfile = "Effect of BOW size alt", 
+                            main_title = "Effect of BOW size: Method 2", 
+                            sub_title = "Features: 25, 50, 100, 200, 300 most common words in poetry book titles. Ntree = 250, mtry = 10",
+                            x_title = "", 
+                            legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
+                            x_tick_labels = c("25", "50", "100", "200", "300"), 
+                            x_tick_breaks = c(25, 50, 100, 200, 300),
+                            legend_title_parentheses=c(""))
+  
+  # The same for alt, main title
+  make_pic_comparison_lines(filepath=outputpath, 
+                            inputfile_patterns = c("poetry[0-9]+_title_only_alt_ntree250_mtry10.*no_cutoff.txt") , 
+                            parameter_names = c("precision", "recall", "balanced_accuracy"), 
+                            outputfile = "Effect of BOW size alt title only", 
+                            main_title = "Effect of BOW size: Method 3", 
+                            sub_title = "Features: 25, 50, 100, 200, 300 most common words in poetry book titles. Ntree = 250, mtry = 10",
+                            x_title = "", 
+                            legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
+                            x_tick_labels = c("25", "50", "100", "200", "300"), 
+                            x_tick_breaks = c(25, 50, 100, 200, 300),
+                            legend_title_parentheses=c(""))
   # POS tags
   # check which POS is the best
   make_pic_comparison_bars(filepath=outputpath, 
