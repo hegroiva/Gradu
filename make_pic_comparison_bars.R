@@ -11,6 +11,8 @@ make_pic_comparison_bars <- function(filepath=outputpath,
                                     #x_tick_labels = c(""), 
                                     #x_tick_breaks = c(),
                                     legend_title_parentheses=c(""),
+                                    total_width=550,
+                                    space_between_bars=0.0,
                                     newschool=FALSE) {
   # Check that there's a pattern declared
   if (identical(inputfile_patterns,c(""))) {
@@ -72,9 +74,24 @@ make_pic_comparison_bars <- function(filepath=outputpath,
   #gain <- c("","", "0.5%", "", "", "0.5%", "", "", "0.5%", "", "", "3.4%", "", "", "15.7%", "", "", "26.2%", "", "", "21.5%", "", "", "28.2%", "", "", "22.8%", "", "", "23.7%", "", "", "15.7%", "", "", "10.5%", "", "", "4.3%")
   #data_long2 <- cbind(data_long, gain)
   
+  if (space_between_bars != 0.0) {
+    space_between_groups <- (space_between_bars * 2)
+    bar_width <- ((1 - space_between_bars) - space_between_groups)
+  } else {
+    space_between_groups <- 0.1
+    bar_width <- 0.9
+  }
+  
+  # Bloody R uses alphabetical order by default
+  data_long$a <- factor(data_long$a, parameter_names)
+  
   p <- ggplot(data=data_long, aes(x=x, y=percent, fill=a)) +
-    geom_bar(stat="identity", position = "dodge", width = .9) +
+    #geom_bar(stat="identity", position = "dodge", width = .9) +
     
+  
+    geom_bar(stat="identity", 
+             position = position_dodge(width = (space_between_bars + bar_width)), 
+             width = bar_width) +
     theme(legend.title=element_text(size=12, color="red"), 
           axis.title.x = element_text(size=18), 
           axis.title.y = element_text(size=18),
@@ -97,7 +114,7 @@ make_pic_comparison_bars <- function(filepath=outputpath,
     scale_y_continuous(breaks = percent(seq(0, 1, 0.1), digits=0), limits=c(0,1)) +
     labs(title=main_title, subtitle=sub_title, 
          x=x_title, y=y_title)
-  png(filename = paste0(outputpath, "/", outputfile, ".png"), width = 550)
+  png(filename = paste0(outputpath, "/", outputfile, ".png"), width = total_width)
   plot.new()
   plot(p)
 #  text("Percentages on top of the bars\nindicate the potential \nincrease of Fennica records\nif Kungliga records were added.", x=0.82, y=0.8, adj=0, col="red")

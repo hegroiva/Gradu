@@ -53,10 +53,10 @@ aggregate_aggregated_cm_newschool <- function(filepath, pattern, files=NULL) {
     ret["precision", i] <- cm$total[17]
     ret["recall", i] <- cm$total[18]
     ret["F1", i] <- cm$total[19]
-    ret["prevalence", i] <- cm$total[19]
-    ret["detection_rate", i] <- cm$total[20]
-    ret["detection_prevalence", i] <- cm$total[21]
-    ret["balanced_accuracy", i] <- cm$total[22]
+    ret["prevalence", i] <- cm$total[20]
+    ret["detection_rate", i] <- cm$total[21]
+    ret["detection_prevalence", i] <- cm$total[22]
+    ret["balanced_accuracy", i] <- cm$total[23]
     i <- i + 1
   }
   ret
