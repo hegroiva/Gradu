@@ -2828,3 +2828,73 @@ feats_basic_bow15_sans_genreshares <- NULL
 feats_genreshares <- NULL
 
 
+
+
+
+# RETRY NLP features
+# 
+# 20170914
+#
+# prepare NLP features
+feats_basic <- readRDS(paste0(bu_path, "/features_basic_20170803.RDS"))
+feats_NLP <- readRDS(paste0(bu_path, "/features_NLP_20170803.RDS"))
+feats_NLP$no_of_dependents <- feats_NLP$no_of_dependents / feats_basic$no_of_words
+feats_NLP$no_of_root <- feats_NLP$no_of_root / feats_basic$no_of_words 
+# root_offset_characters_relative kertoo root-sanan sijainnista (alku vs. loppu),
+# root_offset_characters kertoo root-sanan absoluuttisesta sijainnista alkuun nähden
+feats_NLP$root_offset_characters_relative <- feats_NLP$root_offset_characters / feats_basic$no_of_words
+feats_NLP$x_no_of_inflected_words <- feats_NLP$x_no_of_inflected_words / feats_basic$no_of_words
+feats_NLP$is_poetry <- feats_basic$is_poetry
+feats_NLP$root_pos <- as.factor(feats_NLP$root_pos)
+saveRDS(feats_NLP, paste0(bu_path, "/features_NLP_20170803b.RDS"))
+feats_basic <- NULL
+feats_NLP <- NULL
+
+
+
+# Process NLP features only
+feats_NLP <- readRDS(paste0(bu_path, "/features_NLP_20170803b.RDS"))
+qqq <- run_rf_once(df=df, features=feats_NLP, ntree=250, mtry=5, filenamestem="nlp_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_NLP, ntree=250, mtry=10, filenamestem="nlp_ntree250_mtry10")
+feats_NLP <- NULL
+
+# Process basic, bow18, NLP features
+feats_basic_bow18_NLP <- readRDS(paste0(bu_path, "/features_NLP_20170803b.RDS"))
+feats_basic_bow18 <- readRDS(paste0(bu_path, "/features_basic_bow18.RDS"))
+feats_basic_bow18$is_poetry <- NULL
+feats_basic_bow18_NLP <- cbind(feats_basic_bow18, feats_basic_bow18_NLP)
+qqq <- run_rf_once(df=df, features=feats_basic_bow18_NLP, ntree=250, mtry=5, filenamestem="basic_bow18_nlp_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow18_NLP, ntree=250, mtry=10, filenamestem="basic_bow18_nlp_ntree250_mtry10")
+feats_basic_bow18 <- NULL
+feats_basic_bow18_NLP <- NULL
+
+
+# Process basic, bow19, NLP features
+feats_basic_bow19_NLP <- readRDS(paste0(bu_path, "/features_NLP_20170803b.RDS"))
+feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19.RDS"))
+feats_basic_bow19$is_poetry <- NULL
+feats_basic_bow19_NLP <- cbind(feats_basic_bow19, feats_basic_bow19_NLP)
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP, ntree=250, mtry=5, filenamestem="basic_bow19_nlp_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP, ntree=250, mtry=10, filenamestem="basic_bow19_nlp_ntree250_mtry10")
+feats_basic_bow19 <- NULL
+feats_basic_bow19_NLP <- NULL
+
+# Process basic, bow15, NLP features
+feats_basic_bow15_NLP <- readRDS(paste0(bu_path, "/features_NLP_20170803b.RDS"))
+feats_basic_bow15 <- readRDS(paste0(bu_path, "/features_basic_bow15.RDS"))
+feats_basic_bow15$is_poetry <- NULL
+feats_basic_bow15_NLP <- cbind(feats_basic_bow15, feats_basic_bow15_NLP)
+qqq <- run_rf_once(df=df, features=feats_basic_bow15_NLP, ntree=250, mtry=5, filenamestem="basic_bow15_nlp_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow15_NLP, ntree=250, mtry=10, filenamestem="basic_bow15_nlp_ntree250_mtry10")
+feats_basic_bow15 <- NULL
+feats_basic_bow15_NLP <- NULL
+
+# Process basic, bow15, NLP features
+feats_basic_bow6_NLP <- readRDS(paste0(bu_path, "/features_NLP_20170803b.RDS"))
+feats_basic_bow6 <- readRDS(paste0(bu_path, "/features_basic_bow6.RDS"))
+feats_basic_bow6$is_poetry <- NULL
+feats_basic_bow6_NLP <- cbind(feats_basic_bow6, feats_basic_bow6_NLP)
+qqq <- run_rf_once(df=df, features=feats_basic_bow6_NLP, ntree=250, mtry=5, filenamestem="basic_bow6_nlp_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow6_NLP, ntree=250, mtry=10, filenamestem="basic_bow6_nlp_ntree250_mtry10")
+feats_basic_bow6 <- NULL
+feats_basic_bow6_NLP <- NULL
