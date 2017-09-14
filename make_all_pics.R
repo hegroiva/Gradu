@@ -304,7 +304,7 @@ make_all_pics <- function() {
                            #x_tick_labels = c("Main title only", "Whole title"), 
                            #x_tick_breaks = c(1,2),
                            legend_title_parentheses=c(""),
-                           total_width=800,
+                           total_width=850,
                            space_between_bars = 0.15,
                            newschool = TRUE)
   

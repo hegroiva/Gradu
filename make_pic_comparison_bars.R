@@ -107,7 +107,7 @@ make_pic_comparison_bars <- function(filepath=outputpath,
     
     geom_text(data=data_long, 
               aes(x=x, y=percent + 0.03 , group=a, label=as.character(percent)),
-              position=position_dodge(0.9)) +
+              position=position_dodge(width = space_between_bars + bar_width)) +
     
     #scale_fill_discrete("", labels=c("Fennica (printed anywhere)", "Kungliga (printed in Finland)", "In Kungliga, but not in Fennica")) +
     scale_fill_discrete("", labels=legend_labels) + 
