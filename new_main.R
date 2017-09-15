@@ -2898,3 +2898,74 @@ qqq <- run_rf_once(df=df, features=feats_basic_bow6_NLP, ntree=250, mtry=5, file
 qqq <- run_rf_once(df=df, features=feats_basic_bow6_NLP, ntree=250, mtry=10, filenamestem="basic_bow6_nlp_ntree250_mtry10")
 feats_basic_bow6 <- NULL
 feats_basic_bow6_NLP <- NULL
+
+
+feats_NLP <- readRDS(paste0(bu_path, "/features_NLP_20170803b.RDS"))
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_NLP, 
+                         filenamestem="nlp_caret_ntree250_mtry4", 
+                         ntree=250, 
+                         mtry=4,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_NLP <- NULL
+
+
+
+# Qualification - second round
+#
+# 2017-09-15
+#
+# Create NLP1 & NLP4
+feats_NLP <- readRDS(paste0(bu_path, "/features_NLP_20170803b.RDS"))
+feats_NLP1 <- data.frame(no_of_root=feats_NLP$no_of_root)
+saveRDS(feats_NLP1, paste0(bu_path, "/features_NLP1.RDS"))
+
+feats_NLP4 <- feats_NLP[,c("no_of_root", 
+                           "x_no_of_inflected_words", 
+                           "no_of_dependents", 
+                           "root_offset_characters_relative")]
+saveRDS(feats_NLP4, paste0(bu_path, "/features_NLP4.RDS"))
+feats_NLP <- NULL
+feats_NLP1  <- NULL
+feats_NLP4 <- NULL
+
+# Process NLP1
+feats_NLP1 <- readRDS(paste0(bu_path, "/features_NLP1.RDS"))
+feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19.RDS"))
+feats_basic_bow19_NLP1 <- cbind(feats_NLP1, feats_basic_bow19)
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP1, ntree=250, mtry=5, filenamestem="basic_bow19_nlp1_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP1, ntree=250, mtry=10, filenamestem="basic_bow19_nlp1_ntree250_mtry10")
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_basic_bow19_NLP1, 
+                         filenamestem="basic_bow19_nlp1_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_NLP1 <- NULL
+feats_basic_bow19 <- NULL
+feats_basic_bow19_NLP1 <- NULL
+
+# Process nlp4
+feats_NLP4 <- readRDS(paste0(bu_path, "/features_nlp4.RDS"))
+feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19.RDS"))
+feats_basic_bow19_NLP4 <- cbind(feats_NLP4, feats_basic_bow19)
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP4, ntree=250, mtry=5, filenamestem="basic_bow19_nlp4_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP4, ntree=250, mtry=10, filenamestem="basic_bow19_nlp4_ntree250_mtry10")
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_basic_bow19_NLP4, 
+                         filenamestem="basic_bow19_nlp4_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_NLP4 <- NULL
+feats_basic_bow19 <- NULL
+feats_basic_bow19_NLP4 <- NULL
