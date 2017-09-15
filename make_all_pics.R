@@ -177,12 +177,12 @@ make_all_pics <- function() {
   # The same for alt, main title
   make_pic_comparison_lines(filepath=outputpath, 
                             inputfile_patterns = c("poetry[0-9]+_title_only_alt_ntree250_mtry10.*no_cutoff.txt") , 
-                            parameter_names = c("precision", "recall", "balanced_accuracy"), 
+                            parameter_names = c("precision", "recall", "balanced_accuracy", "f1"), 
                             outputfile = "Effect of BOW size alt title only", 
                             main_title = "Effect of BOW size: Method 3", 
                             sub_title = "Features: 25, 50, 100, 200, 300 most common words in poetry book titles. Ntree = 250, mtry = 10",
                             x_title = "", 
-                            legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
+                            legend_labels = c("Precision", "Recall", "Balanced accuracy", "F1"), 
                             x_tick_labels = c("25", "50", "100", "200", "300"), 
                             x_tick_breaks = c(25, 50, 100, 200, 300),
                             legend_title_parentheses=c(""))
@@ -191,33 +191,37 @@ make_all_pics <- function() {
   make_pic_comparison_bars(filepath=outputpath, 
                             inputfile_patterns = c("pos_caret_whole_title.*_mtry10__measures.txt",
                                                    "pos_caret_title_only.*_mtry10__measures.txt") , 
-                            parameter_names = c("H", "Precision", "Recall"), 
+                            parameter_names = c("H", "Precision", "Recall", "F"), 
                             group_names = c("Whole title", "Title only"),
                             outputfile = "Qualification - POS tags", 
                             main_title = "Qualification - POS tags", 
                             sub_title = "Features: POS tags from the title, subtitle included or excluded",
                             x_title = "", 
                             y_title = "",
-                            legend_labels = c("H", "Precision", "Recall"), 
+                            legend_labels = c("H", "Precision", "Recall", "F1"), 
                             #x_tick_labels = c("Main title only", "Whole title"), 
                             #x_tick_breaks = c(1,2),
-                            legend_title_parentheses=c(""))
+                            legend_title_parentheses=c(""),
+                           total_width = 700,
+                           space_between_bars = 0.1)
   # POS tags II
   # check which mtry is the best
   make_pic_comparison_bars(filepath=outputpath, 
                            inputfile_patterns = c("pos_whole_title_ntree250_mtry5_confusionMatrix_combined_no_cutoff.txt",
                                                   "pos_whole_title_ntree250_mtry10_confusionMatrix_combined_no_cutoff.txt") , 
-                           parameter_names = c("precision", "recall", "balanced_accuracy"), 
+                           parameter_names = c("precision", "recall", "balanced_accuracy", "F1"), 
                            group_names = c("Mtry 5", "Mtry 10"),
                            outputfile = "Qualification - POS tags and the effect of mtry", 
                            main_title = "Qualification - POS tags and the effect of mtry", 
                            sub_title = "Features: POS tags from the whole title",
                            x_title = "", 
                            y_title = "",
-                           legend_labels = c("Precision", "Recall", "Balanced accuracy"), 
+                           legend_labels = c("Precision", "Recall", "Balanced accuracy", "F1"), 
                            #x_tick_labels = c("Mtry 5", "Mtry 10"), 
                            #x_tick_breaks = c(1,2),
                            legend_title_parentheses=c(""), 
+                           total_width = 700,
+                           space_between_bars = 0.1,
                            newschool = TRUE)
   # POS trigrams
   # check which POS trigrams are the best
@@ -292,7 +296,7 @@ make_all_pics <- function() {
                                                   "basic_bow18_stopmarks_ntree250_mtry10_confusionMatrix_combined_no_cutoff.txt",
                                                   "basic_bow18_antique_ntree250_mtry10_confusionMatrix_combined_no_cutoff.txt",
                                                   "basic_bow18_marc_ntree250_mtry10_confusionMatrix_combined_no_cutoff.txt",
-                                                  "basic_bow18_nlp_ntree250_mtry5_confusionMatrix_combined_no_cutoff.txt") , 
+                                                  "basic_bow18_nlp_ntree250_mtry10_confusionMatrix_combined_no_cutoff.txt") , 
                            parameter_names = c("precision", "recall", "balanced_accuracy"), 
                            group_names = c("Vanilla", "with stopmarks", "with antique", "with MARC", "with NLP"),
                            outputfile = "Basic Bow and additions", 
@@ -307,5 +311,23 @@ make_all_pics <- function() {
                            total_width=850,
                            space_between_bars = 0.15,
                            newschool = TRUE)
-  
+  # Qualification comparison
+  make_pic_comparison_bars(filepath=outputpath, 
+                           inputfile_patterns = c("pos_caret_whole_title_ntree250_mtry10__measures.txt",
+                                                  "pos_trigrams_caret_whole_title_ntree250_mtry10__measures.txt",
+                                                  "nlp_caret_ntree250_mtry4__measures.txt",
+                                                  "poetry100caret_whole_title_alt_ntree250_mtry10_B__measures.txt") , 
+                           parameter_names = c("H", "Precision", "Recall", "F"), 
+                           group_names = c("POS tags", "POS trigrams", "Dependency relation", "Poetry100"),
+                           outputfile = "QualificationComparison", 
+                           main_title = "Comparison of different predictor sets", 
+                           sub_title = "Mtry values 10, ntree 250, except for dependency relations mtry=4",
+                           x_title = "", 
+                           y_title = "",
+                           legend_labels = c("H", "Precision", "Recall", "F1"), 
+                           #x_tick_labels = c("Main title only", "Whole title"), 
+                           #x_tick_breaks = c(1,2),
+                           legend_title_parentheses=c(""),
+                           total_width = 800,
+                           space_between_bars = 0.15)  
 }
