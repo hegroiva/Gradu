@@ -340,4 +340,27 @@ make_all_pics <- function() {
                            legend_title_parentheses=c(""),
                            total_width = 800,
                            space_between_bars = 0.15)  
+  
+  make_pic_comparison_bars(filepath=outputpath, 
+                           inputfile_patterns = c("basic_bow19_ntree250_mtry10_confusionMatrix_combined_no_cutoff.txt",
+                                                  "basic_bow19_nlp1_ntree250_mtry10_confusionMatrix_combined_no_cutoff.txt",
+                                                  "basic_bow18_nlp4_ntree250_mtry10_confusionMatrix_combined_no_cutoff.txt",
+                                                  "basic_bow18_nlp_ntree250_mtry10_confusionMatrix_combined_no_cutoff.txt") , 
+                           parameter_names = c("precision", "recall", "balanced_accuracy", "F1"), 
+                           group_names = c("Vanilla", "with NLP1", "with NLP4", "with NLP7"),
+                           outputfile = "Basic Bow and additions", 
+                           main_title = "Basic, Bag-of-words and NLP bunches", 
+                           sub_title = "Mtry values 10, ntree 250",
+                           x_title = "", 
+                           y_title = "",
+                           legend_labels = c("Precision", "Recall", "Balanced accuracy", "F1"), 
+                           #x_tick_labels = c("Main title only", "Whole title"), 
+                           #x_tick_breaks = c(1,2),
+                           legend_title_parentheses=c(""),
+                           total_width=850,
+                           space_between_bars = 0.15,
+                           newschool = TRUE)
+  
+  
+  
 }
