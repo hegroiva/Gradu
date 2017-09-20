@@ -2969,3 +2969,12 @@ qqq <- run_caret_rf_once(df=df,
 feats_NLP4 <- NULL
 feats_basic_bow19 <- NULL
 feats_basic_bow19_NLP4 <- NULL
+
+
+
+# GET TOPIC FEATURES
+#
+# 2017-09-20
+
+feats_topic100 <- get_topic_features(df)
+saveRDS(feats_topic100, paste0(bu_path, "features_topic100.RDS"))
