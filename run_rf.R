@@ -1,6 +1,7 @@
 run_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_cutoff=FALSE) {
   matrices = list()
   matrices_no_cutoff = list()
+  #all_authors <- rbindlist(features.split, use.names=TRUE)$author
   for (set_no in 1:length(features.split)) {
     print(paste0("Starting run_random_forest round ", set_no, " at ", date()))
     # Get all except one portion as a training group
@@ -15,6 +16,16 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_cutoff=FA
     
     is_poetry <- rbindlist(features.split[-set_no], use.names=TRUE)$is_poetry
     features$is_poetry <- is_poetry
+    
+    # On the fly! (Part 1)
+    if ("author" %in% names(features)) {
+      poetry_authors <- features$author[which(is_poetry=="POETRY")]
+      #author <- features$author
+      features$author <- is_known_author(features$author, 
+                                         poetry_authors=poetry_authors,
+                                         ignore_NA=TRUE)
+    }
+    
     varNames <- names(features)[!names(features) %in% c("is_poetry")]
     varNames1 <- paste(varNames, collapse="+")
     rfForm <- as.formula(paste("is_poetry", varNames1, sep=" ~ "))
@@ -67,6 +78,13 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_cutoff=FA
     levels(features$is_poetry) <- gsub("TRUE", "POETRY", levels(features$is_poetry))
     
     is_poetry2 <- features2$is_poetry
+    
+    # On the fly! (Part 2)
+    if ("author" %in% names(features)) {
+      features2$author <- is_known_author(features2$author, 
+                                         poetry_authors=poetry_authors,
+                                         ignore_NA=TRUE)
+    }
     #varNames_2 <- names(features2)[!names(features2) %in% c("is_poetry")]
     #varNames1_2 <- paste(varNames_2, collapse="+")
     #rfForm2 <- as.formula(paste("is_poetry", varNames1_2, sep=" ~ "))

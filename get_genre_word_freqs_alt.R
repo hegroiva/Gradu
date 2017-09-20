@@ -1,10 +1,24 @@
-get_genre_word_freqs_alt <- function(genre_titles, prefix, all_titles, exclude_titles=NULL, max_count=100, diff=3) {
+get_genre_word_freqs_alt <- function(genre_titles, 
+                                     prefix,
+                                     all_titles, 
+                                     exclude_titles=NULL, 
+                                     max_count=100, 
+                                     diff=3,
+                                     use_phrases=FALSE) {
   
-  genre_titles <- tolower(genre_titles)
-  genre_titles <- str_extract_all(genre_titles, "[A-Za-z]+")
+  if (use_phrases==FALSE) {
+    genre_titles <- tolower(genre_titles)
+    genre_titles <- str_extract_all(genre_titles, "[A-Za-z]+")
+  } else {
+    genre_titles <- lapply(genre_titles, FUN=function(x) {tolower(x)})
+  }
   
-  all_titles <- tolower(all_titles)
-  all_titles <- str_extract_all(all_titles, "[A-Za-z]+")
+  if (use_phrases==FALSE) {
+    all_titles <- tolower(all_titles)
+    all_titles <- str_extract_all(all_titles, "[A-Za-z]+")
+  } else {
+    all_titles <- lapply(all_titles, FUN=function(x) {tolower(x)})
+  }
   
   freqs <- list()
   
@@ -19,8 +33,12 @@ get_genre_word_freqs_alt <- function(genre_titles, prefix, all_titles, exclude_t
   
   
   if (!is.null(exclude_titles)) {
-    exclude_titles <- tolower(exclude_titles)
-    exclude_titles <- str_extract_all(exclude_titles, "[A-Za-z]+")
+    if (use_phrases==FALSE) {
+      exclude_titles <- tolower(exclude_titles)
+      exclude_titles <- str_extract_all(exclude_titles, "[A-Za-z]+")
+    } else {
+      exclude_titles <- lapply(exclude_titles, FUN=function(x) {tolower(x)})
+    }
     
     tab_freq_exclude <- table(unlist(exclude_titles))
     tab_freq_exclude <- as.data.frame(tab_freq_exclude)
@@ -51,10 +69,16 @@ get_genre_word_freqs_alt <- function(genre_titles, prefix, all_titles, exclude_t
     
   }
   
-  freqs <- lapply(X = common_words, FUN= function(t) {
+  common_words <- gsub(" ", "_", common_words)
+  common_words <- gsub("[^A-Za-z0-9_]", "", common_words)
+
+  all_titles <- gsub(" ", "_", all_titles)
+  all_titles <- gsub("[^A-Za-z0-9_]", "", all_titles)
+  
+    freqs <- lapply(X = common_words, FUN= function(t) {
     ptm <- proc.time()
     
-    savefile <- paste0(bu_path, "/word_freqs/", prefix, "_20170531_", t, ".RDS", sep="")
+    savefile <- paste0(bu_path, "/word_freqs/", prefix, "_20170920_", t, ".RDS", sep="")
     
     if (file.exists(savefile)) {
       print(paste0("  get_unique_word_freq: retrieving '", t, "' at ", date(), "."))

@@ -348,7 +348,7 @@ make_all_pics <- function() {
                                                   "basic_bow18_nlp_ntree250_mtry10_confusionMatrix_combined_no_cutoff.txt") , 
                            parameter_names = c("precision", "recall", "balanced_accuracy", "F1"), 
                            group_names = c("Vanilla", "with NLP1", "with NLP4", "with NLP7"),
-                           outputfile = "Basic Bow and additions", 
+                           outputfile = "QualificationNLPComparison", 
                            main_title = "Basic, Bag-of-words and NLP bunches", 
                            sub_title = "Mtry values 10, ntree 250",
                            x_title = "", 
