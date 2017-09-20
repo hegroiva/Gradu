@@ -11,6 +11,8 @@ get_genre_word_freqs_alt <- function(genre_titles,
     genre_titles <- str_extract_all(genre_titles, "[A-Za-z]+")
   } else {
     genre_titles <- lapply(genre_titles, FUN=function(x) {tolower(x)})
+    genre_titles <- lapply(genre_titles, FUN=function(x) {gsub(" ", "_", x)})
+    genre_titles <- lapply(genre_titles, FUN=function(x) {gsub("[^A-Za-z0-9_]", "", x)})
   }
   
   if (use_phrases==FALSE) {
@@ -18,6 +20,8 @@ get_genre_word_freqs_alt <- function(genre_titles,
     all_titles <- str_extract_all(all_titles, "[A-Za-z]+")
   } else {
     all_titles <- lapply(all_titles, FUN=function(x) {tolower(x)})
+    all_titles <- lapply(all_titles, FUN=function(x) {gsub(" ", "_", x)})
+    all_titles <- lapply(all_titles, FUN=function(x) {gsub("[^A-Za-z0-9_]", "", x)})
   }
   
   freqs <- list()
@@ -38,6 +42,8 @@ get_genre_word_freqs_alt <- function(genre_titles,
       exclude_titles <- str_extract_all(exclude_titles, "[A-Za-z]+")
     } else {
       exclude_titles <- lapply(exclude_titles, FUN=function(x) {tolower(x)})
+      exclude_titles <- lapply(exclude_titles, FUN=function(x) {gsub(" ", "_", x)})
+      exclude_titles <- lapply(exclude_titles, FUN=function(x) {gsub("[^A-Za-z0-9_]", "", x)})
     }
     
     tab_freq_exclude <- table(unlist(exclude_titles))
@@ -69,12 +75,8 @@ get_genre_word_freqs_alt <- function(genre_titles,
     
   }
   
-  common_words <- gsub(" ", "_", common_words)
-  common_words <- gsub("[^A-Za-z0-9_]", "", common_words)
 
-  all_titles <- gsub(" ", "_", all_titles)
-  all_titles <- gsub("[^A-Za-z0-9_]", "", all_titles)
-  
+
     freqs <- lapply(X = common_words, FUN= function(t) {
     ptm <- proc.time()
     
