@@ -2977,4 +2977,19 @@ feats_basic_bow19_NLP4 <- NULL
 # 2017-09-20
 
 feats_topic100 <- get_topic_features(df)
-saveRDS(feats_topic100, paste0(bu_path, "features_topic100.RDS"))
+saveRDS(feats_topic100, paste0(bu_path, "/features_topic100.RDS"))
+
+# Process topic features
+feats_topic100 <- readRDS(paste0(bu_path, "/features_topic100.RDS"))
+qqq <- run_rf_once(df=df, features=feats_topic100, ntree=250, mtry=5, filenamestem="topic100_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_topic100, ntree=250, mtry=10, filenamestem="topic100_ntree250_mtry10")
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_topic100, 
+                         filenamestem="topic100_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_topic100 <- NULL
