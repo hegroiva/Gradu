@@ -27,7 +27,14 @@ run_caret_rf <- function(features.split,
     #features$is_poetry <- is_poetry
     is_poetry <- features$is_poetry
     
-    
+    # On the fly! (Part 1)
+    if ("author" %in% names(features)) {
+      poetry_authors <- features$author[which(is_poetry=="POETRY")]
+      #author <- features$author
+      features$author <- is_known_author(features$author, 
+                                         poetry_authors=poetry_authors,
+                                         ignore_NA=TRUE)
+    }
     
 
     
@@ -41,7 +48,12 @@ run_caret_rf <- function(features.split,
     
     is_poetry2 <- features2$is_poetry
     
-    
+    # On the fly! (Part 2)
+    if ("author" %in% names(features)) {
+      features2$author <- is_known_author(features2$author, 
+                                          poetry_authors=poetry_authors,
+                                          ignore_NA=TRUE)
+    }
 
     
     
