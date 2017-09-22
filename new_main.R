@@ -3027,7 +3027,7 @@ feats_antique <- readRDS(paste0(bu_path, "/antique_20170922.RDS"))
 feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19.RDS"))
 feats_basic_bow19_antique <- cbind(feats_antique, feats_basic_bow19)
 qqq <- run_rf_once(df=df, features=feats_basic_bow19_antique, ntree=250, mtry=5, filenamestem="basic_bow19_antique_ntree250_mtry5")
-qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP1, ntree=250, mtry=10, filenamestem="basic_bow19_antique_ntree250_mtry10")
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_antique, ntree=250, mtry=10, filenamestem="basic_bow19_antique_ntree250_mtry10")
 qqq <- run_caret_rf_once(df=df, 
                          features=feats_basic_bow19_antique, 
                          filenamestem="basic_bow19_antique_caret_ntree250_mtry10", 
