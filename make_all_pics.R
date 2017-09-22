@@ -326,9 +326,10 @@ make_all_pics <- function() {
                            inputfile_patterns = c("pos_caret_whole_title_ntree250_mtry10__measures.txt",
                                                   "pos_trigrams_caret_whole_title_ntree250_mtry10__measures.txt",
                                                   "nlp_caret_ntree250_mtry4__measures.txt",
-                                                  "poetry100caret_whole_title_alt_ntree250_mtry10_B__measures.txt") , 
+                                                  "poetry100caret_whole_title_alt_ntree250_mtry10_B__measures.txt",
+                                                  "topic100_caret_ntree250_mtry10__measures.txt") , 
                            parameter_names = c("H", "Precision", "Recall", "F"), 
-                           group_names = c("POS tags", "POS trigrams", "Dependency relation", "Poetry100"),
+                           group_names = c("POS tags", "POS trigrams", "Dependency relation", "Poetry100", "Topic"),
                            outputfile = "QualificationComparison", 
                            main_title = "Comparison of different predictor sets", 
                            sub_title = "Mtry values 10, ntree 250, except for dependency relations mtry=4",
@@ -338,7 +339,7 @@ make_all_pics <- function() {
                            #x_tick_labels = c("Main title only", "Whole title"), 
                            #x_tick_breaks = c(1,2),
                            legend_title_parentheses=c(""),
-                           total_width = 800,
+                           total_width = 1000,
                            space_between_bars = 0.15)  
   
   make_pic_comparison_bars(filepath=outputpath, 

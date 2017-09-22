@@ -2993,3 +2993,94 @@ qqq <- run_caret_rf_once(df=df,
                          get_rfe = FALSE,
                          get_prediction = FALSE)
 feats_topic100 <- NULL
+
+
+
+# Get Antique again
+#
+# 2017-09-21
+
+antique_names <- read.csv2(file=paste0(bu_path, "/metamorphoses_in_capitals_mod.txt"), 
+                           encoding="UTF-8",
+                           header=FALSE,
+                           stringsAsFactors = FALSE, 
+                           quote = "")[,1]
+antique_names2 <- read.csv2(file=paste0(bu_path, "/ilias_mod.txt"), 
+                           encoding="UTF-8",
+                           header=FALSE,
+                           stringsAsFactors = FALSE, 
+                           quote = "")[,1]
+antique_names <- tolower(antique_names)
+antique_names2 <- tolower(antique_names2)
+antique_names3 <- unique(c(antique_names, antique_names2))
+clean_titles <- gsub("([^[:lower:][:upper:] ])", "", df$whole_title_sans_edition)
+clean_titles <- tolower(clean_titles)
+no_of_antique_names <- unlist(lapply(X = df$whole_title_sans_edition, FUN = function(t) {
+  length(which(unlist(str_split(t, " ")) %in% antique_names3))}))
+saveRDS(no_of_antique_names, paste0(bu_path, "/antique_20170922.RDS"))
+
+
+# Process Antique
+#
+# 2017-09-22
+feats_antique <- readRDS(paste0(bu_path, "/antique_20170922.RDS"))
+feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19.RDS"))
+feats_basic_bow19_antique <- cbind(feats_antique, feats_basic_bow19)
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_antique, ntree=250, mtry=5, filenamestem="basic_bow19_antique_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP1, ntree=250, mtry=10, filenamestem="basic_bow19_antique_ntree250_mtry10")
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_basic_bow19_antique, 
+                         filenamestem="basic_bow19_antique_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_antique <- NULL
+feats_basic_bow19 <- NULL
+feats_basic_bow19_antique <- NULL
+
+
+# Process Author
+#
+# 2017-09-22
+feats_author <- df$author
+feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19.RDS"))
+feats_basic_bow19_author <- cbind(feats_author, feats_basic_bow19)
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_author, ntree=250, mtry=5, filenamestem="basic_bow19_author_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_author, ntree=250, mtry=10, filenamestem="basic_bow19_author_ntree250_mtry10")
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_basic_bow19_author, 
+                         filenamestem="basic_bow19_author_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_author <- NULL
+feats_basic_bow19 <- NULL
+feats_basic_bow19_author <- NULL
+
+
+# Process MARC
+#
+# 2017-09-22
+feats_marc <- readRDS(paste0(bu_path, "/features_marc_20170803.RDS"))
+feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19.RDS"))
+feats_basic_bow19_marc <- cbind(feats_marc, feats_basic_bow19)
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_marc, ntree=250, mtry=5, filenamestem="basic_bow19_marc_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_marc, ntree=250, mtry=10, filenamestem="basic_bow19_marc_ntree250_mtry10")
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_basic_bow19_marc, 
+                         filenamestem="basic_bow19_marc_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_marc <- NULL
+feats_basic_bow19 <- NULL
+feats_basic_bow19_marc <- NULL
