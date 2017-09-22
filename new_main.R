@@ -3064,10 +3064,17 @@ feats_basic_bow19 <- NULL
 feats_basic_bow19_author <- NULL
 
 
-# Process MARC
+# Re-prepare MARC
 #
 # 2017-09-22
 feats_marc <- readRDS(paste0(bu_path, "/features_marc_20170803.RDS"))
+feats_marc$author_age <- NULL
+saveRDS(feats_marc, paste0(bu_path, "/features_marc_20170922.RDS"))
+
+# Process MARC
+#
+# 2017-09-22
+feats_marc <- readRDS(paste0(bu_path, "/features_marc_20170922.RDS"))
 feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19.RDS"))
 feats_basic_bow19_marc <- cbind(feats_marc, feats_basic_bow19)
 qqq <- run_rf_once(df=df, features=feats_basic_bow19_marc, ntree=250, mtry=5, filenamestem="basic_bow19_marc_ntree250_mtry5")
