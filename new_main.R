@@ -3045,7 +3045,7 @@ feats_basic_bow19_antique <- NULL
 # Process Author
 #
 # 2017-09-22
-feats_author <- df$author
+feats_author <- df$author_name
 feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19.RDS"))
 feats_basic_bow19_author <- cbind(author=feats_author, feats_basic_bow19)
 qqq <- run_rf_once(df=df, features=feats_basic_bow19_author, ntree=250, mtry=5, filenamestem="basic_bow19_author_ntree250_mtry5")

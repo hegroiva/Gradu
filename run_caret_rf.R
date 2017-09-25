@@ -34,6 +34,9 @@ run_caret_rf <- function(features.split,
       features$author <- is_known_author(features$author, 
                                          poetry_authors=poetry_authors,
                                          ignore_NA=TRUE)
+      features$author[which(features$author==TRUE)] <- "KNOWN"
+      features$author[which(features$author==TRUE)] <- "UNKNOWN"  
+      features$author <- factor(features$author)
     }
     
 
@@ -53,6 +56,9 @@ run_caret_rf <- function(features.split,
       features2$author <- is_known_author(features2$author, 
                                           poetry_authors=poetry_authors,
                                           ignore_NA=TRUE)
+      features2$author[which(features2$author==TRUE)] <- "KNOWN"
+      features2$author[which(features2$author==TRUE)] <- "UNKNOWN"  
+      features$author <- factor(features$author)
     }
 
     
