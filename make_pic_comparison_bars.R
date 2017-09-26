@@ -84,6 +84,7 @@ make_pic_comparison_bars <- function(filepath=outputpath,
   
   # Bloody R uses alphabetical order by default
   data_long$a <- factor(data_long$a, parameter_names)
+  data_long$x <- factor(data_long$x, group_names)
   
   p <- ggplot(data=data_long, aes(x=x, y=percent, fill=a)) +
     #geom_bar(stat="identity", position = "dodge", width = .9) +
