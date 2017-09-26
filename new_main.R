@@ -3098,14 +3098,16 @@ feats_basic_bow19_marc <- NULL
 # Process basic, bow19, punctuation features
 feats_basic_bow19_punctuation <- readRDS(paste0(bu_path, "/features_punctuation_20170926.RDS"))
 feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19.RDS"))
-feats_basic_bow19$is_poetry <- NULL
+feats_basic_bow19_punctuation$is_poetry <- NULL
 feats_basic_bow19$no_of_commas <- NULL
 feats_basic_bow19$no_of_exclamation_marks <- NULL
 feats_basic_bow19$no_of_question_marks <- NULL
 saveRDS(feats_basic_bow19, paste0(bu_path, "/features_basic_bow19_mod.RDS"))
+saveRDS(feats_basic_bow19_punctuation, paste0(bu_path, "/features_punctuation_20170926.RDS"))
 
 feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
-feats_basic_bow19_punctuation <- cbind(feats_basic_bow19, feats_basic_bow19_punctuation)
+feats_basic_bow19_punctuation <- readRDS(paste0(bu_path, "/features_punctuation_20170926.RDS"))
+feats_basic_bow19_punctuation <- cbind(feats_basic_bow19_punctuation, feats_basic_bow19)
 qqq <- run_rf_once(df=df, features=feats_basic_bow19_punctuation, ntree=250, mtry=5, filenamestem="basic_bow19_punctuation_ntree250_mtry5")
 qqq <- run_rf_once(df=df, features=feats_basic_bow19_punctuation, ntree=250, mtry=10, filenamestem="basic_bow19_punctuation_ntree250_mtry10")
 qqq <- run_caret_rf_once(df=df, 
