@@ -1583,7 +1583,8 @@ feats_stopmarks$no_of_singlequotes <- str_count(df$whole_title_sans_edition, "['
 feats_stopmarks$no_of_semicolons <- str_count(df$whole_title_sans_edition, "[;]")
 feats_stopmarks$no_of_periods <- str_count(df$whole_title_sans_edition, "[.]")
 feats_stopmarks$no_of_hyphens <- str_count(df$whole_title_sans_edition, "[-]")
-saveRDS(feats_stopmarks, paste0(bu_path, "/features_stopmarks_20170815.RDS"))
+feats_stopmarks$no_of_parentheses <- str_count(df$whole_title_sans_edition, "[(]")
+saveRDS(feats_stopmarks, paste0(bu_path, "/features_stopmarks_20170926.RDS"))
 
 # Process basic, bow18, stopmarks features
 feats_basic_bow18_stopmarks <- readRDS(paste0(bu_path, "/features_stopmarks_20170815.RDS"))
@@ -3092,3 +3093,14 @@ qqq <- run_caret_rf_once(df=df,
 feats_marc <- NULL
 feats_basic_bow19 <- NULL
 feats_basic_bow19_marc <- NULL
+
+
+# Process basic, bow18, stopmarks features
+feats_basic_bow19_punctuation <- readRDS(paste0(bu_path, "/features_punctuation_20170926.RDS"))
+feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19.RDS"))
+feats_basic_bow19$is_poetry <- NULL
+feats_basic_bow19_stopmarks <- cbind(feats_basic_bow19, feats_basic_bow19_punctuation)
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_punctuation, ntree=250, mtry=5, filenamestem="basic_bow18_punctuation_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_punctuation, ntree=250, mtry=10, filenamestem="basic_bow18_punctuation_ntree250_mtry10")
+feats_basic_bow19 <- NULL
+feats_basic_bow19_punctuation <- NULL
