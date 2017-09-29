@@ -3155,6 +3155,8 @@ names(feats_basic) <- gsub("no_of_non_poetry_words_share100", "basic_nonpoetry10
 names(feats_basic) <- gsub("no_of_common_words", "basic_common_words", names(feats_basic))
 names(feats_basic) <- gsub("no_of_sentences", "basic_sentences", names(feats_basic))
 names(feats_basic) <- gsub("no_of_interjections", "basic_interjections", names(feats_basic))
+names(feats_basic) <- gsub("poetry50_share50", "poetry50_compared", names(feats_basic))
+names(feats_basic) <- gsub("poetry50_share100", "poetry100_compared", names(feats_basic))
 saveRDS(feats_basic, paste0(bu_path, "/features_basic_20170929.RDS"))
 
 # FIX BOW19 NAMING
@@ -3371,3 +3373,5 @@ qqq <- run_caret_rf_once(df=df,
 feats_NLP4 <- NULL
 feats_basic_bow19 <- NULL
 feats_basic_bow19_NLP4 <- NULL
+
+
