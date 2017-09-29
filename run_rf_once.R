@@ -1,4 +1,4 @@
-run_rf_once <- function(df, features, filenamestem, language="eng", ntree=500, mtry=5) {
+run_rf_once <- function(df, features, filenamestem, language="eng", ntree=500, mtry=5, training_percent=50) {
   
   feats <- features[which(df$language==language & df$genre!=""),]
   
@@ -7,7 +7,7 @@ run_rf_once <- function(df, features, filenamestem, language="eng", ntree=500, m
   df.genres <- df$df.genres
   
   df.genres.sets <- get_training_and_testing_sets(features=feats, 
-                                                  training_percent=50, 
+                                                  training_percent=training_percent, 
                                                   filenamestem=filenamestem, 
                                                   load=FALSE)
   
