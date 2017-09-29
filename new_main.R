@@ -3207,14 +3207,15 @@ feats_pos_trigrams_whole_title <- readRDS(paste0(bu_path, "/features_pos_trigram
 names(feats_pos_trigrams_whole_title) <- paste0("pos3gram_", names(feats_pos_trigrams_whole_title))
 saveRDS(feats_pos_trigrams_whole_title, paste0(bu_path, "/features_pos_trigrams_whole_title_20170929.RDS"))
 
+
+
 # REDO EVERYTHING, BECAUSE BASIC SET HAS CHANGED
 # Basic set only
 feats_basic <- readRDS(paste0(bu_path, "/features_basic_20170929.RDS"))
-qqq <- run_rf_once(df=df, features=feats_basic, ntree=5, mtry=5, filenamestem="basic_ntree5_mtry5")
 qqq <- run_rf_once(df=df, features=feats_basic, ntree=250, mtry=10, filenamestem="basic_ntree250_mtry10")
 qqq <- run_caret_rf_once(df=df, 
                          features=feats_basic, 
-                         filenamestem="basic_caret_ntree250_mtry10", 
+                         filenamestem="basic_varimp", 
                          ntree=250, 
                          mtry=10,
                          get_pairwise_comparison = TRUE,
@@ -3229,11 +3230,10 @@ feats_basic <- readRDS(paste0(bu_path, "/features_basic_20170929.RDS"))
 feats_basic$is_poetry <- NULL
 feats_basic_bow19 <- cbind(feats_basic, feats_basic_bow19)
 saveRDS(feats_basic_bow19, paste0(bu_path, "/features_basic_bow19_mod.RDS"))
-qqq <- run_rf_once(df=df, features=feats_basic_bow19, ntree=5, mtry=5, filenamestem="basic_bow19_ntree5_mtry5")
 qqq <- run_rf_once(df=df, features=feats_basic_bow19, ntree=250, mtry=10, filenamestem="basic_bow19_ntree250_mtry10")
 qqq <- run_caret_rf_once(df=df, 
                          features=feats_basic_bow19, 
-                         filenamestem="basic_bow19_caret_ntree250_mtry10", 
+                         filenamestem="basic_bow19_varimp", 
                          ntree=250, 
                          mtry=10,
                          get_pairwise_comparison = TRUE,
@@ -3247,11 +3247,10 @@ feats_basic_bow19 <- NULL
 feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
 feats_basic_bow19_punctuation <- readRDS(paste0(bu_path, "/features_punctuation_20170926.RDS"))
 feats_basic_bow19_punctuation <- cbind(feats_basic_bow19_punctuation, feats_basic_bow19)
-qqq <- run_rf_once(df=df, features=feats_basic_bow19_punctuation, ntree=250, mtry=5, filenamestem="basic_bow19_punctuation_ntree250_mtry5")
 qqq <- run_rf_once(df=df, features=feats_basic_bow19_punctuation, ntree=250, mtry=10, filenamestem="basic_bow19_punctuation_ntree250_mtry10")
 qqq <- run_caret_rf_once(df=df, 
                          features=feats_basic_bow19_punctuation, 
-                         filenamestem="basic_bow19_punctuation_caret_ntree250_mtry10", 
+                         filenamestem="basic_bow19_punctuation_varimp", 
                          ntree=250, 
                          mtry=10,
                          get_pairwise_comparison = TRUE,
@@ -3265,11 +3264,10 @@ feats_basic_bow19_punctuation <- NULL
 feats_marc <- readRDS(paste0(bu_path, "/features_marc_20170922.RDS"))
 feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
 feats_basic_bow19_marc <- cbind(feats_marc, feats_basic_bow19)
-qqq <- run_rf_once(df=df, features=feats_basic_bow19_marc, ntree=250, mtry=5, filenamestem="basic_bow19_marc_ntree250_mtry5")
 qqq <- run_rf_once(df=df, features=feats_basic_bow19_marc, ntree=250, mtry=10, filenamestem="basic_bow19_marc_ntree250_mtry10")
 qqq <- run_caret_rf_once(df=df, 
                          features=feats_basic_bow19_marc, 
-                         filenamestem="basic_bow19_marc_caret_ntree250_mtry10", 
+                         filenamestem="basic_bow19_marc_varimp", 
                          ntree=250, 
                          mtry=10,
                          get_pairwise_comparison = TRUE,
@@ -3285,11 +3283,10 @@ feats_basic_bow19_marc <- NULL
 feats_antique <- readRDS(paste0(bu_path, "/features_antique_20170922.RDS"))
 feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
 feats_basic_bow19_antique <- cbind(varia_antique=feats_antique, feats_basic_bow19)
-qqq <- run_rf_once(df=df, features=feats_basic_bow19_antique, ntree=250, mtry=5, filenamestem="basic_bow19_antique_ntree250_mtry5")
 qqq <- run_rf_once(df=df, features=feats_basic_bow19_antique, ntree=250, mtry=10, filenamestem="basic_bow19_antique_ntree250_mtry10")
 qqq <- run_caret_rf_once(df=df, 
                          features=feats_basic_bow19_antique, 
-                         filenamestem="basic_bow19_antique_caret_ntree250_mtry10", 
+                         filenamestem="basic_bow19_antique_varimp", 
                          ntree=250, 
                          mtry=10,
                          get_pairwise_comparison = TRUE,
@@ -3305,11 +3302,10 @@ feats_basic_bow19_antique <- NULL
 feats_author <- df$author_name
 feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
 feats_basic_bow19_author <- cbind(varia_author=feats_author, feats_basic_bow19)
-qqq <- run_rf_once(df=df, features=feats_basic_bow19_author, ntree=250, mtry=5, filenamestem="basic_bow19_author_ntree250_mtry5")
 qqq <- run_rf_once(df=df, features=feats_basic_bow19_author, ntree=250, mtry=10, filenamestem="basic_bow19_author_ntree250_mtry10")
 qqq <- run_caret_rf_once(df=df, 
                          features=feats_basic_bow19_author, 
-                         filenamestem="basic_bow19_author_caret_ntree250_mtry10", 
+                         filenamestem="basic_bow19_author_varimp", 
                          ntree=250, 
                          mtry=10,
                          get_pairwise_comparison = TRUE,
@@ -3321,15 +3317,15 @@ feats_basic_bow19 <- NULL
 feats_basic_bow19_author <- NULL
 
 
+
 # basic + bow19 + NLP7
 feats_NLP7 <- readRDS(paste0(bu_path, "/features_NLP_20170803b.RDS"))
 feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
 feats_basic_bow19_NLP7 <- cbind(author=feats_NLP7, feats_basic_bow19)
-qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP7, ntree=250, mtry=5, filenamestem="basic_bow19_NLP7_ntree250_mtry5")
 qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP7, ntree=250, mtry=10, filenamestem="basic_bow19_NLP7_ntree250_mtry10")
 qqq <- run_caret_rf_once(df=df, 
-                         features=feats_NLP7, 
-                         filenamestem="nlp7_caret_ntree250_mtry4", 
+                         features=feats_basic_bow19_NLP7, 
+                         filenamestem="basic_bow19_nlp7_varimp", 
                          ntree=250, 
                          mtry=7,
                          get_pairwise_comparison = TRUE,
@@ -3349,11 +3345,10 @@ feats_NLP <- NULL
 feats_NLP1 <- readRDS(paste0(bu_path, "/features_NLP1.RDS"))
 feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
 feats_basic_bow19_NLP1 <- cbind(feats_NLP1, feats_basic_bow19)
-qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP1, ntree=250, mtry=5, filenamestem="basic_bow19_nlp1_ntree250_mtry5")
 qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP1, ntree=250, mtry=10, filenamestem="basic_bow19_nlp1_ntree250_mtry10")
 qqq <- run_caret_rf_once(df=df, 
                          features=feats_basic_bow19_NLP1, 
-                         filenamestem="basic_bow19_nlp1_caret_ntree250_mtry10", 
+                         filenamestem="basic_bow19_nlp1_varimp", 
                          ntree=250, 
                          mtry=10,
                          get_pairwise_comparison = TRUE,
@@ -3368,11 +3363,10 @@ feats_basic_bow19_NLP1 <- NULL
 feats_NLP4 <- readRDS(paste0(bu_path, "/features_nlp4.RDS"))
 feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
 feats_basic_bow19_NLP4 <- cbind(feats_NLP4, feats_basic_bow19)
-qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP4, ntree=250, mtry=5, filenamestem="basic_bow19_nlp4_ntree250_mtry5")
 qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP4, ntree=250, mtry=10, filenamestem="basic_bow19_nlp4_ntree250_mtry10")
 qqq <- run_caret_rf_once(df=df, 
                          features=feats_basic_bow19_NLP4, 
-                         filenamestem="basic_bow19_nlp4_caret_ntree250_mtry10", 
+                         filenamestem="basic_bow19_nlp4_varimp", 
                          ntree=250, 
                          mtry=10,
                          get_pairwise_comparison = TRUE,
