@@ -3121,3 +3121,200 @@ qqq <- run_caret_rf_once(df=df,
                          get_prediction = FALSE)
 feats_basic_bow19 <- NULL
 feats_basic_bow19_punctuation <- NULL
+
+
+
+# FIX BASIC!
+#
+# 2017-09-29
+
+feats_basic <- readRDS(paste0(bu_path, "/features_basic_20170803.RDS"))
+feats_basic$no_of_question_marks <- NULL
+feats_basic$no_of_exclamation_marks < NULL
+feats_basic$no_of_commas <- NULL
+feats_basic$no_of_foreign_words <- str_count(df$tagged, "/FW")
+names(feats_basic) <- gsub("no_of_chars", "basic_chars", names(feats_basic))
+names(feats_basic) <- gsub("no_of_words", "basic_words", names(feats_basic))
+names(feats_basic) <- gsub("no_of_verbs", "basic_verbs", names(feats_basic))
+names(feats_basic) <- gsub("no_of_adjectives", "basic_adjectives", names(feats_basic))
+names(feats_basic) <- gsub("no_of_adverbs", "basic_adverbs", names(feats_basic))
+names(feats_basic) <- gsub("no_of_foreign_words", "basic_foreign_words", names(feats_basic))
+names(feats_basic) <- gsub("no_of_proper_nouns", "basic_proper_nouns", names(feats_basic))
+names(feats_basic) <- gsub("no_of_pronouns", "basic_pronouns", names(feats_basic))
+names(feats_basic) <- gsub("no_of_gerunds", "basic_gerunds", names(feats_basic))
+names(feats_basic) <- gsub("no_of_verbs_past", "basic_verbs_past", names(feats_basic))
+names(feats_basic) <- gsub("title_only", "main_title", names(feats_basic))
+names(feats_basic) <- gsub("remainder", "subtitle", names(feats_basic))
+names(feats_basic) <- gsub("len_words", "basic_word_length", names(feats_basic))
+names(feats_basic) <- gsub("no_of_poetry_words", "basic_poetry50", names(feats_basic))
+names(feats_basic) <- gsub("no_of_non_poetry_words", "basic_nonpoetry50", names(feats_basic))
+names(feats_basic) <- gsub("no_of_poetry_words_share50", "basic_poetry50_compared", names(feats_basic))
+names(feats_basic) <- gsub("no_of_non_poetry_words_share50", "basic_nonpoetry50_compared", names(feats_basic))
+names(feats_basic) <- gsub("no_of_poetry_words_share100", "basic_poetry100_compared", names(feats_basic))
+names(feats_basic) <- gsub("no_of_non_poetry_words_share100", "basic_nonpoetry100_compared", names(feats_basic))
+names(feats_basic) <- gsub("no_of_common_words", "basic_common_words", names(feats_basic))
+names(feats_basic) <- gsub("no_of_exclamation_marks", "basic_exclamation", names(feats_basic))
+names(feats_basic) <- gsub("no_of_question_marks", "basic_question", names(feats_basic))
+names(feats_basic) <- gsub("no_of_sentences", "basic_sentences", names(feats_basic))
+names(feats_basic) <- gsub("no_of_interjections", "basic_interjections", names(feats_basic))
+saveRDS(feats_basic, paste0(bu_path, "/features_basic_20170929.RDS"))
+
+
+
+
+
+
+# REDO EVERYTHING
+#
+# 2017-09-29
+#
+# bagofwords with 19 words and the basic set
+feats_basic_bow19 <- readRDS(paste0(bu_path, "/bagofwords19.RDS"))
+feats_basic <- readRDS(paste0(bu_path, "/features_basic_20170929.RDS"))
+feats_basic$is_poetry <- NULL
+feats_basic_bow19 <- cbind(feats_basic, feats_basic_bow19)
+saveRDS(feats_basic_bow19, paste0(bu_path, "/features_basic_bow19_mod.RDS"))
+qqq <- run_rf_once(df=df, features=feats_basic_bow19, ntree=5, mtry=5, filenamestem="basic_bow19_ntree5_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow19, ntree=250, mtry=10, filenamestem="basic_bow19_ntree250_mtry10")
+feats_basic <- NULL
+feats_basic_bow19 <- NULL
+
+# basic + bow19 + punctuation
+feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
+feats_basic_bow19_punctuation <- readRDS(paste0(bu_path, "/features_punctuation_20170926.RDS"))
+feats_basic_bow19_punctuation <- cbind(feats_basic_bow19_punctuation, feats_basic_bow19)
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_punctuation, ntree=250, mtry=5, filenamestem="basic_bow19_punctuation_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_punctuation, ntree=250, mtry=10, filenamestem="basic_bow19_punctuation_ntree250_mtry10")
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_basic_bow19_punctuation, 
+                         filenamestem="basic_bow19_punctuation_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_basic_bow19 <- NULL
+feats_basic_bow19_punctuation <- NULL
+
+# basic + bow19 + marc
+feats_marc <- readRDS(paste0(bu_path, "/features_marc_20170922.RDS"))
+feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
+feats_basic_bow19_marc <- cbind(feats_marc, feats_basic_bow19)
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_marc, ntree=250, mtry=5, filenamestem="basic_bow19_marc_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_marc, ntree=250, mtry=10, filenamestem="basic_bow19_marc_ntree250_mtry10")
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_basic_bow19_marc, 
+                         filenamestem="basic_bow19_marc_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_marc <- NULL
+feats_basic_bow19 <- NULL
+feats_basic_bow19_marc <- NULL
+
+
+# basic + bow19 + antique
+feats_antique <- readRDS(paste0(bu_path, "/antique_20170922.RDS"))
+feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
+feats_basic_bow19_antique <- cbind(feats_antique, feats_basic_bow19)
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_antique, ntree=250, mtry=5, filenamestem="basic_bow19_antique_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_antique, ntree=250, mtry=10, filenamestem="basic_bow19_antique_ntree250_mtry10")
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_basic_bow19_antique, 
+                         filenamestem="basic_bow19_antique_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_antique <- NULL
+feats_basic_bow19 <- NULL
+feats_basic_bow19_antique <- NULL
+
+
+# basic + bow19 + author
+feats_author <- df$author_name
+feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
+feats_basic_bow19_author <- cbind(author=feats_author, feats_basic_bow19)
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_author, ntree=250, mtry=5, filenamestem="basic_bow19_author_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_author, ntree=250, mtry=10, filenamestem="basic_bow19_author_ntree250_mtry10")
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_basic_bow19_author, 
+                         filenamestem="basic_bow19_author_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_author <- NULL
+feats_basic_bow19 <- NULL
+feats_basic_bow19_author <- NULL
+
+
+# basic + bow19 + NLP7
+feats_NLP7 <- readRDS(paste0(bu_path, "/features_NLP_20170803b.RDS"))
+feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
+feats_basic_bow19_NLP7 <- cbind(author=feats_NLP7, feats_basic_bow19)
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP7, ntree=250, mtry=5, filenamestem="basic_bow19_NLP7_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP7, ntree=250, mtry=10, filenamestem="basic_bow19_NLP7_ntree250_mtry10")
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_NLP7, 
+                         filenamestem="nlp7_caret_ntree250_mtry4", 
+                         ntree=250, 
+                         mtry=7,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_NLP <- NULL
+
+
+
+# Qualification - second round
+#
+# 2017-09-15
+#
+# basic + bow19 + nlp1
+# Process NLP1
+feats_NLP1 <- readRDS(paste0(bu_path, "/features_NLP1.RDS"))
+feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
+feats_basic_bow19_NLP1 <- cbind(feats_NLP1, feats_basic_bow19)
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP1, ntree=250, mtry=5, filenamestem="basic_bow19_nlp1_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP1, ntree=250, mtry=10, filenamestem="basic_bow19_nlp1_ntree250_mtry10")
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_basic_bow19_NLP1, 
+                         filenamestem="basic_bow19_nlp1_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_NLP1 <- NULL
+feats_basic_bow19 <- NULL
+feats_basic_bow19_NLP1 <- NULL
+
+# Process nlp4
+feats_NLP4 <- readRDS(paste0(bu_path, "/features_nlp4.RDS"))
+feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
+feats_basic_bow19_NLP4 <- cbind(feats_NLP4, feats_basic_bow19)
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP4, ntree=250, mtry=5, filenamestem="basic_bow19_nlp4_ntree250_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP4, ntree=250, mtry=10, filenamestem="basic_bow19_nlp4_ntree250_mtry10")
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_basic_bow19_NLP4, 
+                         filenamestem="basic_bow19_nlp4_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_NLP4 <- NULL
+feats_basic_bow19 <- NULL
+feats_basic_bow19_NLP4 <- NULL

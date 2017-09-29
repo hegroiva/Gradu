@@ -31,7 +31,7 @@ get_features <- function(df,
   no_of_interjections <- str_count(df$tagged, "/UH")
   no_of_adjectives <- str_count(df$tagged, "/JJ")
   no_of_adverbs <- str_count(df$tagged, "/RB")
-  no_of_foreign_words <- str_count(df$tagged, "/RB")
+  no_of_foreign_words <- str_count(df$tagged, "/FW")
   no_of_proper_nouns <- str_count(df$tagged, "/NNP")
   no_of_pronouns <- str_count(df$tagged, "/PRP")
   no_of_gerunds <- str_count(df$tagged, "/VBG")

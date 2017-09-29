@@ -342,6 +342,7 @@ make_all_pics <- function() {
                            total_width = 1000,
                            space_between_bars = 0.15)  
   
+  # Qualification comparison for NLP
   make_pic_comparison_bars(filepath=outputpath, 
                            inputfile_patterns = c("basic_bow19_ntree250_mtry10_confusionMatrix_combined_no_cutoff.txt",
                                                   "basic_bow19_nlp1_ntree250_mtry10_confusionMatrix_combined_no_cutoff.txt",
@@ -362,6 +363,8 @@ make_all_pics <- function() {
                            space_between_bars = 0.15,
                            newschool = TRUE)
   
+  
+  # Basic + Bow19 + additions comparison
   make_pic_comparison_bars(filepath=outputpath, 
                            inputfile_patterns = c("basic_bow19_ntree250_mtry10_confusionMatrix_combined_no_cutoff.txt",
                                                   "basic_bow19_punctuation_ntree250_mtry10_confusionMatrix_combined_no_cutoff.txt",
