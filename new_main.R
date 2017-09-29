@@ -3130,7 +3130,7 @@ feats_basic_bow19_punctuation <- NULL
 
 feats_basic <- readRDS(paste0(bu_path, "/features_basic_20170803.RDS"))
 feats_basic$no_of_question_marks <- NULL
-feats_basic$no_of_exclamation_marks < NULL
+feats_basic$no_of_exclamation_marks <- NULL
 feats_basic$no_of_commas <- NULL
 feats_basic$no_of_foreign_words <- str_count(df$tagged, "/FW")
 names(feats_basic) <- gsub("no_of_chars", "basic_chars", names(feats_basic))
@@ -3153,21 +3153,76 @@ names(feats_basic) <- gsub("no_of_non_poetry_words_share50", "basic_nonpoetry50_
 names(feats_basic) <- gsub("no_of_poetry_words_share100", "basic_poetry100_compared", names(feats_basic))
 names(feats_basic) <- gsub("no_of_non_poetry_words_share100", "basic_nonpoetry100_compared", names(feats_basic))
 names(feats_basic) <- gsub("no_of_common_words", "basic_common_words", names(feats_basic))
-names(feats_basic) <- gsub("no_of_exclamation_marks", "basic_exclamation", names(feats_basic))
-names(feats_basic) <- gsub("no_of_question_marks", "basic_question", names(feats_basic))
 names(feats_basic) <- gsub("no_of_sentences", "basic_sentences", names(feats_basic))
 names(feats_basic) <- gsub("no_of_interjections", "basic_interjections", names(feats_basic))
 saveRDS(feats_basic, paste0(bu_path, "/features_basic_20170929.RDS"))
 
+# FIX BOW19 NAMING
+feats_bow19 <- readRDS(paste0(bu_path, "/bagofwords19.RDS"))
+names(feats_bow19) <- gsub("poetry_alt", "bow", names(feats_bow19))
+saveRDS(feats_bow19, paste0(bu_path, "/bagofwords19.RDS"))
 
+# FIX PUNCTUATION NAMING
+feats_punctuation <- readRDS(paste0(bu_path, "/features_punctuation_20170926.RDS"))
+names(feats_punctuation) <- gsub("no_of", "punctuation", names(feats_punctuation))
+saveRDS(feats_bow19, paste0(bu_path, "/features_punctuation_20170926.RDS"))
 
+# FIX MARC NAMING
+feats_marc <- readRDS(paste0(bu_path, "/features_marc_20170922.RDS"))
+names(feats_marc) <- paste0("marc_", names(feats_marc))
+names(feats_marc) <- gsub("physical_extent", "size", names(feats_marc))
+saveRDS(feats_marc, paste0(bu_path, "/features_marc_20170922.RDS"))
 
+# FIX OTHER NAMING
+feats_author <- readRDS(paste0(bu_path, "/features_author_20170922.RDS"))
+names(feats_author) <- paste0("marc_", names(feats_marc))
+names(feats_marc) <- gsub("physical_extent", "size", names(feats_marc))
+saveRDS(feats_marc, paste0(bu_path, "/features_marc_20170922.RDS"))
 
+# FIX NLP7 NAMING
+feats_NLP7 <- readRDS(paste0(bu_path, "/features_NLP_20170803b.RDS"))
+names(feats_NLP7) <- paste0("deprel_", names(feats_NLP7))
+names(feats_NLP7) <- gsub("_x_", "_", names(feats_NLP7))
+names(feats_NLP7) <- gsub("_relative", "", names(feats_NLP7))
+names(feats_NLP7) <- gsub("_words$", "", names(feats_NLP7))
+names(feats_NLP7) <- gsub("deprel_is_poetry", "is_poetry", names(feats_NLP7))
+saveRDS(feats_NLP7, paste0(bu_path, "/features_NLP_20170803b.RDS"))
 
-# REDO EVERYTHING
-#
-# 2017-09-29
-#
+# RECREATE NLP1 AND NLP7
+feats_NLP7 <- readRDS(paste0(bu_path, "/features_NLP_20170803b.RDS"))
+feats_NLP1 <- data.frame(deprel_no_of_root=feats_NLP7$deprel_no_of_root)
+saveRDS(feats_NLP1, paste0(bu_path, "/features_NLP1.RDS"))
+
+feats_NLP4 <- feats_NLP7[,c("deprel_no_of_root", 
+                           "deprel_no_of_inflected", 
+                           "deprel_no_of_dependents", 
+                           "deprel_root_offset_characters")]
+saveRDS(feats_NLP4, paste0(bu_path, "/features_NLP4.RDS"))
+feats_NLP <- NULL
+feats_NLP1  <- NULL
+feats_NLP4 <- NULL
+
+# FIX POS TRIGRAM NAMING
+feats_pos_trigrams_whole_title <- readRDS(paste0(bu_path, "/features_pos_trigrams_whole_title_20170817.RDS"))
+names(feats_pos_trigrams_whole_title) <- paste0("pos3gram_", names(feats_pos_trigrams_whole_title))
+saveRDS(feats_pos_trigrams_whole_title, paste0(bu_path, "/features_pos_trigrams_whole_title_20170929.RDS"))
+
+# REDO EVERYTHING, BECAUSE BASIC SET HAS CHANGED
+# Basic set only
+feats_basic <- readRDS(paste0(bu_path, "/features_basic_20170929.RDS"))
+qqq <- run_rf_once(df=df, features=feats_basic, ntree=5, mtry=5, filenamestem="basic_ntree5_mtry5")
+qqq <- run_rf_once(df=df, features=feats_basic, ntree=250, mtry=10, filenamestem="basic_ntree250_mtry10")
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_basic, 
+                         filenamestem="basic_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_basic <- NULL
+
 # bagofwords with 19 words and the basic set
 feats_basic_bow19 <- readRDS(paste0(bu_path, "/bagofwords19.RDS"))
 feats_basic <- readRDS(paste0(bu_path, "/features_basic_20170929.RDS"))
@@ -3176,6 +3231,15 @@ feats_basic_bow19 <- cbind(feats_basic, feats_basic_bow19)
 saveRDS(feats_basic_bow19, paste0(bu_path, "/features_basic_bow19_mod.RDS"))
 qqq <- run_rf_once(df=df, features=feats_basic_bow19, ntree=5, mtry=5, filenamestem="basic_bow19_ntree5_mtry5")
 qqq <- run_rf_once(df=df, features=feats_basic_bow19, ntree=250, mtry=10, filenamestem="basic_bow19_ntree250_mtry10")
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_basic_bow19, 
+                         filenamestem="basic_bow19_caret_ntree250_mtry10", 
+                         ntree=250, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
 feats_basic <- NULL
 feats_basic_bow19 <- NULL
 
@@ -3218,9 +3282,9 @@ feats_basic_bow19_marc <- NULL
 
 
 # basic + bow19 + antique
-feats_antique <- readRDS(paste0(bu_path, "/antique_20170922.RDS"))
+feats_antique <- readRDS(paste0(bu_path, "/features_antique_20170922.RDS"))
 feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
-feats_basic_bow19_antique <- cbind(feats_antique, feats_basic_bow19)
+feats_basic_bow19_antique <- cbind(varia_antique=feats_antique, feats_basic_bow19)
 qqq <- run_rf_once(df=df, features=feats_basic_bow19_antique, ntree=250, mtry=5, filenamestem="basic_bow19_antique_ntree250_mtry5")
 qqq <- run_rf_once(df=df, features=feats_basic_bow19_antique, ntree=250, mtry=10, filenamestem="basic_bow19_antique_ntree250_mtry10")
 qqq <- run_caret_rf_once(df=df, 
@@ -3240,7 +3304,7 @@ feats_basic_bow19_antique <- NULL
 # basic + bow19 + author
 feats_author <- df$author_name
 feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
-feats_basic_bow19_author <- cbind(author=feats_author, feats_basic_bow19)
+feats_basic_bow19_author <- cbind(varia_author=feats_author, feats_basic_bow19)
 qqq <- run_rf_once(df=df, features=feats_basic_bow19_author, ntree=250, mtry=5, filenamestem="basic_bow19_author_ntree250_mtry5")
 qqq <- run_rf_once(df=df, features=feats_basic_bow19_author, ntree=250, mtry=10, filenamestem="basic_bow19_author_ntree250_mtry10")
 qqq <- run_caret_rf_once(df=df, 
