@@ -3173,20 +3173,22 @@ saveRDS(feats_bow19, paste0(bu_path, "/features_punctuation_20170926.RDS"))
 feats_marc <- readRDS(paste0(bu_path, "/features_marc_20170922.RDS"))
 names(feats_marc) <- paste0("marc_", names(feats_marc))
 names(feats_marc) <- gsub("physical_extent", "size", names(feats_marc))
-saveRDS(feats_marc, paste0(bu_path, "/features_marc_20170922.RDS"))
+names(feats_marc) <- gsub("marc_marc_", "marc_", names(feats_marc))
+saveRDS(feats_marc, paste0(bu_path, "/features_marc_20170929.RDS"))
 
 
 # FIX NLP7 NAMING
 feats_NLP7 <- readRDS(paste0(bu_path, "/features_NLP_20170803b.RDS"))
-names(feats_NLP7) <- paste0("deprel_", names(feats_NLP7))
+#names(feats_NLP7) <- paste0("deprel_", names(feats_NLP7))
 names(feats_NLP7) <- gsub("_x_", "_", names(feats_NLP7))
 names(feats_NLP7) <- gsub("_relative", "", names(feats_NLP7))
 names(feats_NLP7) <- gsub("_words$", "", names(feats_NLP7))
 names(feats_NLP7) <- gsub("deprel_is_poetry", "is_poetry", names(feats_NLP7))
-saveRDS(feats_NLP7, paste0(bu_path, "/features_NLP_20170803b.RDS"))
+names(feats_NLP7) <- gsub("deprel_deprel_", "deprel_", names(feats_NLP7))
+saveRDS(feats_NLP7, paste0(bu_path, "/features_NLP_20170929.RDS"))
 
 # RECREATE NLP1 AND NLP7
-feats_NLP7 <- readRDS(paste0(bu_path, "/features_NLP_20170803b.RDS"))
+feats_NLP7 <- readRDS(paste0(bu_path, "/features_NLP_20170929.RDS"))
 feats_NLP1 <- data.frame(deprel_no_of_root=feats_NLP7$deprel_no_of_root)
 saveRDS(feats_NLP1, paste0(bu_path, "/features_NLP1.RDS"))
 
@@ -3258,7 +3260,7 @@ feats_basic_bow19 <- NULL
 feats_basic_bow19_punctuation <- NULL
 
 # basic + bow19 + marc
-feats_marc <- readRDS(paste0(bu_path, "/features_marc_20170922.RDS"))
+feats_marc <- readRDS(paste0(bu_path, "/features_marc_20170929.RDS"))
 feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
 feats_basic_bow19_marc <- cbind(feats_marc, feats_basic_bow19)
 qqq <- run_rf_once(df=df, features=feats_basic_bow19_marc, ntree=250, mtry=10, filenamestem="basic_bow19_marc_ntree250_mtry10")
@@ -3316,7 +3318,7 @@ feats_basic_bow19_author <- NULL
 
 
 # basic + bow19 + NLP7
-feats_NLP7 <- readRDS(paste0(bu_path, "/features_NLP_20170803b.RDS"))
+feats_NLP7 <- readRDS(paste0(bu_path, "/features_NLP_20170929.RDS"))
 feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
 feats_basic_bow19_NLP7 <- cbind(author=feats_NLP7, feats_basic_bow19)
 qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP7, ntree=250, mtry=10, filenamestem="basic_bow19_NLP7_ntree250_mtry10")
