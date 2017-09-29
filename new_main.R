@@ -3173,11 +3173,6 @@ names(feats_marc) <- paste0("marc_", names(feats_marc))
 names(feats_marc) <- gsub("physical_extent", "size", names(feats_marc))
 saveRDS(feats_marc, paste0(bu_path, "/features_marc_20170922.RDS"))
 
-# FIX OTHER NAMING
-feats_author <- readRDS(paste0(bu_path, "/features_author_20170922.RDS"))
-names(feats_author) <- paste0("marc_", names(feats_marc))
-names(feats_marc) <- gsub("physical_extent", "size", names(feats_marc))
-saveRDS(feats_marc, paste0(bu_path, "/features_marc_20170922.RDS"))
 
 # FIX NLP7 NAMING
 feats_NLP7 <- readRDS(paste0(bu_path, "/features_NLP_20170803b.RDS"))
