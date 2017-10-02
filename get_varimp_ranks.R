@@ -9,8 +9,13 @@ get_varimp_ranks <- function(filepath,
     outputfilepath <- paste0(filepath, "/", outputfile)
   }
   
+  if (file.exists(paste0(filepath, "/", filenamestem, "__variable_importance_caret.txt"))) {
+    caret_file <- paste0(filepath, "/", filenamestem, "__variable_importance_caret.txt")
+  } else {
+    caret_file <- paste0(filepath, "/", filenamestem, "_caret_ntree250_mtry10__variable_importance_caret.txt")
+  }
   # Caret rank
-  tmp <- read.csv2(file = paste0(filepath, "/", filenamestem, "_caret_ntree250_mtry10__variable_importance_caret.txt"), 
+  tmp <- read.csv2(file = caret_file, 
             header = TRUE,
             quote = "",
             sep = "",
@@ -25,8 +30,14 @@ get_varimp_ranks <- function(filepath,
   df_tmp$caret_threshold[which(df_tmp$NONPOETRY >= thresholds[1])] <- "TRUE"
   measures <- df_tmp
   
+  
   # Conditional rank
-  tmp <- read.csv2(file = paste0(filepath, "/", filenamestem, "_caret_ntree250_mtry10__variable_importance_conditional.txt"), 
+  if (file.exists(paste0(filepath, "/", filenamestem, "__variable_importance_conditional.txt"))) {
+    conditional_file <- paste0(filepath, "/", filenamestem, "__variable_importance_conditional.txt")
+  } else {
+    conditional_file <- paste0(filepath, "/", filenamestem, "_caret_ntree250_mtry10__variable_importance_conditional.txt")
+  }
+  tmp <- read.csv2(file = conditional_file, 
                    header = TRUE,
                    quote = "",
                    sep = "",
@@ -43,9 +54,13 @@ get_varimp_ranks <- function(filepath,
   measures$conditional_importance <- df_tmp$conditional_importance
   measures$conditional_rank <- df_tmp$conditional_rank
   measures$conditional_threshold <- df_tmp$conditional_threshold
-  
-  # Conditional rank
-  tmp <- read.csv2(file = paste0(filepath, "/", filenamestem, "_caret_ntree250_mtry10__variable_importance_randomForest_no_cut.txt"), 
+  # randomForest ranks
+  if (file.exists(paste0(filepath, "/", filenamestem, "__variable_importance_randomForest_no_cut.txt"))) {
+    rf_file <- paste0(filepath, "/", filenamestem, "__variable_importance_randomForest_no_cut.txt")
+  } else {
+    rf_file <- paste0(filepath, "/", filenamestem, "_caret_ntree250_mtry10__variable_importance_randomForest_no_cut.txt")
+  }
+  tmp <- read.csv2(file = rf_file, 
                    header = TRUE,
                    quote = "",
                    sep = "",
