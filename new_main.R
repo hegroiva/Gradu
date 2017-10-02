@@ -3320,6 +3320,8 @@ feats_basic_bow19_author <- NULL
 # Fix NLP7
 feats_NLP7 <- readRDS(paste0(bu_path, "/features_NLP_20170929.RDS"))
 feats_NLP7$is_poetry <- NULL
+names(feats_NLP7)[6] <- "DELETE_ME"
+feats_NLP7$DELETE_ME <- NULL
 saveRDS(feats_NLP7, paste0(bu_path, "features_NLP_20170929.RDS"))
 
 # basic + bow19 + NLP7
