@@ -3327,7 +3327,7 @@ saveRDS(feats_NLP7, paste0(bu_path, "features_NLP_20170929.RDS"))
 # basic + bow19 + NLP7
 feats_NLP7 <- readRDS(paste0(bu_path, "/features_NLP_20170929.RDS"))
 feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
-feats_basic_bow19_NLP7 <- cbind(author=feats_NLP7, feats_basic_bow19)
+feats_basic_bow19_NLP7 <- cbind(feats_NLP7, feats_basic_bow19)
 qqq <- run_rf_once(df=df, features=feats_basic_bow19_NLP7, ntree=250, mtry=10, filenamestem="basic_bow19_NLP7_ntree250_mtry10")
 qqq <- run_caret_rf_once(df=df, 
                          features=feats_basic_bow19_NLP7, 
