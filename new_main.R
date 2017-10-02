@@ -3322,7 +3322,8 @@ feats_NLP7 <- readRDS(paste0(bu_path, "/features_NLP_20170929.RDS"))
 feats_NLP7$is_poetry <- NULL
 names(feats_NLP7)[6] <- "DELETE_ME"
 feats_NLP7$DELETE_ME <- NULL
-saveRDS(feats_NLP7, paste0(bu_path, "features_NLP_20170929.RDS"))
+#feats_NLP7 <- feats_NLP7[c(1:6,8,7)]
+saveRDS(feats_NLP7, paste0(bu_path, "/features_NLP_20170929.RDS"))
 
 # basic + bow19 + NLP7
 feats_NLP7 <- readRDS(paste0(bu_path, "/features_NLP_20170929.RDS"))
@@ -3338,7 +3339,7 @@ qqq <- run_caret_rf_once(df=df,
                          get_varImp = TRUE,
                          get_rfe = FALSE,
                          get_prediction = FALSE)
-feats_NLP <- NULL
+feats_NLP7 <- NULL
 
 
 
