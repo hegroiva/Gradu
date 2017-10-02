@@ -31,7 +31,10 @@ make_pic_comparison_bars <- function(filepath=outputpath,
     }  else {
       rets[["pattern"]] <- aggregate_aggregated_cm_newschool(filepath=filepath, pattern=inputfile_patterns[i])
     }
-    
+    if (length(rets[["pattern"]]) == 0) {
+      msg <- paste0("MISSING files with pattern: ", filepath, "/", inputfile_patterns[i])
+      message(msg)
+    }
     params <- data.frame(matrix(ncol=length(parameter_names), nrow=length(rets[["pattern"]])),stringsAsFactors = FALSE)
     names(params) <- paste0(letters[i], "_", parameter_names)
     
