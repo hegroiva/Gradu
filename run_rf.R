@@ -27,7 +27,7 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_cutoff=FA
     } else if ("varia_author" %in% names(features)) {
       poetry_authors <- features$varia_author[which(is_poetry=="POETRY")]
       #author <- features$author
-      features$author <- is_known_author(features$varia_author, 
+      features$varia_author <- is_known_author(features$varia_author, 
                                          poetry_authors=poetry_authors,
                                          ignore_NA=TRUE)
     }
