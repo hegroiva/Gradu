@@ -3477,3 +3477,13 @@ qqq <- run_rf_once(df=df,
                    ntree=500, 
                    mtry=10,
                    training_percent=100)
+qqq <- run_caret_rf_once(df=df, 
+                         features=feats_final, 
+                         filenamestem="final_1_varimp", 
+                         ntree=500, 
+                         mtry=10,
+                         get_pairwise_comparison = TRUE,
+                         get_varImp = TRUE,
+                         get_rfe = FALSE,
+                         get_prediction = FALSE)
+feats_final <- NULL

@@ -37,6 +37,15 @@ run_caret_rf <- function(features.split,
       features$author[which(features$author==TRUE)] <- "KNOWN"
       features$author[which(features$author==TRUE)] <- "UNKNOWN"  
       features$author <- factor(features$author)
+    } else if ("varia_author" %in% names(features)) {
+      poetry_authors <- features$varia_author[which(is_poetry=="POETRY")]
+      #author <- features$author
+      features$varia_author <- is_known_author(features$varia_author, 
+                                         poetry_authors=poetry_authors,
+                                         ignore_NA=TRUE)
+      features$varia_author[which(features$varia_author==TRUE)] <- "KNOWN"
+      features$varia_author[which(features$varia_author==TRUE)] <- "UNKNOWN"  
+      features$varia_author <- factor(features$varia_author)
     }
     
 
@@ -58,7 +67,14 @@ run_caret_rf <- function(features.split,
                                           ignore_NA=TRUE)
       features2$author[which(features2$author==TRUE)] <- "KNOWN"
       features2$author[which(features2$author==TRUE)] <- "UNKNOWN"  
-      features$author <- factor(features$author)
+      features2$author <- factor(features$author)
+    } else if ("varia_author" %in% names(features)) {
+      features2$varia_author <- is_known_author(features2$varia_author, 
+                                          poetry_authors=poetry_authors,
+                                          ignore_NA=TRUE)
+      features2$varia_author[which(features2$varia_author==TRUE)] <- "KNOWN"
+      features2$varia_author[which(features2$varia_author==TRUE)] <- "UNKNOWN"  
+      features2$varia_author <- factor(features2$varia_author)
     }
 
     
