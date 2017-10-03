@@ -97,6 +97,7 @@ source("aggregate_measures.R")
 #source("get_first_and_last_pos.R")
 source("is_known_author.R")
 source("get_topic_features.R")
+source("get_varimp_ranks.R")
 
 df <- readRDS(paste0(bu_path, "/df.20170609.RDS"))
 feats <- readRDS(paste0(bu_path, "/feats_poetry_whole_title100_20170515.RDS"))
