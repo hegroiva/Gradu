@@ -1584,7 +1584,8 @@ feats_stopmarks$no_of_semicolons <- str_count(df$whole_title_sans_edition, "[;]"
 feats_stopmarks$no_of_periods <- str_count(df$whole_title_sans_edition, "[.]")
 feats_stopmarks$no_of_hyphens <- str_count(df$whole_title_sans_edition, "[-]")
 feats_stopmarks$no_of_parentheses <- str_count(df$whole_title_sans_edition, "[(]")
-saveRDS(feats_stopmarks, paste0(bu_path, "/features_stopmarks_20170926.RDS"))
+feats_stopmarks <- feats_stopmarks[c(2:9,1)]
+saveRDS(feats_stopmarks, paste0(bu_path, "/features_punctuation_20171003.RDS"))
 
 # Process basic, bow18, stopmarks features
 feats_basic_bow18_stopmarks <- readRDS(paste0(bu_path, "/features_stopmarks_20170815.RDS"))
@@ -3385,3 +3386,82 @@ feats_basic_bow19 <- NULL
 feats_basic_bow19_NLP4 <- NULL
 
 
+# Get varimp ranks
+#
+# 2017-10-02
+qqq <- get_varimp_ranks(filepath = outputpath, filenamestem = "basic_varimp")
+
+qqq <- get_varimp_ranks(filepath = outputpath, filenamestem = "basic_bow19_varimp")
+
+qqq <- get_varimp_ranks(filepath = outputpath, filenamestem = "basic_bow19_nlp1_varimp")
+qqq <- get_varimp_ranks(filepath = outputpath, filenamestem = "basic_bow19_nlp4_varimp")
+#qqq <- get_varimp_ranks(filepath = outputpath, filenamestem = "basic_bow19_nlp7_varimp")
+
+
+
+
+
+
+# CREATE THE FINAL PREDICTORS
+#
+# 2017-10-03
+
+# First get new basic features: Division of sentences
+basic_sentences <- str_count(string = df$whole_title_sans_edition, pattern = "[.!?]")
+initials <- str_count(string = df$whole_title_sans_edition, pattern = "[A-Z][.]")
+basic_ellipses <- str_count(string = df$whole_title_sans_edition, pattern = "[.][.][.]")
+basic_sentences <- (basic_sentences - initials)
+basic_sentences <- (basic_sentences - basic_ellipses)
+
+# Combine the best methods
+feats_NLP4 <- readRDS(paste0(bu_path, "/features_nlp4.RDS"))
+feats_basic_bow19 <- readRDS(paste0(bu_path, "/features_basic_bow19_mod.RDS"))
+feats_basic_bow19$basic_sentences <- NULL
+feats_basic_bow19 <- cbind(basic_actual_sentences=basic_sentences, 
+                           basic_ellipses=basic_ellipses,
+                           feats_basic_bow19)
+
+
+feats_final <- cbind(feats_NLP4, feats_basic_bow19)
+
+feats_final <- cbind(varia_author=df$author, feats_final)
+feats_antique <- readRDS(paste0(bu_path, "/features_antique_20170922.RDS"))
+feats_final <- cbind(varia_antique=feats_antique, feats_final)
+
+feats_marc <- readRDS(paste0(bu_path, "/features_marc_20170929.RDS"))
+feats_final <- cbind(feats_marc, feats_final)
+
+feats_topic100 <- readRDS(paste0(bu_path, "features_topic100.RDS"))
+feats_final <- cbind(feats_topic100[c("topic_english_poetry",
+                                      "topic_ballads_english",
+                                      "topic_songs_english",
+                                      "topic_poetry")], feats_final)
+feats_pos_trigrams_whole_title <- readRDS(paste0(bu_path, "/features_pos_trigrams_whole_title_20170817.RDS"))
+names(feats_pos_trigrams_whole_title) <- paste0("pos3gram_", names(feats_pos_trigrams_whole_title))
+feats_final <- cbind(feats_pos_trigrams_whole_title[c("pos3gram_IN_DT_NN",
+                                                      "pos3gram_period_TO_DT",
+                                                      "pos3gram_IN_NNP_comma",
+                                                      "pos3gram_IN_DT_NNP",
+                                                      "pos3gram_NN_IN_NN",
+                                                      "pos3gram_IN_NNP_NNP",
+                                                      "pos3gram_DT_NN_IN")], feats_final)
+feats_pos_whole_title <- readRDS(paste0(bu_path, "/feats_pos_whole_title_20170816.RDS"))
+feats_final <- cbind(feats_pos_whole_title[c("pos_IN",
+                                             "pos_DT",
+                                             "pos_NN",
+                                             "pos_NNP",
+                                             "pos_comma",
+                                             "pos_JJ",
+                                             "pos_period",
+                                             "pos_CC",
+                                             "pos_CD",
+                                             "pos_NNS",
+                                             "pos_VBN",
+                                             "pos_TO")], feats_final)
+feats_punctuation <- readRDS(paste0(bu_path, "/features_punctuation_20171003.RDS"))
+feats_punctuation$is_poetry <- NULL
+names(feats_punctuation) <- gsub("no_of", "punctuation", names(feats_punctuation))
+feats_final <- cbind(feats_punctuation[c("punctuation_singlequotes",
+                                          "punctuation_hyphens")], feats_final)
+                     
+saveRDS(feats_final, paste0(bu_path, "/features_final_20171003.RDS"))
