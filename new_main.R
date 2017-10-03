@@ -3465,3 +3465,15 @@ feats_final <- cbind(feats_punctuation[c("punctuation_singlequotes",
                                           "punctuation_hyphens")], feats_final)
                      
 saveRDS(feats_final, paste0(bu_path, "/features_final_20171003.RDS"))
+
+
+# FINAL ROUND #1
+#
+# 20171003
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171003.RDS"))
+qqq <- run_rf_once(df=df,
+                   features=feats_final, 
+                   filenamestem = "FINAL_1", 
+                   ntree=500, 
+                   mtry=10,
+                   training_percent=100)
