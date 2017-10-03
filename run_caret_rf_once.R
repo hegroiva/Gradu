@@ -8,7 +8,8 @@ run_caret_rf_once <- function(df,
                               get_pairwise_comparison=TRUE, 
                               get_varImp=TRUE,
                               get_rfe=TRUE,
-                              get_prediction=FALSE
+                              get_prediction=FALSE,
+                              training_percent=100
                               ) {
   
   feats <- features[which(df$language==language & df$genre!=""),]
@@ -18,7 +19,7 @@ run_caret_rf_once <- function(df,
   df.genres <- df$df.genres
   
   df.genres.sets <- get_training_and_testing_sets(features=feats, 
-                                                  training_percent=50, 
+                                                  training_percent=training_percent, 
                                                   filenamestem=filenamestem, 
                                                   load=FALSE)
   
