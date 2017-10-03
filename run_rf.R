@@ -24,6 +24,12 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_cutoff=FA
       features$author <- is_known_author(features$author, 
                                          poetry_authors=poetry_authors,
                                          ignore_NA=TRUE)
+    } else if ("varia_author" %in% names(features)) {
+      poetry_authors <- features$varia_author[which(is_poetry=="POETRY")]
+      #author <- features$author
+      features$author <- is_known_author(features$varia_author, 
+                                         poetry_authors=poetry_authors,
+                                         ignore_NA=TRUE)
     }
     
     varNames <- names(features)[!names(features) %in% c("is_poetry")]
@@ -84,6 +90,10 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_cutoff=FA
       features2$author <- is_known_author(features2$author, 
                                          poetry_authors=poetry_authors,
                                          ignore_NA=TRUE)
+    } else if ("varia_author" %in% names(features)) {
+      features2$varia_author <- is_known_author(features2$varia_author, 
+                                          poetry_authors=poetry_authors,
+                                          ignore_NA=TRUE)
     }
     #varNames_2 <- names(features2)[!names(features2) %in% c("is_poetry")]
     #varNames1_2 <- paste(varNames_2, collapse="+")
