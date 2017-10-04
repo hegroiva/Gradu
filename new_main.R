@@ -3487,3 +3487,71 @@ qqq <- run_caret_rf_once(df=df,
                          get_rfe = FALSE,
                          get_prediction = FALSE)
 feats_final <- NULL
+
+
+# FINAL ROUND TRAINING PERCENTS
+#
+# 20171004
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171003.RDS"))
+for (i in seq(10,90,10)) {
+  qqq <- run_rf_once(df=df,
+                     features=feats_final, 
+                     filenamestem = paste0("FINAL_split", i),
+                     ntree=250, 
+                     mtry=10,
+                     training_percent=i)
+}
+
+# FINAL ROUND MTRY
+#
+# 20171004
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171003.RDS"))
+for (i in seq(3,19,1)) {
+  qqq <- run_rf_once(df=df,
+                     features=feats_final, 
+                     filenamestem = paste0("FINAL_mtry", i),
+                     ntree=250, 
+                     mtry=i,
+                     training_percent=100)
+}
+
+for (i in seq(20,50,5)) {
+  qqq <- run_rf_once(df=df,
+                     features=feats_final, 
+                     filenamestem = paste0("FINAL_mtry", i),
+                     ntree=250, 
+                     mtry=i,
+                     training_percent=100)
+}
+
+
+# FINAL ROUND NTREE
+#
+# 20171004
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171003.RDS"))
+for (i in seq(50,250,50)) {
+  qqq <- run_rf_once(df=df,
+                     features=feats_final, 
+                     filenamestem = paste0("FINAL_ntree", i),
+                     ntree=i, 
+                     mtry=10,
+                     training_percent=100)
+}
+
+for (i in seq(300,500,100)) {
+  qqq <- run_rf_once(df=df,
+                     features=feats_final, 
+                     filenamestem = paste0("FINAL_ntree", i),
+                     ntree=i, 
+                     mtry=10,
+                     training_percent=100)
+}
+
+for (i in seq(750,1000,250)) {
+  qqq <- run_rf_once(df=df,
+                     features=feats_final, 
+                     filenamestem = paste0("FINAL_ntree", i),
+                     ntree=i, 
+                     mtry=10,
+                     training_percent=100)
+}
