@@ -3463,7 +3463,7 @@ feats_punctuation$is_poetry <- NULL
 names(feats_punctuation) <- gsub("no_of", "punctuation", names(feats_punctuation))
 feats_final <- cbind(feats_punctuation[c("punctuation_singlequotes",
                                           "punctuation_hyphens")], feats_final)
-                     
+names(feats_final) <- gsub("marc_marc_", "marc_", names(feats_final))
 saveRDS(feats_final, paste0(bu_path, "/features_final_20171003.RDS"))
 
 
