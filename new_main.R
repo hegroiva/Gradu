@@ -3466,21 +3466,27 @@ feats_final <- cbind(feats_punctuation[c("punctuation_singlequotes",
 names(feats_final) <- gsub("marc_marc_", "marc_", names(feats_final))
 saveRDS(feats_final, paste0(bu_path, "/features_final_20171003.RDS"))
 
+feats_final$basic_foreign_words <- NULL
+feats_final$basic_interjections <- NULL
+feats_final$varia_antique <- NULL
+feats_final$bow_maid <- NULL
+
+saveRDS(feats_final, paste0(bu_path, "/features_final_20171005.RDS"))
 
 # FINAL ROUND #1
 #
-# 20171003
-feats_final <- readRDS(paste0(bu_path, "/features_final_20171003.RDS"))
+# 20171005
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
 qqq <- run_rf_once(df=df,
                    features=feats_final, 
-                   filenamestem = "FINAL_1", 
-                   ntree=500, 
+                   filenamestem = "FINAL_split100", 
+                   ntree=250, 
                    mtry=10,
                    training_percent=100)
 qqq <- run_caret_rf_once(df=df, 
                          features=feats_final, 
-                         filenamestem="final_1_varimp", 
-                         ntree=500, 
+                         filenamestem="final_split100_varimp", 
+                         ntree=250, 
                          mtry=10,
                          get_pairwise_comparison = TRUE,
                          get_varImp = TRUE,
@@ -3491,8 +3497,8 @@ feats_final <- NULL
 
 # FINAL ROUND TRAINING PERCENTS
 #
-# 20171004
-feats_final <- readRDS(paste0(bu_path, "/features_final_20171003.RDS"))
+# 20171005
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
 for (i in seq(10,90,10)) {
   qqq <- run_rf_once(df=df,
                      features=feats_final, 
@@ -3504,8 +3510,8 @@ for (i in seq(10,90,10)) {
 
 # FINAL ROUND MTRY
 #
-# 20171004
-feats_final <- readRDS(paste0(bu_path, "/features_final_20171003.RDS"))
+# 20171005
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
 for (i in seq(3,19,1)) {
   qqq <- run_rf_once(df=df,
                      features=feats_final, 
@@ -3527,8 +3533,8 @@ for (i in seq(20,50,5)) {
 
 # FINAL ROUND NTREE
 #
-# 20171004
-feats_final <- readRDS(paste0(bu_path, "/features_final_20171003.RDS"))
+# 20171005
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
 for (i in seq(50,250,50)) {
   qqq <- run_rf_once(df=df,
                      features=feats_final, 
