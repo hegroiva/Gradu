@@ -385,5 +385,58 @@ make_all_pics <- function() {
                            total_width=1000,
                            space_between_bars = 0.15,
                            newschool = TRUE)  
+
   
+  
+  # Effect of split size
+  make_pic_comparison_lines(filepath=outputpath, 
+                            inputfile_patterns = c("FINAL_split[0-9]+_confusionMatrix_combined_no_cutoff.txt") , 
+                            parameter_names = c("precision", "recall", "balanced_accuracy", "F1"), 
+                            outputfile = "Effect of final split", 
+                            main_title = "Effect of training set size (in percentages)", 
+                            sub_title = "Final feature set: Ntree=250, mtry=10",
+                            x_title = "", 
+                            legend_labels = c("Precision", "Recall", "Balanced accuracy", "F1"), 
+                            x_tick_labels = c("10%", "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%"), 
+                            x_tick_breaks = c(10, 20, 30, 40, 50, 60, 70, 80, 90, 100),
+                            legend_title_parentheses=c(""),
+                            newschool=TRUE,
+                            highlight_max = c(FALSE, FALSE, TRUE, TRUE),
+                            plot_width = 1000)
+
+  
+  # Effect of mtry on final features
+  make_pic_comparison_lines(filepath=outputpath, 
+                            inputfile_patterns = c("FINAL_mtry[0-9]+_confusionMatrix_combined_no_cutoff.txt") , 
+                            parameter_names = c("precision", "recall", "balanced_accuracy", "F1"), 
+                            outputfile = "Effect of final mtry", 
+                            main_title = "Effect of mtry", 
+                            sub_title = "Final feature set: Ntree=250, full training set",
+                            x_title = "Mtry value", 
+                            legend_labels = c("Precision", "Recall", "Balanced accuracy", "F1"), 
+                            x_tick_labels = c("3", "4", "5", "6", "7", "8", "9", "10", "11",
+                                              "12", "13", "14", "15", "16", "17", "18", "19", "20",
+                                              "25", "30", "35", "40", "45", "50"), 
+                            x_tick_breaks = c(3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 25, 30, 35, 40, 45, 50),
+                            legend_title_parentheses=c(""),
+                            newschool=TRUE,
+                            plot_width=1500,
+                            highlight_max = c(FALSE, FALSE, TRUE, TRUE))
+  
+  # Effect of ntree on final features
+  make_pic_comparison_lines(filepath=outputpath, 
+                            inputfile_patterns = c("FINAL_ntree[0-9]+_confusionMatrix_combined_no_cutoff.txt") , 
+                            parameter_names = c("precision", "recall", "balanced_accuracy", "F1"), 
+                            outputfile = "Effect of final ntree", 
+                            main_title = "Effect of ntree", 
+                            sub_title = "Final feature set: Mtry=10, full training set",
+                            x_title = "Ntree values", 
+                            legend_labels = c("Precision", "Recall", "Balanced accuracy", "F1"), 
+                            x_tick_labels = c("50", "100", "150", "200", "250", "300", 
+                                              "400", "500", "750", "1000"), 
+                            x_tick_breaks = c(50, 100, 150, 200, 250, 300, 400, 500, 750, 1000),
+                            legend_title_parentheses=c(""),
+                            newschool=TRUE,
+                            plot_width = 1000,
+                            highlight_max = c(FALSE, FALSE, TRUE, TRUE))
 }
