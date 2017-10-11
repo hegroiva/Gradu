@@ -116,8 +116,14 @@ make_pic_comparison_lines <- function(filepath,
   for (k in 1:length(all_params)) {
     max_values[[k]] <- all_params[which(max(all_params[k]) == all_params[k]),k]
     max_inds[[k]] <- which(max(all_params[k]) == all_params[k])
+    diff_from_max <- all_params[[k]] - max_values[[k]][1]
+    print(max_values[[k]][1])
+    print(all_params[[k]])
+    print(diff_from_max)
+    print ("------")
   }
   
+
   # Add points separately for highlights and the rest
   for (j in 1:nrow(all_params)) {
     for (k in 1:length(all_params)) {
