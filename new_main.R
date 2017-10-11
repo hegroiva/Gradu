@@ -3561,3 +3561,26 @@ for (i in seq(750,1000,250)) {
                      mtry=10,
                      training_percent=100)
 }
+
+
+# Get varimp ranks
+#
+# 2017-10-09
+qqq <- get_varimp_ranks(filepath = outputpath, filenamestem = "basic_bow19_marc_varimp")
+qqq <- get_varimp_ranks(filepath = outputpath, filenamestem = "basic_bow19_author_caret_ntree250_mtry10")
+qqq <- get_varimp_ranks(filepath = outputpath, filenamestem = "basic_bow19_antique_caret_ntree250_mtry10")
+qqq <- get_varimp_ranks(filepath = outputpath, filenamestem = "basic_bow19_nlp4_varimp")
+qqq <- get_varimp_ranks(filepath = outputpath, filenamestem = "basic_bow19_nlp4_varimp")
+qqq <- get_varimp_ranks(filepath = outputpath, filenamestem = "basic_bow19_nlp4_varimp")
+
+
+
+# Get SVM
+#
+# 2017-10-11
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+qqq <- run_rf_once(df=df,
+                   features=feats_final, 
+                   filenamestem = "FINAL_svm",
+                   training_percent=100)
+feats_final <- NULL
