@@ -1,10 +1,12 @@
-run_oner_once <- function(df, features, filenamestem, language="eng", method="infogain") {
+run_oner_once <- function(df, features, filenamestem, language="eng", method="infogain", training_percent=50) {
+  feats <- features[which(df$language==language & df$genre!=""),]
+  
   df <- get_subset(language=language, 
                    df=df)
   df.genres <- df$df.genres
   
-  df.genres.sets <- get_training_and_testing_sets(features=df.genres, 
-                                                  training_percent=50, 
+  df.genres.sets <- get_training_and_testing_sets(features=feats, 
+                                                  training_percent=training_percent, 
                                                   filenamestem=filenamestem, 
                                                   load=FALSE)
   

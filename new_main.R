@@ -3584,3 +3584,23 @@ qqq <- run_rf_once(df=df,
                    filenamestem = "FINAL_svm",
                    training_percent=100)
 feats_final <- NULL
+
+# Get OneR
+#
+# 2017-10-11
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+qqq <- run_oner_once(df=df,
+                   features=feats_final, 
+                   filenamestem = "FINAL_OneR",
+                   training_percent=100)
+feats_final <- NULL
+
+# Get C45
+#
+# 2017-10-11
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+qqq <- run_C45_once(df=df,
+                   features=feats_final, 
+                   filenamestem = "FINAL_C45",
+                   training_percent=100)
+feats_final <- NULL

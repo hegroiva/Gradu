@@ -1,9 +1,11 @@
 run_C45_once <- function(df, features, filenamestem, language="eng") {
+  feats <- features[which(df$language==language & df$genre!=""),]
+  
   df <- get_subset(language=language, 
                    df=df)
   df.genres <- df$df.genres
   
-  df.genres.sets <- get_training_and_testing_sets(features=df.genres, 
+  df.genres.sets <- get_training_and_testing_sets(features=feats, 
                                                   training_percent=50, 
                                                   filenamestem=filenamestem, 
                                                   load=FALSE)
