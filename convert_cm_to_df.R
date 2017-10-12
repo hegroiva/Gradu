@@ -49,6 +49,7 @@ convert_cm_to_df <- function(cm) {
   all_names <- tolower(all_names)
 
   ret <- unlist(cm)
+  ret[which(is.na(ret) | (ret=="NaN"))] <- 0
   #names(ret) <- all_names
   ret_df <- data.frame(ret, stringsAsFactors = FALSE)
   row.names(ret_df) <- all_names

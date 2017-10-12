@@ -1,10 +1,13 @@
-run_gbm_once <- function(df, features, filenamestem, language="eng", distribution="multinomial", n.trees=10) {
+run_gbm_once <- function(df, features, filenamestem, language="eng", distribution="multinomial", n.trees=10, training_percent=100) {
+
+  feats <- features[which(df$language==language & df$genre!=""),]
+  
   df <- get_subset(language=language, 
                    df=df)
   df.genres <- df$df.genres
   
-  df.genres.sets <- get_training_and_testing_sets(features=df.genres, 
-                                                  training_percent=50, 
+  df.genres.sets <- get_training_and_testing_sets(features=feats, 
+                                                  training_percent=training_percent, 
                                                   filenamestem=filenamestem, 
                                                   load=FALSE)
   

@@ -3604,3 +3604,32 @@ qqq <- run_C45_once(df=df,
                    filenamestem = "FINAL_C45",
                    training_percent=100)
 feats_final <- NULL
+
+#
+# SKIP LDA (too many variables are alike)
+#
+
+# Get  Naive bayes
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+qqq <- run_naivebayes_once(df=df,
+                           features=feats_final, 
+                           filenamestem = "FINAL_naivebayes",
+                           training_percent=100)
+feats_final <- NULL
+
+# Get PART
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+qqq <- run_PART_once(df=df,
+                    features=feats_final, 
+                    filenamestem = "FINAL_PART",
+                    training_percent=100)
+feats_final <- NULL
+
+
+# Get gbm
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+qqq <- run_gbm_once(df=df,
+                    features=feats_final, 
+                    filenamestem = "FINAL_gbm",
+                    training_percent=100)
+feats_final <- NULL

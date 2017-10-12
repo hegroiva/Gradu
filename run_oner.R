@@ -1,5 +1,5 @@
 library(OneR)
-run_oner <- function(features.split, filestem="", method="linfogain") {
+run_oner <- function(features.split, filestem="", method="infogain") {
   matrices = list()
   for (set_no in 1:length(features.split)) {
     print(paste0("Starting run_oneR round ", set_no, " at ", date()))
@@ -58,16 +58,26 @@ run_oner <- function(features.split, filestem="", method="linfogain") {
       #dev.off()
     }
 	
-	cm <- confusionMatrix(data=pred2, reference=is_poetry2, positive="TRUE")
-    matrices[[set_no]] <- cm
+    # OneR quirks:
+    # pred2 has an extra class: "UNSEEN"
+    pred2[which(pred2=="UNSEEN")] <- "FALSE"
+    levels(pred2) <- droplevels(pred2)
+	  
+    cm <- confusionMatrix(data=pred2, reference=is_poetry2, positive="TRUE")
+    
+    cm_df <- convert_cm_to_df(cm)
+    
+    matrices[[set_no]] <- cm_df
     
     gc()
   }
   sink(file = paste0(outputpath, "/", filestem ,"confusionMatrix_combined.txt"),
        append=FALSE)
-  
-  aggregated_results <- aggregate_confusion_matrix(matrices)
+  width <- getOption("width")
+  options("width"=1000)
+  aggregated_results <- aggregate_cm_dynamically(matrices)
   print(aggregated_results)
+  options("width"=width)
   sink()
   return(aggregated_results)
  

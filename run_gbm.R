@@ -9,7 +9,22 @@ run_gbm <- function(features.split, filestem="", distribution="multinomial", n.t
     is_poetry <- rbindlist(features.split[-set_no], use.names=TRUE)$is_poetry
     features$is_poetry <- is_poetry
     
-	x <- subset(features, select=-is_poetry)
+    # On the fly! (Part 1)
+    if ("author" %in% names(features)) {
+      poetry_authors <- features$author[which(is_poetry=="POETRY")]
+      #author <- features$author
+      features$author <- is_known_author(features$author, 
+                                         poetry_authors=poetry_authors,
+                                         ignore_NA=TRUE)
+    } else if ("varia_author" %in% names(features)) {
+      poetry_authors <- features$varia_author[which(is_poetry=="POETRY")]
+      #author <- features$author
+      features$varia_author <- is_known_author(features$varia_author, 
+                                               poetry_authors=poetry_authors,
+                                               ignore_NA=TRUE)
+    }
+    
+  	x <- subset(features, select=-is_poetry)
     y <- is_poetry
 	
     gbm_model <- gbm(is_poetry ~ ., data=features, distribution=distribution, n.trees=n.trees)
@@ -18,6 +33,18 @@ run_gbm <- function(features.split, filestem="", distribution="multinomial", n.t
     # Get the last portion as the test group
     features2 <- rbindlist(features.split[set_no])
     is_poetry2 <- features2$is_poetry
+    
+    # On the fly! (Part 2)
+    if ("author" %in% names(features)) {
+      features2$author <- is_known_author(features2$author, 
+                                          poetry_authors=poetry_authors,
+                                          ignore_NA=TRUE)
+    } else if ("varia_author" %in% names(features)) {
+      features2$varia_author <- is_known_author(features2$varia_author, 
+                                                poetry_authors=poetry_authors,
+                                                ignore_NA=TRUE)
+    }
+    
     x2 <- subset(features2, select=-is_poetry)
     y2 <- is_poetry2
     prob2 <- predict.gbm(gbm_model,x2, n.trees=n.trees)

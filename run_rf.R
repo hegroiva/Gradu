@@ -10,12 +10,13 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_cutoff=FA
     # Precaution
     names(features) <- gsub(" ", "_", names(features))
     
+    is_poetry <- rbindlist(features.split[-set_no], use.names=TRUE)$is_poetry
+    features$is_poetry <- is_poetry
+    
     # Change names for cforest
     levels(features$is_poetry) <- gsub("FALSE", "NONPOETRY", levels(features$is_poetry))
     levels(features$is_poetry) <- gsub("TRUE", "POETRY", levels(features$is_poetry))
-    
-    is_poetry <- rbindlist(features.split[-set_no], use.names=TRUE)$is_poetry
-    features$is_poetry <- is_poetry
+    is_poetry <- features$is_poetry
     
     # On the fly! (Part 1)
     if ("author" %in% names(features)) {
@@ -80,8 +81,8 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_cutoff=FA
     # Precaution
     names(features2) <- gsub(" ", "_", names(features2))
     # Change names for cforest
-    levels(features$is_poetry) <- gsub("FALSE", "NONPOETRY", levels(features$is_poetry))
-    levels(features$is_poetry) <- gsub("TRUE", "POETRY", levels(features$is_poetry))
+    levels(features2$is_poetry) <- gsub("FALSE", "NONPOETRY", levels(features2$is_poetry))
+    levels(features2$is_poetry) <- gsub("TRUE", "POETRY", levels(features2$is_poetry))
     
     is_poetry2 <- features2$is_poetry
     
@@ -130,7 +131,7 @@ run_rf <- function(features.split, filestem="", ntree=500, mtry=5, get_cutoff=FA
     #print(paste0("Number of trees: ", ntree))
     #print(paste0("Features tried: ", mtry))
     
-    cm_no_cutoff <- confusionMatrix(data=prediction_no_cutoff, reference=is_poetry2, positive="TRUE")
+    cm_no_cutoff <- confusionMatrix(data=prediction_no_cutoff, reference=is_poetry2, positive="POETRY")
     cm_df <- convert_cm_to_df(cm_no_cutoff)
     matrices_no_cutoff[[set_no]] <- cm_df
     #cm2 <- table(prediction_no_cutoff, is_poetry2)

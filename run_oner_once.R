@@ -25,7 +25,7 @@ run_oner_once <- function(df, features, filenamestem, language="eng", method="in
                                           filestem = paste0(filenamestem, "_"),
                                           method=method)
   
-  aggr[["TOTAL"]] <- t(as.data.frame(aggregated_results[,"total"]))
-  rownames(aggr) <- rownames(aggregated_results)
+  #aggr[["TOTAL"]] <- t(as.data.frame(aggregated_results[,"total"]))
+  #rownames(aggr) <- rownames(aggregated_results)
   return(aggr)
 }
