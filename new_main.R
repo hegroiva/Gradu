@@ -3592,7 +3592,7 @@ feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
 qqq <- run_oner_once(df=df,
                    features=feats_final, 
                    filenamestem = "FINAL_OneR",
-                   training_percent=100)
+                   training_percent=100, unseen_value="TRUE")
 feats_final <- NULL
 
 # Get C45
@@ -3633,3 +3633,16 @@ qqq <- run_gbm_once(df=df,
                     filenamestem = "FINAL_gbm",
                     training_percent=100)
 feats_final <- NULL
+
+
+# Test FinalFinal
+#
+# 2017-10-12
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+qqq <- run_rf_final(df=df,
+                    features=feats_final,
+                    filenamestem="FINALFINAL",
+                    ntree=500, 
+                    mtry=18,
+                    training_percent=50
+                    )

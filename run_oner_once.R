@@ -1,4 +1,4 @@
-run_oner_once <- function(df, features, filenamestem, language="eng", method="infogain", training_percent=50) {
+run_oner_once <- function(df, features, filenamestem, language="eng", method="infogain", training_percent=50, unseen_value="FALSE") {
   feats <- features[which(df$language==language & df$genre!=""),]
   
   df <- get_subset(language=language, 
@@ -23,7 +23,8 @@ run_oner_once <- function(df, features, filenamestem, language="eng", method="in
 
   aggregated_results <- run_oner(features.split=features.split, 
                                           filestem = paste0(filenamestem, "_"),
-                                          method=method)
+                                          method=method,
+                                          unseen_value = unseen_value)
   
   #aggr[["TOTAL"]] <- t(as.data.frame(aggregated_results[,"total"]))
   #rownames(aggr) <- rownames(aggregated_results)

@@ -1,5 +1,5 @@
 library(OneR)
-run_oner <- function(features.split, filestem="", method="infogain") {
+run_oner <- function(features.split, filestem="", method="infogain", unseen_value="FALSE") {
   matrices = list()
   for (set_no in 1:length(features.split)) {
     print(paste0("Starting run_oneR round ", set_no, " at ", date()))
@@ -60,17 +60,19 @@ run_oner <- function(features.split, filestem="", method="infogain") {
 	
     # OneR quirks:
     # pred2 has an extra class: "UNSEEN"
-    pred2[which(pred2=="UNSEEN")] <- "FALSE"
+    print("...before UNSEEN")
+    pred2[which(pred2=="UNSEEN")] <- unseen_value
     levels(pred2) <- droplevels(pred2)
-	  
+	  print("..,before confusionMatrix")
     cm <- confusionMatrix(data=pred2, reference=is_poetry2, positive="TRUE")
-    
+    print("...convert_cm_to_df")
     cm_df <- convert_cm_to_df(cm)
     
     matrices[[set_no]] <- cm_df
-    
+    print(paste0("set_no: ", set_no, " done"))
     gc()
   }
+  print("hep")
   sink(file = paste0(outputpath, "/", filestem ,"confusionMatrix_combined.txt"),
        append=FALSE)
   width <- getOption("width")
