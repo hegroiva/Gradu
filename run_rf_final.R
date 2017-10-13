@@ -124,7 +124,7 @@ run_rf_final <- function(df, features, filenamestem, language="eng", ntree=500, 
   
   
   #aggregated_results_no_cutoff <- aggregate_cm_dynamically(matrices_no_cutoff)
-  sink(file = paste0(outputpath, "/", filenamestem ,"confusionMatrix_combined_no_cutoff.txt"),
+  sink(file = paste0(outputpath, "/", filenamestem ,"_confusionMatrix_combined_no_cutoff.txt"),
        append=FALSE)
   
   #aggregated_results_no_cutoff <- aggregate_confusion_matrix(matrices_no_cutoff)
