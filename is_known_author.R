@@ -6,6 +6,6 @@ is_known_author <- function(author_names, poetry_authors, ignore_NA=TRUE) {
   if (ignore_NA) {
     ret[which(is.na(author_names))] <- FALSE
   }
-  ret
+  as.factor(ret)
   
 }
