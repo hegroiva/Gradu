@@ -3646,3 +3646,73 @@ qqq <- run_rf_final(df=df,
                     mtry=18,
                     training_percent=50
                     )
+
+
+# Test HC_PREVAILS: Fringe is not poetry
+#
+# 2017-10-13
+hc_prevails <- readRDS(paste0(bu_path, "/responses_hc_prevails.RDS"))
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+feats_final$is_poetry <- hc_prevails
+feats_final$is_poetry[which(is.na(feats_final$is_poetry))] <- "UNKNOWN"
+feats_final$is_poetry <- factor(feats_final$is_poetry)
+qqq <- run_rf_final(df=df,
+                    features=feats_final,
+                    filenamestem="FINALFINAL_hc_prevails1",
+                    ntree=500, 
+                    mtry=18,
+                    training_percent=50,
+                    genres_only = TRUE,
+                    fringe_is_poetry = TRUE
+)
+
+# TEST FRINGE_PREVAILS: Fringe is not poetry
+fringe_prevails <- readRDS(paste0(bu_path, "/responses_fringe_prevails.RDS"))
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+feats_final$is_poetry <- fringe_prevails
+feats_final$is_poetry[which(is.na(feats_final$is_poetry))] <- "UNKNOWN"
+feats_final$is_poetry <- factor(feats_final$is_poetry)
+qqq <- run_rf_final(df=df,
+                    features=feats_final,
+                    filenamestem="FINALFINAL_fringe_prevails1",
+                    ntree=500, 
+                    mtry=18,
+                    training_percent=50,
+                    genres_only = TRUE,
+                    fringe_is_poetry = TRUE
+)
+
+
+# Test HC_PREVAILS: Fringe is poetry
+#
+# 2017-10-13
+hc_prevails <- readRDS(paste0(bu_path, "/responses_hc_prevails.RDS"))
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+feats_final$is_poetry <- hc_prevails
+feats_final$is_poetry[which(is.na(feats_final$is_poetry))] <- "UNKNOWN"
+feats_final$is_poetry <- factor(feats_final$is_poetry)
+qqq <- run_rf_final(df=df,
+                    features=feats_final,
+                    filenamestem="FINALFINAL_hc_prevails2",
+                    ntree=500, 
+                    mtry=18,
+                    training_percent=50, 
+                    genres_only = TRUE, 
+                    fringe_is_poetry = TRUE
+)
+
+# TEST FRINGE_PREVAILS: Fringe is poetry
+fringe_prevails <- readRDS(paste0(bu_path, "/responses_fringe_prevails.RDS"))
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+feats_final$is_poetry <- fringe_prevails
+feats_final$is_poetry[which(is.na(feats_final$is_poetry))] <- "UNKNOWN"
+feats_final$is_poetry <- factor(feats_final$is_poetry)
+qqq <- run_rf_final(df=df,
+                    features=feats_final,
+                    filenamestem="FINALFINAL_fringe_prevails2",
+                    ntree=500, 
+                    mtry=18,
+                    training_percent=50,
+                    genres_only = TRUE,
+                    fringe_is_poetry = TRUE
+)
