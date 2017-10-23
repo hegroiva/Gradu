@@ -3731,7 +3731,7 @@ feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
 feats_final$is_poetry <- is_poetry3
 qqq <- run_rf_final(df=df,
                     features=feats_final,
-                    filenamestem="TEST_FINAL_ispoetry3",
+                    filenamestem="FINAL_ispoetry3",
                     ntree=500, 
                     mtry=18,
                     training_percent=50,
