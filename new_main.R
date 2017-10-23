@@ -3716,3 +3716,27 @@ qqq <- run_rf_final(df=df,
                     genres_only = TRUE,
                     fringe_is_poetry = TRUE
 )
+
+# TEST UNKNOWN CLASS
+#
+# 2017-10-23
+fringe <- readRDS(paste0(bu_path, "/responses_fringe_prevails.RDS"))
+inds <- which(is.na(fringe))
+is_poetry3 <- df$is_poetry
+is_poetry3 <- as.character(as.vector(is_poetry3))
+is_poetry3[inds] <- "UNKNOWN"
+is_poetry3 <- factor(is_poetry3)
+
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+feats_final$is_poetry <- is_poetry3
+qqq <- run_rf_final(df=df,
+                    features=feats_final,
+                    filenamestem="TEST_FINAL_ispoetry3",
+                    ntree=500, 
+                    mtry=18,
+                    training_percent=50,
+                    genres_only = TRUE,
+                    fringe_is_poetry = TRUE
+)
+
+

@@ -11,11 +11,11 @@ calculate_multiclassifiers <- function(all_value_names, all_values, good_names) 
   
   # Get the correct A-D
   for (i in 1:length(all_value_names)) {
-    if (length(grep(paste0(goodnames, "_as_", goodnames), all_value_names[i]) > 0)) {
+    if (length(grep(paste0("^", paste0(goodnames, "_as_", goodnames), "$"), all_value_names[i]) > 0)) {
       A <- A + all_values[i]
-    } else if (length(grep(paste0(goodnames, "_as_"), all_value_names[i]) > 0)) {
+    } else if (length(grep(paste0("^", paste0(goodnames, "_as_")), all_value_names[i]) > 0)) {
       C <- C + all_values[i]
-    } else if (length(grep(paste0("_as_", goodnames), all_value_names[i]) > 0)) {
+    } else if (length(grep(paste0(paste0("_as_", goodnames, "$")), all_value_names[i]) > 0)) {
       B <- B + all_values[i]
     } else {
       D <- D + all_values[i]
