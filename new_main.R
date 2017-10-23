@@ -3663,7 +3663,7 @@ qqq <- run_rf_final(df=df,
                     mtry=18,
                     training_percent=50,
                     genres_only = TRUE,
-                    fringe_is_poetry = TRUE
+                    fringe_is_poetry = FALSE
 )
 
 # TEST FRINGE_PREVAILS: Fringe is not poetry
@@ -3679,7 +3679,7 @@ qqq <- run_rf_final(df=df,
                     mtry=18,
                     training_percent=50,
                     genres_only = TRUE,
-                    fringe_is_poetry = TRUE
+                    fringe_is_poetry = FALSE
 )
 
 

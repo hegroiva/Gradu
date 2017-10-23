@@ -439,4 +439,70 @@ make_all_pics <- function() {
                             newschool=TRUE,
                             plot_width = 1000,
                             highlight_max = c(FALSE, FALSE, TRUE, TRUE))
+
+  # Compare cross-validated 100% vs. 50/50 split
+  make_pic_comparison_bars(filepath=outputpath, 
+                           inputfile_patterns = c("FINAL_split100_confusionMatrix_combined_no_cutoff.txt",
+                                                  "^FINALFINALconfusionMatrix_combined_no_cutoff.txt") , 
+                           parameter_names = c("precision", "recall", "balanced_accuracy", "F1"), 
+                           group_names = c("cross-validated 80/20", "split 50/50"),
+                           outputfile = "FINALFINAL", 
+                           main_title = "Features: final set", 
+                           sub_title = "Mtry=18, ntree=250",
+                           x_title = "", 
+                           y_title = "",
+                           legend_labels = c("Precision", "Recall", "Balanced accuracy", "F1"), 
+                           #x_tick_labels = c("Main title only", "Whole title"), 
+                           #x_tick_breaks = c(1,2),
+                           legend_title_parentheses=c(""),
+                           total_width=700,
+                           space_between_bars = 0.15,
+                           newschool = TRUE)    
+  
+  # FINAL: random forest vs. SVM vs. others
+  make_pic_comparison_bars(filepath=outputpath, 
+                           inputfile_patterns = c("FINAL_split100",
+                                                  "FINAL_svm",
+                                                  "FINAL_PART",
+                                                  "FINAL_C45",
+                                                  "FINAL_naivebayes") , 
+                           parameter_names = c("precision", "recall", "balanced_accuracy", "F1"), 
+                           group_names = c("random forest", "SVM", "PART", "C45", "Naive Bayes"),
+                           outputfile = "FINAL_MethodComparison", 
+                           main_title = "Features: final set (optimized for random forest)", 
+                           sub_title = "",
+                           x_title = "", 
+                           y_title = "",
+                           legend_labels = c("Precision", "Recall", "Balanced accuracy", "F1"), 
+                           #x_tick_labels = c("Main title only", "Whole title"), 
+                           #x_tick_breaks = c(1,2),
+                           legend_title_parentheses=c(""),
+                           total_width=1200,
+                           space_between_bars = 0.15,
+                           newschool = TRUE)    
+  
+  
+  make_pic_comparison_bars_multiclass(filepath=outputpath, 
+                                      inputfile_patterns = c("FINAL_split100",
+                                                             "FINAL_hc_prevails1",
+                                                             "FINAL_hc_prevails2",
+                                                             "FINAL_fringe_prevails1",
+                                                             "FINAL_fringe_prevails2") , 
+                           parameter_names = c("precision", "recall", "balanced_accuracy", "F1"), 
+                           group_names = c("Standard definition", "HC prevails1", "HC prevails2", "Fringe prevails1", "Fringe prevails2"),
+                           outputfile = "FINAL_is_poetry_comparison", 
+                           main_title = "Features: final set, different poetry declaration", 
+                           sub_title = "",
+                           x_title = "", 
+                           y_title = "",
+                           legend_labels = c("Precision", "Recall", "Balanced accuracy", "F1"), 
+                           #x_tick_labels = c("Main title only", "Whole title"), 
+                           #x_tick_breaks = c(1,2),
+                           legend_title_parentheses=c(""),
+                           total_width=1200,
+                           space_between_bars = 0.15,
+                           newschool = TRUE)    
+  
 }
+
+
