@@ -3740,3 +3740,73 @@ qqq <- run_rf_final(df=df,
 )
 
 
+
+# TEST FRINGE WITHOUT UNKNOWN CLASS
+#
+# 2017-10-23
+fringe <- readRDS(paste0(bu_path, "/responses_fringe_prevails.RDS"))
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+inds <- which(feats_final$is_poetry=="FALSE")
+fringe[inds] <- "FALSE"
+fringe[which(is.na(fringe))] <- "FALSE"
+feats_final$is_poetry <- factor(fringe)
+qqq <- run_rf_final(df=df,
+                    features=feats_final,
+                    filenamestem="FINAL_Fringe_known2",
+                    ntree=500, 
+                    mtry=18,
+                    training_percent=50,
+                    genres_only = TRUE,
+                    fringe_is_poetry = TRUE
+                    )
+
+fringe <- readRDS(paste0(bu_path, "/responses_fringe_prevails.RDS"))
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+inds <- which(feats_final$is_poetry=="FALSE")
+fringe[inds] <- "FALSE"
+fringe[which(is.na(fringe))] <- "FALSE"
+feats_final$is_poetry <- factor(fringe)
+qqq <- run_rf_final(df=df,
+                    features=feats_final,
+                    filenamestem="FINAL_Fringe_known1",
+                    ntree=500, 
+                    mtry=18,
+                    training_percent=50,
+                    genres_only = FALSE,
+                    fringe_is_poetry = FALSE
+                    )
+
+
+hc <- readRDS(paste0(bu_path, "/responses_hc_prevails.RDS"))
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+inds <- which(feats_final$is_poetry=="FALSE")
+hc[inds] <- "FALSE"
+hc[which(is.na(hc))] <- "FALSE"
+feats_final$is_poetry <- factor(hc)
+qqq <- run_rf_final(df=df,
+                    features=feats_final,
+                    filenamestem="FINAL_hc_known2",
+                    ntree=500, 
+                    mtry=18,
+                    training_percent=50,
+                    genres_only = TRUE,
+                    fringe_is_poetry = TRUE
+)
+
+
+
+hc <- readRDS(paste0(bu_path, "/responses_hc_prevails.RDS"))
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+inds <- which(feats_final$is_poetry=="FALSE")
+hc[inds] <- "FALSE"
+hc[which(is.na(hc))] <- "FALSE"
+feats_final$is_poetry <- factor(hc)
+qqq <- run_rf_final(df=df,
+                    features=feats_final,
+                    filenamestem="FINAL_hc_known1",
+                    ntree=500, 
+                    mtry=18,
+                    training_percent=50,
+                    genres_only = TRUE,
+                    fringe_is_poetry = FALSE
+)

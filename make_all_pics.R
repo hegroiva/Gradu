@@ -481,18 +481,18 @@ make_all_pics <- function() {
                            space_between_bars = 0.15,
                            newschool = TRUE)    
   
-  
+  # FRINGE vs. HARDCORE vs. STANDARD IS_POETRY  
   make_pic_comparison_bars_multiclass(filepath=outputpath, 
-                                      inputfile_patterns = c("FINAL_split100",
+                                      inputfile_patterns = c("FINALFINAL",
                                                              "FINAL_hc_prevails1",
                                                              "FINAL_hc_prevails2",
                                                              "FINAL_fringe_prevails1",
                                                              "FINAL_fringe_prevails2") , 
                            parameter_names = c("precision", "recall", "balanced_accuracy", "F1"), 
-                           group_names = c("Standard definition", "HC prevails1", "HC prevails2", "Fringe prevails1", "Fringe prevails2"),
+                           group_names = c("Standard definition", "HC prevails\nfringe != poetry", "HC prevails\nfringe == poetry", "Fringe prevails\nfringe != poetry", "Fringe prevails\nfringe == poetry"),
                            outputfile = "FINAL_is_poetry_comparison", 
                            main_title = "Features: final set, different poetry declaration", 
-                           sub_title = "",
+                           sub_title = "Mtry=18, ntree=500",
                            x_title = "", 
                            y_title = "",
                            legend_labels = c("Precision", "Recall", "Balanced accuracy", "F1"), 
@@ -502,6 +502,27 @@ make_all_pics <- function() {
                            total_width=1200,
                            space_between_bars = 0.15,
                            newschool = TRUE)    
+  
+  # FRINGE vs. HARDCORE vs. STANDARD IS_POETRY  
+  make_pic_comparison_bars_multiclass(filepath=outputpath, 
+                                      inputfile_patterns = c("FINAL_hc_prevails1",
+                                                             "FINAL_hc_prevails1",
+                                                             "FINAL_hc_prevails1",
+                                                             "FINAL_hc_prevails1") , 
+                                      parameter_names = c("precision", "recall", "balanced_accuracy", "F1"), 
+                                      group_names = c("Hardcore as Hardcore", "Hardcore as Fringe", "Fringe as Hardcore", "Fringe as Fringe"),
+                                      outputfile = "FINAL_hc_prevails_variants", 
+                                      main_title = "Features: final set, Hardcore poetry only", 
+                                      sub_title = "Mtry=18, ntree=500, fringe poetry does not trigger poetry authorship",
+                                      x_title = "", 
+                                      y_title = "",
+                                      legend_labels = c("Precision", "Recall", "Balanced accuracy", "F1"), 
+                                      #x_tick_labels = c("Main title only", "Whole title"), 
+                                      #x_tick_breaks = c(1,2),
+                                      legend_title_parentheses=c(""),
+                                      total_width=1200,
+                                      space_between_bars = 0.15,
+                                      newschool = TRUE)    
   
 }
 
