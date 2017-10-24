@@ -29,7 +29,9 @@ make_pic_comparison_bars_multiclass <- function(filepath=outputpath,
       msg <- paste0("MISSING files with pattern: ", filepath, "/", inputfile_patterns[i])
       message(msg)
     }
-    if (length(grep("prevails", inputfile_patterns[i])) == 0) {
+    if ((length(grep("prevails", inputfile_patterns[i])) == 0) &
+        (length(grep("hc", inputfile_patterns[i]))== 0) &
+        (length(grep("fringe", inputfile_patterns[i], ignore.case = TRUE))== 0)) {
       vals <- t(calculate_multiclassifiers(rets$pattern$all_names, rets$pattern$all_values, c("poetry", "true")))
     } else {
       vals <- t(calculate_multiclassifiers(rets$pattern$all_names, rets$pattern$all_values, c("fringe", "hardcore")))
