@@ -481,7 +481,7 @@ make_all_pics <- function() {
                            space_between_bars = 0.15,
                            newschool = TRUE)    
   
-  # FRINGE vs. HARDCORE vs. STANDARD IS_POETRY  
+  # FRINGE vs. HARDCORE vs. STANDARD IS_POETRY  (WITH UNKNOWN CATEGORY)
   make_pic_comparison_bars_multiclass(filepath=outputpath, 
                                       inputfile_patterns = c("FINALFINAL",
                                                              "FINAL_hc_prevails1",
@@ -502,6 +502,28 @@ make_all_pics <- function() {
                            total_width=1200,
                            space_between_bars = 0.15,
                            newschool = TRUE)    
+  
+  # FRINGE vs. HARDCORE vs. STANDARD IS_POETRY  (WITHOUT UNKNOWN CATEGORY)
+  make_pic_comparison_bars_multiclass(filepath=outputpath, 
+                                      inputfile_patterns = c("FINALFINAL_confusion",
+                                                             "FINAL_hc_known1",
+                                                             "FINAL_hc_known2",
+                                                             "FINAL_Fringe_known1",
+                                                             "FINAL_Fringe_known2") , 
+                                      parameter_names = c("precision", "recall", "balanced_accuracy", "F1"), 
+                                      group_names = c("Standard definition", "HC prevails\nfringe != poetry", "HC prevails\nfringe == poetry", "Fringe prevails\nfringe != poetry", "Fringe prevails\nfringe == poetry"),
+                                      outputfile = "FINAL_is_poetry_comparison", 
+                                      main_title = "Features: final set, different poetry declaration", 
+                                      sub_title = "Mtry=18, ntree=500",
+                                      x_title = "", 
+                                      y_title = "",
+                                      legend_labels = c("Precision", "Recall", "Balanced accuracy", "F1"), 
+                                      #x_tick_labels = c("Main title only", "Whole title"), 
+                                      #x_tick_breaks = c(1,2),
+                                      legend_title_parentheses=c(""),
+                                      total_width=1200,
+                                      space_between_bars = 0.15,
+                                      newschool = TRUE)    
   
   # FRINGE vs. HARDCORE vs. STANDARD IS_POETRY  
   make_pic_comparison_bars_multiclass(filepath=outputpath, 
@@ -524,6 +546,31 @@ make_all_pics <- function() {
                                       space_between_bars = 0.15,
                                       newschool = TRUE)    
   
+  # STANDARD IS_POETRY versus STANDARD WITH UNKNOWN
+  make_pic_comparison_bars_multiclass(filepath=outputpath, 
+                                      inputfile_patterns = c("FINALFINAL_confusion",
+                                                             "FINALFINAL_confusion",
+                                                             "FINAL_with_unknown_confusion", 
+                                                             "FINAL_with_unknown_confusion",
+                                                             "FINAL_with_unknown_confusion") , 
+                                      parameter_names = c("precision", "recall", "balanced_accuracy", "F1"), 
+                                      group_names = c("Class Poetry\nUnknown does not exist", 
+                                                      "Class Non-poetry\nUnknown does not exist",
+                                                      "Class Poetry\nUnknown exists", 
+                                                      "Class Unknown",
+                                                      "Class Non-poetry\nUnknown exists"),
+                                      outputfile = "FINAL_comparison_known_unknown", 
+                                      main_title = "Features: final set, different poetry declaration", 
+                                      sub_title = "Mtry=18, ntree=500",
+                                      x_title = "", 
+                                      y_title = "",
+                                      legend_labels = c("Precision", "Recall", "Balanced accuracy", "F1"), 
+                                      #x_tick_labels = c("Main title only", "Whole title"), 
+                                      #x_tick_breaks = c(1,2),
+                                      legend_title_parentheses=c(""),
+                                      total_width=1200,
+                                      space_between_bars = 0.15,
+                                      newschool = TRUE)
 }
 
 

@@ -3882,6 +3882,22 @@ qqq <- run_rf_final(df=df,
                     fringe_is_poetry = FALSE
 )
 
+
+hc <- readRDS(paste0(bu_path, "/responses_hc_prevails.RDS"))
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+inds <- which(feats_final$is_poetry=="FALSE")
+hc[inds] <- "FALSE"
+hc[which(is.na(hc))] <- "FALSE"
+feats_final$is_poetry <- factor(hc)
+qqq <- run_rf_final(df=df,
+                    features=feats_final,
+                    filenamestem="FINAL_hc_known1_b",
+                    ntree=500, 
+                    mtry=18,
+                    training_percent=50,
+                    genres_only = TRUE,
+                    fringe_is_poetry = FALSE
+)
 # INTRODUCE THE UNKNOWN
 #
 # 2017-10-24
@@ -3900,3 +3916,78 @@ qqq <- run_rf_final(df=df,
                     genres_only = TRUE,
                     fringe_is_poetry = FALSE
 )
+
+
+get_varimp_ranks(filepath = outputpath, filenamestem = "final_split100_varimp")
+
+# DUMP THE UNKNOWN COMPLETELY
+#
+# 2017-11_05
+fringe <- readRDS(paste0(bu_path, "/responses_fringe_prevails.RDS"))
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+inds <- which(is.na(fringe))
+df2 <- df[-inds,]
+feats_final$is_poetry <- as.character(as.vector(feats_final$is_poetry))
+feats_final2 <- feats_final[-inds,]
+feats_final2$is_poetry <- factor(feats_final2$is_poetry)
+qqq <- run_rf_final(df=df2,
+                    features=feats_final2,
+                    filenamestem="FINAL_unknown_dumped",
+                    ntree=500, 
+                    mtry=18,
+                    training_percent=50,
+                    genres_only = TRUE,
+                    fringe_is_poetry = FALSE)
+
+# DUMP THE UNKNOWN COMPLETELY, predict the unknown
+#
+# 2017-11_05
+fringe <- readRDS(paste0(bu_path, "/responses_fringe_prevails.RDS"))
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+inds <- which(is.na(fringe))
+feats_final$is_poetry <- as.character(as.vector(feats_final$is_poetry))
+feats_final2 <- feats_final[-inds,]
+feats_final2$is_poetry <- factor(feats_final2$is_poetry)
+qqq <- run_rf_test(features.training = feats_final2,
+                    features.testing = feats_final[inds,],
+                    filenamestem="FINAL_unknown_dumped2",
+                    ntree=500, 
+                    mtry=18,
+                    genres_only = FALSE,
+                    fringe_is_poetry = FALSE)
+saveRDS(qqq, paste0("Predictions_unknown_dumped"))
+
+# DUMP THE UNKNOWN COMPLETELY, predict the whole stuff
+#
+# 2017-11_05
+fringe <- readRDS(paste0(bu_path, "/responses_fringe_prevails.RDS"))
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+inds <- which(is.na(fringe))
+feats_final$is_poetry <- as.character(as.vector(feats_final$is_poetry))
+feats_final2 <- feats_final[-inds,]
+feats_final2$is_poetry <- factor(feats_final2$is_poetry)
+qqq <- run_rf_test(features.training = feats_final2,
+                   features.testing = feats_final[inds,],
+                   filenamestem="FINAL_unknown_dumped3",
+                   ntree=500, 
+                   mtry=18,
+                   genres_only = FALSE,
+                   fringe_is_poetry = FALSE)
+saveRDS(qqq, paste0("Predictions_all_unknown_dumped"))
+
+# UNKNOWN = FALSE, predict the whole stuff
+#
+# 2017-11_05
+feats_final <- readRDS(paste0(bu_path, "/features_final_20171005.RDS"))
+feats_final$is_poetry <- as.character(as.vector(feats_final$is_poetry))
+inds <- which(df$genre!="")
+feats_final2 <- feats_final[-inds,]
+feats_final2$is_poetry <- factor(feats_final2$is_poetry)
+qqq <- run_rf_test(features.training = feats_final[inds,],
+                   features.testing = feats_final[-inds,],
+                   filenamestem="FINAL_unknown_dumped3",
+                   ntree=500, 
+                   mtry=18,
+                   genres_only = FALSE,
+                   fringe_is_poetry = FALSE)
+saveRDS(qqq, paste0("Predictions_all_unknown_is_false"))

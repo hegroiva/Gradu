@@ -29,7 +29,11 @@ make_pic_comparison_bars_multiclass <- function(filepath=outputpath,
       msg <- paste0("MISSING files with pattern: ", filepath, "/", inputfile_patterns[i])
       message(msg)
     }
-    if ((length(grep("prevails", inputfile_patterns[i])) == 0) &
+    if (length(grep("Class Unknown", group_names[i])) > 0) {
+      vals <- t(calculate_multiclassifiers(rets$pattern$all_names, rets$pattern$all_values, c("unknown")))
+    } else if (length(grep("Class Non-poetry", group_names[i])) > 0) {
+      vals <- t(calculate_multiclassifiers(rets$pattern$all_names, rets$pattern$all_values, c("nonpoetry")))
+    } else if ((length(grep("prevails", inputfile_patterns[i])) == 0) &
         (length(grep("hc", inputfile_patterns[i]))== 0) &
         (length(grep("fringe", inputfile_patterns[i], ignore.case = TRUE))== 0)) {
       vals <- t(calculate_multiclassifiers(rets$pattern$all_names, rets$pattern$all_values, c("poetry", "true")))
@@ -93,7 +97,7 @@ make_pic_comparison_bars_multiclass <- function(filepath=outputpath,
     ) +
     
     geom_text(data=data_long, 
-              aes(x=x, y=percent + 0.03 , group=a, label=as.character(percent)),
+              aes(x=x, y=percent + 0.02 , group=a, label=as.character(percent)),
               position=position_dodge(width = space_between_bars + bar_width)) +
     
     #scale_fill_discrete("", labels=c("Fennica (printed anywhere)", "Kungliga (printed in Finland)", "In Kungliga, but not in Fennica")) +
